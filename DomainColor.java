@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 
 public class DomainColor implements VisualMethod{
 
+
     static final double resolution = 0.3;
     static final double pointRadius = 0.15;
   
@@ -75,8 +76,14 @@ public class DomainColor implements VisualMethod{
     }*/
 
     public static void main(String[] args) {
-        DomainColor DC = new DomainColor();
-        //DC.graphFunction();
+
+        int function = 0;
+        int options = 0;
+        public double[] 
+        DomainColor DC = new DomainColor(function, options);
+        // f: C -> C
+        // each z in C is colored based on the coordinates of f(z)
+
     }
     
 }

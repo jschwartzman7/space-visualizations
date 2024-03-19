@@ -3,7 +3,9 @@
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -21,13 +23,13 @@ import edu.princeton.cs.introcs.StdDraw;
 
 public class graph3D {
 
-	public static final double BOX_DIAMETER = 10;
+	public static final double BOX_DIAMETER = 30;
 	public static final double DEFAULT_SCALE = 25;
 	public static double scale = DEFAULT_SCALE;
-    static double X_MIN = BOX_DIAMETER;
-    static double X_MAX = BOX_DIAMETER;
-    static double Y_MIN = BOX_DIAMETER;
-    static double Y_MAX = BOX_DIAMETER;
+    public static double X_MIN = -10;
+    public static double X_MAX = 10;
+    public static double Y_MIN = -10;
+    public static double Y_MAX = 10;
 	public static double[][] posXY = matrix.posXY;
 	public static double[][] negXY = matrix.negXY;
 	public static double[][] posYZ = matrix.posYZ;
@@ -37,8 +39,9 @@ public class graph3D {
 	public static double[][] xaxis;
 	public static double[][] yaxis;
 	public static double[][] zaxis;
-	public static LinkedList<double[][]> grid = new LinkedList<>();
-	public static HashSet<double[]> points = new HashSet<>();
+	public static LinkedList<double[][]> gridCurrent = new LinkedList<>();
+	public static HashSet<double[]> pointsCurrent = new HashSet<>();
+	public static Hashtable<Double[], Double> pointColors = new Hashtable<>();
 	public static ArrayList<double[][]> gridStart = new ArrayList<>();
 	public static ArrayList<double[]> pointsStart = new ArrayList<>();
 	public static functions3D functions = new functions3D();
@@ -51,15 +54,15 @@ public class graph3D {
 		return cord2D;
 	}
 
-	public static void addGridLines() {
+	/*public static void addGridLines() {
 		for(double i = -10; i <= 10; i+=2) {
 			for(double j = -10; j <= 10; j+=2) {
-					grid.add(new double[][] {{-10, i, j}, {10, i, j}});
-					grid.add(new double[][] {{i, -10, j}, {i, 10, j}});
-					grid.add(new double[][] {{i, j, -10}, {i, j, 10}});
+					gridCurrent.add(new double[][] {{-10, i, j}, {10, i, j}});
+					gridCurrent.add(new double[][] {{i, -10, j}, {i, 10, j}});
+					gridCurrent.add(new double[][] {{i, j, -10}, {i, j, 10}});
 			}
 		}
-	}
+	}*/
 
 	public static void addAxis() {
 		xaxis = new double[][] {{-BOX_DIAMETER, 0, 0}, {BOX_DIAMETER, 0, 0}};
@@ -68,16 +71,16 @@ public class graph3D {
 		double[][] xaxisCopy = new double[][] {{-BOX_DIAMETER, 0, 0}, {BOX_DIAMETER, 0, 0}};
 		double[][] yaxisCopy = new double[][] {{0, -BOX_DIAMETER, 0}, {0,BOX_DIAMETER, 0}};
 		double[][] zaxisCopy = new double[][] {{0, 0, -BOX_DIAMETER}, {0, 0, BOX_DIAMETER}};
-		grid.add(xaxis);
-		grid.add(yaxis);
-		grid.add(zaxis);
+		gridCurrent.add(xaxis);
+		gridCurrent.add(yaxis);
+		gridCurrent.add(zaxis);
 		gridStart.add(xaxisCopy);
 		gridStart.add(yaxisCopy);
 		gridStart.add(zaxisCopy);
 	}
 
 	public static void addEdges() {
-		grid.add(new double[][] {{-BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {-BOX_DIAMETER, -BOX_DIAMETER, BOX_DIAMETER}});
+		/*grid.add(new double[][] {{-BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {-BOX_DIAMETER, -BOX_DIAMETER, BOX_DIAMETER}});
 		grid.add(new double[][] {{BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {BOX_DIAMETER, -BOX_DIAMETER, BOX_DIAMETER}});
 		grid.add(new double[][] {{-BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}, {-BOX_DIAMETER, BOX_DIAMETER, BOX_DIAMETER}});
 		grid.add(new double[][] {{BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}, {BOX_DIAMETER, BOX_DIAMETER, BOX_DIAMETER}});
@@ -106,16 +109,17 @@ public class graph3D {
 		gridStart.add(new double[][] {{-BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}});
 		gridStart.add(new double[][] {{-BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}, {BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}});
 		gridStart.add(new double[][] {{-BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {-BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}});
-		gridStart.add(new double[][] {{BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}});
+		gridStart.add(new double[][] {{BOX_DIAMETER, -BOX_DIAMETER, -BOX_DIAMETER}, {BOX_DIAMETER, BOX_DIAMETER, -BOX_DIAMETER}}); */
 	}
 
 	public static void addPoints() {
 		// x^3, x^2, x, 1, cos(x), sin(x), x^.5
 		//  0    1   2  3    4       5      6
-		for(double i = -10; i < 10; i += 0.25) {
-			for(double j = -10; j < 10; j += 0.25) {
-				points.add(new double[]{i, j, functions3D.f(i, j)});
+		for(double i = X_MIN; i < X_MAX; i += 0.25) {
+			for(double j = Y_MIN; j < Y_MAX; j += 0.25) {
+				pointsCurrent.add(new double[]{i, j, functions3D.f(i, j)});
 				pointsStart.add(new double[]{i, j, functions3D.f(i, j)});
+				pointColors.put(new Double[]{i, j}, 37.0);
 				//points.add(new double[] {i, j, xEqn[0]*i*i*i + xEqn[1]*i*i + xEqn[2]*i + xEqn[3] + xEqn[4]*Math.cos(i)+ xEqn[5]*Math.sin(i) + xEqn[6]*Math.pow(Math.abs(i), .5) + yEqn[0]*j*j*j + yEqn[1]*j*j + yEqn[2]*j + yEqn[3] + yEqn[4]*Math.cos(j)+ yEqn[5]*Math.sin(j) + yEqn[6]*Math.pow(Math.abs(j), .5)});
 				//pointsStart.add(new double[] {i, j, xEqn[0]*i*i*i + xEqn[1]*i*i + xEqn[2]*i + xEqn[3] + xEqn[4]*Math.cos(i)+ xEqn[5]*Math.sin(i) + yEqn[0]*j*j*j + yEqn[1]*j*j + yEqn[2]*j + yEqn[3] + yEqn[4]*Math.cos(j)+ yEqn[5]*Math.sin(j)});
 			}
@@ -136,7 +140,7 @@ public class graph3D {
 	}*/
 
 	public static void drawLines() {
-		for(double[][] line : grid) {
+		for(double[][] line : gridCurrent) {
 			StdDraw.setPenRadius(0.0007);
 			StdDraw.setPenColor();
 			if(line.equals(xaxis) || line.equals(yaxis) || line.equals(zaxis)) {
@@ -161,7 +165,8 @@ public class graph3D {
 	}
 
 	public static void drawPoints() {
-		for(double[] point : points) {
+		StdDraw.setPenColor();
+		for(double[] point : pointsCurrent) {
 			double[] point2D = to2D(point);
 			StdDraw.filledCircle(point2D[0], point2D[1], 0.1);
 	//		threeDimensionalCords.drawCord(point[0], point[1], point[2]);
@@ -171,12 +176,12 @@ public class graph3D {
 	public static void resetOrientation(){
 //		grid = gridStart;
 //		points = pointsStart;
-		points.clear();
+		pointsCurrent.clear();
 		for(double[] point : pointsStart) {
-			points.add(new double[] {point[0], point[1], point[2]});
+			pointsCurrent.add(new double[] {point[0], point[1], point[2]});
 		}
 		int i = 0;
-		for(double[][] line : grid) {
+		for(double[][] line : gridCurrent) {
 			line[0][0] = gridStart.get(i)[0][0];
 			line[0][1] = gridStart.get(i)[0][1];
 			line[0][2] = gridStart.get(i)[0][2];
@@ -189,11 +194,11 @@ public class graph3D {
 
 	public static void rotateGrid() {
 		if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-			for(double[][] line : grid) {
+			for(double[][] line : gridCurrent) {
 				line[0] = matrix.matrixVectorMultiplication(posXY, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(posXY, line[1]);
 			}
-			for(double[] point : points) {
+			for(double[] point : pointsCurrent) {
 				double[] newPoint = matrix.matrixVectorMultiplication(posXY, point);
 				point[0] = newPoint[0];
 				point[1] = newPoint[1];
@@ -201,11 +206,11 @@ public class graph3D {
 			}
 		}
 		if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-			for(double[][] line : grid) {
+			for(double[][] line : gridCurrent) {
 				line[0] = matrix.matrixVectorMultiplication(negXY, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(negXY, line[1]);
 			}
-			for(double[] point : points) {
+			for(double[] point : pointsCurrent) {
 				double[] newPoint = matrix.matrixVectorMultiplication(negXY, point);
 				point[0] = newPoint[0];
 				point[1] = newPoint[1];
@@ -213,11 +218,11 @@ public class graph3D {
 			}
 		}
 		if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-			for(double[][] line : grid) {
+			for(double[][] line : gridCurrent) {
 				line[0] = matrix.matrixVectorMultiplication(posXZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(posXZ, line[1]);
 			}
-			for(double[] point : points) {
+			for(double[] point : pointsCurrent) {
 				double[] newPoint = matrix.matrixVectorMultiplication(posXZ, point);
 				point[0] = newPoint[0];
 				point[1] = newPoint[1];
@@ -225,11 +230,11 @@ public class graph3D {
 			}
 		}
 		if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-			for(double[][] line : grid) {
+			for(double[][] line : gridCurrent) {
 				line[0] = matrix.matrixVectorMultiplication(negXZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(negXZ, line[1]);
 			}
-			for(double[] point : points) {
+			for(double[] point : pointsCurrent) {
 				double[] newPoint = matrix.matrixVectorMultiplication(negXZ, point);
 				point[0] = newPoint[0];
 				point[1] = newPoint[1];
@@ -237,11 +242,11 @@ public class graph3D {
 			}
 		}
 		if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-			for(double[][] line : grid) {
+			for(double[][] line : gridCurrent) {
 				line[0] = matrix.matrixVectorMultiplication(posYZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(posYZ, line[1]);
 			}
-			for(double[] point : points) {
+			for(double[] point : pointsCurrent) {
 				double[] newPoint = matrix.matrixVectorMultiplication(posYZ, point);
 				point[0] = newPoint[0];
 				point[1] = newPoint[1];
@@ -249,11 +254,11 @@ public class graph3D {
 			}
 		}
 		if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-			for(double[][] line : grid) {
+			for(double[][] line : gridCurrent) {
 				line[0] = matrix.matrixVectorMultiplication(negYZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(negYZ, line[1]);
 			}
-			for(double[] point : points) {
+			for(double[] point : pointsCurrent) {
 				double[] newPoint = matrix.matrixVectorMultiplication(negYZ, point);
 				point[0] = newPoint[0];
 				point[1] = newPoint[1];
