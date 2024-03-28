@@ -12,8 +12,8 @@ public class VectorFields implements VisualMethod{
     static final double tipRadius = 0.1;
     
 
-    public static void mapPoint(ComplexNumber z){
-        ComplexNumber w = z.f();
+    public static void mapPoint(ComplexFunction z){
+        ComplexFunction w = z.f();
         double mag = Math.hypot(w.x, w.y);
         if(mag != 0){
             w.x *= (vectorLength/mag);
@@ -30,7 +30,7 @@ public class VectorFields implements VisualMethod{
     public void drawFunction(int X_MIN, int X_MAX, int Y_MIN, int Y_MAX){
         for(double x = X_MIN; x <= X_MAX+resolution; x += resolution){
             for(double y = Y_MIN; y <= Y_MAX+resolution; y += resolution){
-                mapPoint(new ComplexNumber(x, y));
+                mapPoint(new ComplexFunction(x, y));
             }
         }
     }
