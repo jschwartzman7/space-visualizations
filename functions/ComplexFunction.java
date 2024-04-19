@@ -3,7 +3,7 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 
-public class ComplexFunction implements abstractFunction{
+public class ComplexFunction extends abstractFunction{
 
 
 
@@ -29,9 +29,9 @@ public class ComplexFunction implements abstractFunction{
     }
 
     public double[] f(double[] input){
-        //return power(multiply(add(input, -2), add(input, 1)), 1.0/3);
+        return power(add(multiply(input, input), 1), 0.5);
         //return power(input, 1.0/3);
-        return power(input, -1);
+        //return divide(subtract(exp(multiply(input, new double[]{0, 1})), exp(multiply(input, new double[]{0, -1}))), new double[]{0, 2});
 
 
     }
@@ -98,6 +98,6 @@ public class ComplexFunction implements abstractFunction{
         return new ComplexNumber(Math, y)
     }*/
     public static void main(String[] args) {
-        System.out.println(ComplexPlane.mod(-36, 13));
+        
     }
 }

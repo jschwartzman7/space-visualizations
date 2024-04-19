@@ -1,5 +1,6 @@
 import edu.princeton.cs.introcs.StdDraw;
 import java.lang.Math;
+import java.util.HashSet;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -12,12 +13,16 @@ import java.awt.event.KeyEvent;
  */
 
 
-public class DomainColor implements VisualMethod{
+public class DomainColor extends abstractVisualMethod{
+ 
 
 
     static final double resolution = 0.3;
     static final double pointRadius = 0.15;
   
+    abstractFunction function = new ComplexFunction();
+    euclideanR2 space = new euclideanR2(5, false, 0);
+    HashSet<double[]> mappedPoints;
 
     static double sigmoid(double x, double a, double k){
         return a/(1+Math.exp(k*x));
@@ -36,13 +41,13 @@ public class DomainColor implements VisualMethod{
         }
     }
 
-    static void mapPoint(ComplexNumber z){
+    void mapPoint(double[] z){
         // Brightness variables in [0, 1]
         //
-        ComplexNumber w = z.f();
+        double[] w = function.f(z);
         //double[] functionValue = ComplexOperations.add(new double[]{x, y}, new double[]{0, 0});
-        double mappedX = w.x;
-        double mappedY = w.y;
+        double mappedX = w[0];
+        double mappedY = w[1];
         double magnitude = Math.hypot(mappedX, mappedY); // mag = 13
         double angle = Math.atan2(mappedY, mappedX);
         double redStrength = getColor(angle, magnitude, 1);
@@ -52,35 +57,33 @@ public class DomainColor implements VisualMethod{
       
         StdDraw.setPenColor((int)(255*redStrength), (int)(255*greenStrength), (int)(255*blueStrength));
         //StdDraw.filledCircle(x, y, pointRadius);
-        StdDraw.filledSquare(z.x, z.y, pointRadius);
+        StdDraw.filledSquare(z[0], z[1], pointRadius);
 
     }
-
-    public void drawFunction(int X_MIN, int X_MAX, int Y_MIN, int Y_MAX){
-        for(double x = X_MIN; x <= X_MAX+resolution; x += resolution){
-            for(double y = Y_MIN; y <= Y_MAX+resolution; y += resolution){
-                mapPoint(new ComplexNumber(x, y));
+/* */
+    public void addFunctionPoints(){
+        for(double x = space.X_MIN; x <= space.X_MAX+resolution; x += resolution){
+            for(double y = space.Y_MIN; y <= space.Y_MAX+resolution; y += resolution){
+                mapPoint(new double[]{x, y});
             }
         }
     }
 
-    /*public void graphFunction(){
-        StdDraw.setScale(DEFAULT_XY_MIN, DEFAULT_XY_MAX);
+    public void run(){
+        StdDraw.setScale(-space.defaultRange, space.defaultRange);
         StdDraw.enableDoubleBuffering();
         while(true){
             StdDraw.clear();
-            ComplexPlane.drawPlane();
-            drawFunction();
+            space.draw();
+            addFunctionPoints();
+            space.update();
             StdDraw.show(30);
         }
-    }*/
+    }
 
     public static void main(String[] args) {
-
-        int function = 0;
-        int options = 0;
-        public double[] 
-        DomainColor DC = new DomainColor(function, options);
+        DomainColor test = new DomainColor();
+        test.run();
         // f: C -> C
         // each z in C is colored based on the coordinates of f(z)
 

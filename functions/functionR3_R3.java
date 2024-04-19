@@ -1,4 +1,4 @@
-public class functionR3_R3 implements abstractFunction{
+public class functionR3_R3 extends abstractFunction{
 
     public functionR3_R3(){
         

@@ -47,6 +47,15 @@ public class matrix {
 		return vector;
 	}
 
+	public static double innerProduct(double[] u, double[] v){
+		assert(v.length == u.length);
+		double prod = 0;
+		for(int i = 0; i < u.length; ++i){
+			prod += u[i]*v[i];
+		}
+		return prod;
+	}
+
 	public static double[][] matrixMatrixMultiplication(double[][] a, double[][] b) {
 		/*
 		 * matrix a = m x n

@@ -5,26 +5,28 @@ import java.util.LinkedList;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ComplexFunction3DSpace {
+public class ComplexFunction3DSpace extends abstractVisualMethod{
     
     public abstractFunction function = new ComplexFunction();
-    public euclideanR3 space = new euclideanR3();
-    public static double domainStep = .07;
-    public static double X_MIN = -3;
-    public static double X_MAX = 3;
-    public static double Y_MIN = -3;
-    public static double Y_MAX = 3;
-    public static LinkedList<double[]> pointValues = new LinkedList<double[]>();
-    public static LinkedList<HashSet<double[]>> functionPoints = new LinkedList<HashSet<double[]>>();
+    public euclideanR3 space = new euclideanR3(3, 0, false);
+    public double domainStep = .1;
+    public double X_MIN = -8;
+    public double X_MAX = 8;
+    public double Y_MIN = -8;
+    public double Y_MAX = 8;
+    public HashSet<double[]> pointValues = new HashSet<double[]>();
+    //public static LinkedList<HashSet<double[]>> functionPoints = new LinkedList<HashSet<double[]>>();
 
+    public ComplexFunction3DSpace(){
 
+    }
 
-    public void addPointValues(){
+    public void addFunctionPoints(){
         for(double x = X_MIN; x <= X_MAX; x += domainStep){
             for(double y = Y_MIN; y <= Y_MAX; y += domainStep){
                     double[] output = function.f(new double[]{x, y});
-                    pointValues.add(get3D(new double[]{x, y, output[0], output[1]}));
-                    //pointValues.add(get4D(new double[]{x, y, output[0], output[1]}));
+                    //pointValues.add(get3D(new double[]{x, y, output[0], output[1]}));
+                    pointValues.add(get4D(new double[]{x, y, output[0], output[1]}));
             }
         }
     }
@@ -32,12 +34,12 @@ public class ComplexFunction3DSpace {
     public double[] get3D(double[] point){
         return new double[]{point[0], point[1], Math.hypot(point[2], point[3])};
         //return new double[]{point[0], point[1], Math.atan2(point[3], point[2])};
-        //eturn new double[]{point[0], point[1], point[2]};
+        //return new double[]{point[0], point[1], point[2]};
     }
 
-    public void get4D(double[] point){
+    public double[] get4D(double[] point){
         //return new double[]{point[0], point[1], Math.hypot(point[2], point[3])};
-        //return new double[]{point[0], point[1], Math.atan2(point[3], point[2])};
+        return new double[]{point[0], point[1], Math.atan2(point[3], point[2])};
         //return new double[]{point[0], point[1], point[3]};
         
     }
@@ -61,7 +63,8 @@ public class ComplexFunction3DSpace {
     }
 
     public void run(){
-        addPointValues();
+        addFunctionPoints();
+        StdDraw.enableDoubleBuffering();
         StdDraw.setScale(-space.DEFAULT_XY_SCALE, space.DEFAULT_XY_SCALE);
         while(true){
             StdDraw.clear();

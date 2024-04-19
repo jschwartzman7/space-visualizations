@@ -7,23 +7,23 @@ import javax.swing.LayoutFocusTraversalPolicy;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public class euclideanR3 implements abstractSpaceVisuals{
+public class euclideanR3 extends abstractSpaceVisuals{
 
 
     
     public int DEFAULT_XY_SCALE;
-    public static double X_MIN;
-    public static double X_MAX;
-    public static double Y_MIN;
-    public static double Y_MAX;
-    public static double Z_MIN;
-    public static double Z_MAX;
-    public static double zoomScale = 5;
+    public double X_MIN;
+    public double X_MAX;
+    public double Y_MIN;
+    public double Y_MAX;
+    public double Z_MIN;
+    public double Z_MAX;
+    public double zoomScale = 5;
     private int labelInterval;
-    private boolean viewLabels;
     LinkedList<double[][]> lines = new LinkedList<double[][]>();
 
     public euclideanR3(int defaultScale, int labelInterval, boolean viewLabels){
+        super(defaultScale, viewLabels);
         DEFAULT_XY_SCALE = defaultScale;
         X_MIN = -defaultScale;
         X_MAX = defaultScale;
@@ -32,30 +32,11 @@ public class euclideanR3 implements abstractSpaceVisuals{
         Z_MIN = -defaultScale;
         Z_MAX = defaultScale;
         this.labelInterval = labelInterval;
-        this.viewLabels = viewLabels;
         lines.add(new double[][]{{-defaultScale, 0, 0}, {defaultScale, 0, 0}});
         lines.add(new double[][]{{0, -defaultScale, 0}, {0, defaultScale, 0}});
         lines.add(new double[][]{{0, 0, -defaultScale}, {0, 0, defaultScale}});
     }
 
-
-    public euclideanR3(){
-        int defaultScale = 5;
-        DEFAULT_XY_SCALE = defaultScale;
-        X_MIN = -defaultScale;
-        X_MAX = defaultScale;
-        Y_MIN = -defaultScale;
-        Y_MAX = defaultScale;
-        Z_MIN = -defaultScale;
-        Z_MAX = defaultScale;
-        this.labelInterval = 0;
-        this.viewLabels = false;
-        lines.add(new double[][]{{-defaultScale, 0, 0}, {defaultScale, 0, 0}});
-        lines.add(new double[][]{{0, -defaultScale, 0}, {0, defaultScale, 0}});
-        lines.add(new double[][]{{0, 0, -defaultScale}, {0, 0, defaultScale}});
-        StdDraw.enableDoubleBuffering();
-        StdDraw.setScale(-DEFAULT_XY_SCALE, DEFAULT_XY_SCALE);
-    }
 
 	public double[] to2D(double[] cord) {
 		double[] cord2D = new double[] {Math.sqrt(3)/2*(cord[1]-cord[0]), cord[2] - .5*(cord[1]+cord[0])};
@@ -86,7 +67,7 @@ public class euclideanR3 implements abstractSpaceVisuals{
 
     }
 
-    public void updatePoints(LinkedList<double[]> points){
+    public void updatePoints(HashSet<double[]> points){
 
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
 			for(double[] point : points) {
@@ -201,7 +182,7 @@ public class euclideanR3 implements abstractSpaceVisuals{
 
 
     public void resetDraw(){
-
+        StdDraw.setScale(-DEFAULT_XY_SCALE, DEFAULT_XY_SCALE);
     };
 
 
