@@ -1,7 +1,7 @@
 import edu.princeton.cs.introcs.StdDraw;
 import java.util.Hashtable;
 
-class VectorFields3DSpace {
+class VectorFields3DSpace extends abstractVisualMethod{
     
     public abstractFunction function = new functionR3_R3();
     public abstractSpaceVisuals space = new euclideanR3();

@@ -21,7 +21,7 @@ public class euclidR3v2 extends abstractSpaceVisuals{
     // <(x-cx, y-cy, z-cz), (cx, cy, cz)> = 0
 
     public euclidR3v2(int defaultScale, int labelInterval, boolean viewLabels){
-        super(defaultScale, viewLabels);
+        super(defaultScale, viewLabels, labelInterval);
         this.cx = Math.sqrt(3)*defaultScale/3;
         this.cy = Math.sqrt(3)*defaultScale/3;
         this.cz = Math.sqrt(3)*defaultScale/3;
@@ -108,7 +108,7 @@ public class euclidR3v2 extends abstractSpaceVisuals{
 
 
 
-    public void resetDraw(){
+    public void reset(){
         StdDraw.setScale(-DEFAULT_XY_SCALE, DEFAULT_XY_SCALE);
     };
 

@@ -21,12 +21,12 @@ public class ComplexFunction3DSpace extends abstractVisualMethod{
 
     }
 
-    public void addFunctionPoints(){
+    public void drawPoints(){
         for(double x = X_MIN; x <= X_MAX; x += domainStep){
             for(double y = Y_MIN; y <= Y_MAX; y += domainStep){
                     double[] output = function.f(new double[]{x, y});
                     //pointValues.add(get3D(new double[]{x, y, output[0], output[1]}));
-                    pointValues.add(get4D(new double[]{x, y, output[0], output[1]}));
+                    pointValues.add(get3D(new double[]{x, y, output[0], output[1]}));
             }
         }
     }
@@ -63,7 +63,7 @@ public class ComplexFunction3DSpace extends abstractVisualMethod{
     }
 
     public void run(){
-        addFunctionPoints();
+        drawPoints();
         StdDraw.enableDoubleBuffering();
         StdDraw.setScale(-space.DEFAULT_XY_SCALE, space.DEFAULT_XY_SCALE);
         while(true){

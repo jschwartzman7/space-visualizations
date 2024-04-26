@@ -23,7 +23,7 @@ public class euclideanR3 extends abstractSpaceVisuals{
     LinkedList<double[][]> lines = new LinkedList<double[][]>();
 
     public euclideanR3(int defaultScale, int labelInterval, boolean viewLabels){
-        super(defaultScale, viewLabels);
+        super(defaultScale, viewLabels, labelInterval);
         DEFAULT_XY_SCALE = defaultScale;
         X_MIN = -defaultScale;
         X_MAX = defaultScale;
@@ -123,53 +123,55 @@ public class euclideanR3 extends abstractSpaceVisuals{
 
     public void update(){
 
+
+
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.posXY, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(matrix.posXY, line[1]);
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.negXY, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(matrix.negXY, line[1]);
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.posXZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(matrix.posXZ, line[1]);
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.negXZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(matrix.negXZ, line[1]);
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.posYZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(matrix.posYZ, line[1]);
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.negYZ, line[0]);
 				line[1] = matrix.matrixVectorMultiplication(matrix.negYZ, line[1]);
 			}
 		}
-        if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
+        else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
             X_MIN = -DEFAULT_XY_SCALE;
             X_MAX = DEFAULT_XY_SCALE;
             Y_MIN = -DEFAULT_XY_SCALE;
             Y_MAX = DEFAULT_XY_SCALE;
+            zoomScale=5;
         }
-
-        if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
+        else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
             zoomScale++;
         }
-        if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
+        else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
             if(zoomScale > 1){
                 zoomScale--;
             }
@@ -177,13 +179,8 @@ public class euclideanR3 extends abstractSpaceVisuals{
         }
 
         StdDraw.setScale(-zoomScale, zoomScale);
-
 	}
 
-
-    public void resetDraw(){
-        StdDraw.setScale(-DEFAULT_XY_SCALE, DEFAULT_XY_SCALE);
-    };
 
 
 }
