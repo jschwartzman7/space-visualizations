@@ -9,11 +9,19 @@ public class functionR2_R2 extends abstractFunction{
     }
 
     public double x(double[] inputVector){
-        return Math.sin(inputVector[0]+inputVector[1]);
+        return (inputVector[0]+inputVector[1]);
         }
 
     public double y(double[] inputVector){
-        return  Math.cos(inputVector[0]*inputVector[1]);
+        return  (inputVector[0]*inputVector[1]);
+    }
+
+    public double[] identity(double[] inputVector){
+        return inputVector;
+    }
+
+    public double[] constant(){
+        return new double[]{1, 1};
     }
 
     public double[] subtract(double[] u, double[] v){

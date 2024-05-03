@@ -8,8 +8,8 @@ public class euclideanR2 extends abstractSpaceVisuals{
     public double X_MAX;
     public double Y_MIN;
     public double Y_MAX;
-    private double moveFrac = 0.7;
-    private double cutOffFrac = 0.3;
+    private double translateSensitivity = 0.1;
+    private double zoomMagnitude = 0.25;
 
     public euclideanR2(int defaultScale, boolean viewLabels, int labelInterval){
         super(defaultScale, viewLabels, labelInterval);
@@ -23,9 +23,10 @@ public class euclideanR2 extends abstractSpaceVisuals{
 
     public void draw(){
         StdDraw.setPenColor();
+        StdDraw.setPenRadius();
         StdDraw.line(X_MIN, 0, X_MAX, 0);
         StdDraw.line(0, Y_MIN, 0, Y_MAX);
-
+        
         if(viewLabels){
             int xCur = (int)X_MIN;
             while(xCur % labelInterval != 0){
@@ -53,22 +54,22 @@ public class euclideanR2 extends abstractSpaceVisuals{
         double yRange = Y_MAX-Y_MIN;
         // translate along x axis
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
-            X_MIN += xRange*moveFrac;
-            X_MAX += xRange*moveFrac;
+            X_MIN += xRange*translateSensitivity;
+            X_MAX += xRange*translateSensitivity;
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_A)){
-            X_MIN -= xRange*moveFrac;
-            X_MAX -= xRange*moveFrac;
+            X_MIN -= xRange*translateSensitivity;
+            X_MAX -= xRange*translateSensitivity;
         }
 
         // translate along y axis
         else if(StdDraw.isKeyPressed(KeyEvent.VK_W)){
-            Y_MIN += yRange*moveFrac;
-            Y_MAX += yRange*moveFrac;
+            Y_MIN += yRange*translateSensitivity;
+            Y_MAX += yRange*translateSensitivity;
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
-            Y_MIN -= yRange*moveFrac;
-            Y_MAX -= yRange*moveFrac;
+            Y_MIN -= yRange*translateSensitivity;
+            Y_MAX -= yRange*translateSensitivity;
         }
         // zoom in / zoom out
         else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)){
@@ -76,29 +77,28 @@ public class euclideanR2 extends abstractSpaceVisuals{
                 System.out.println("Max Y zoom reached");
             }
             else{
-                System.out.println(yRange);
-                Y_MIN += yRange*cutOffFrac;
-                Y_MAX -= yRange*cutOffFrac;
+                Y_MIN += yRange*zoomMagnitude;
+                Y_MAX -= yRange*zoomMagnitude;
             }
             if(X_MAX <= X_MIN){
                 System.out.println("Max X zoom reached");
             }
             else{
-                X_MIN += xRange*cutOffFrac;
-                X_MAX -= xRange*cutOffFrac;
+                X_MIN += xRange*zoomMagnitude;
+                X_MAX -= xRange*zoomMagnitude;
             }
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_E)){
-            Y_MIN -= yRange*cutOffFrac;
-            Y_MAX += yRange*cutOffFrac;
-            X_MIN -= xRange*cutOffFrac;
-            X_MAX += xRange*cutOffFrac;
+            Y_MIN -= yRange*zoomMagnitude;
+            Y_MAX += yRange*zoomMagnitude;
+            X_MIN -= xRange*zoomMagnitude;
+            X_MAX += xRange*zoomMagnitude;
         }
 
         // y axis zoom in / zoom out
         else if (StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            Y_MIN -= yRange*cutOffFrac;;
-            Y_MAX += yRange*cutOffFrac;;
+            Y_MIN -= yRange*zoomMagnitude;;
+            Y_MAX += yRange*zoomMagnitude;;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
             if(Y_MAX <= Y_MIN){
@@ -106,15 +106,15 @@ public class euclideanR2 extends abstractSpaceVisuals{
 
             }
             else{
-                Y_MIN += yRange*cutOffFrac;;
-                Y_MAX -= yRange*cutOffFrac;;
+                Y_MIN += yRange*zoomMagnitude;;
+                Y_MAX -= yRange*zoomMagnitude;;
             }
         }
 
         // x axis zoom in / zoom out
         else if (StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-            X_MIN -= xRange*cutOffFrac;
-            X_MAX += xRange*cutOffFrac;
+            X_MIN -= xRange*zoomMagnitude;
+            X_MAX += xRange*zoomMagnitude;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
             if(X_MAX <= X_MIN){
@@ -122,8 +122,8 @@ public class euclideanR2 extends abstractSpaceVisuals{
         
             }
             else{
-                X_MIN += xRange*cutOffFrac;
-                X_MAX -= xRange*cutOffFrac;
+                X_MIN += xRange*zoomMagnitude;
+                X_MAX -= xRange*zoomMagnitude;
             }
         }
 

@@ -33,7 +33,7 @@ public class ComplexFunction extends abstractFunction{
         return new double[]{z[0], -z[1]};
     }
 
-    public double[] add(double[] z, double[] w){ // z + w
+    public static double[] add(double[] z, double[] w){ // z + w
         return new double[]{z[0]+w[0], z[1]+w[1]};
     }
 
@@ -45,7 +45,7 @@ public class ComplexFunction extends abstractFunction{
         return new double[]{z[0]-w[0], z[1]-w[1]};
     }
 
-    public double[] multiply(double[] z, double[] w){ // z*w
+    public static double[] multiply(double[] z, double[] w){ // z*w
         return new double[]{z[0]*w[0]-z[1]*w[1], z[0]*w[1]+z[1]*w[0]};
     }
 
@@ -54,9 +54,9 @@ public class ComplexFunction extends abstractFunction{
     }
 
     public double[] divide(double[] z, double[] w){ // z / w
-        if(w[0] == 0 && w[1] == 0){
+        if(Math.abs(w[0]) <= 0.001 && Math.abs(w[1]) <= 0.001){
             System.out.println("Divide by 0");
-            return null;
+            return new double[]{0, 0};
         }
         double[] numerator = multiply(z, conjugate(w));
         double denominator = w[0]*w[0] + w[1]*w[1];

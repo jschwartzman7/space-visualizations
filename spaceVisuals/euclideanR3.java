@@ -11,27 +11,23 @@ public class euclideanR3 extends abstractSpaceVisuals{
 
 
     
-    public int DEFAULT_XY_SCALE;
+    //public int DEFAULT_FRAME_SCALE;
     public double X_MIN;
     public double X_MAX;
     public double Y_MIN;
     public double Y_MAX;
     public double Z_MIN;
     public double Z_MAX;
-    public double zoomScale = 5;
-    private int labelInterval;
+    public double frameScale;
     LinkedList<double[][]> lines = new LinkedList<double[][]>();
 
     public euclideanR3(int defaultScale, int labelInterval, boolean viewLabels){
         super(defaultScale, viewLabels, labelInterval);
-        DEFAULT_XY_SCALE = defaultScale;
-        X_MIN = -defaultScale;
-        X_MAX = defaultScale;
-        Y_MIN = -defaultScale;
-        Y_MAX = defaultScale;
-        Z_MIN = -defaultScale;
-        Z_MAX = defaultScale;
-        this.labelInterval = labelInterval;
+        frameScale = DEFAULT_VIEW_RADIUS;
+        X_MIN = -frameScale;
+        X_MAX = frameScale;
+        Y_MIN = -frameScale;
+        Y_MAX = frameScale;
         lines.add(new double[][]{{-defaultScale, 0, 0}, {defaultScale, 0, 0}});
         lines.add(new double[][]{{0, -defaultScale, 0}, {0, defaultScale, 0}});
         lines.add(new double[][]{{0, 0, -defaultScale}, {0, 0, defaultScale}});
@@ -65,9 +61,33 @@ public class euclideanR3 extends abstractSpaceVisuals{
         double[] zaxisP2 = to2D(lines.get(2)[1]);
         StdDraw.line(zaxisP1[0], zaxisP1[1], zaxisP2[0], zaxisP2[1]);
 
+        StdDraw.setPenColor();
+        for(double x = -frameScale; x <= frameScale; ++x){
+            double[] lineP1 = new double[]{x, -frameScale, 0};
+            double[] lineP2 = new double[]{x, frameScale, 0};
+            double[] lineP12D = to2D(lineP1);
+            double[] lineP22D = to2D(lineP2);
+            StdDraw.setPenColor(150, 150, 150);
+            StdDraw.setPenRadius(0.001);
+            StdDraw.line(lineP12D[0], lineP12D[1], lineP22D[0], lineP22D[1]);
+            
+        }
+        for(double y = -frameScale; y <= frameScale; ++y){
+            double[] lp1 = new double[]{-frameScale, y, 0};
+            double[] lp2 = new double[]{frameScale, y, 0};
+            double[] lp12d = to2D(lp1);
+            double[] lp22d = to2D(lp2);
+            StdDraw.line(lp12d[0], lp12d[1], lp22d[0], lp22d[1]);
+
+        }
+        StdDraw.setPenRadius();
+
+
+
+
     }
 
-    public void updatePoints(HashSet<double[]> points){
+    public void updatePoints(LinkedList<double[]> points){
 
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
 			for(double[] point : points) {
@@ -77,7 +97,7 @@ public class euclideanR3 extends abstractSpaceVisuals{
                 point[2] = newPoint[2];
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
 			for(double[] point : points) {
 				double[] newPoint = matrix.matrixVectorMultiplication(matrix.negXY, point);
                 point[0] = newPoint[0];
@@ -85,7 +105,7 @@ public class euclideanR3 extends abstractSpaceVisuals{
                 point[2] = newPoint[2];
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
 			for(double[] point : points) {
 				double[] newPoint = matrix.matrixVectorMultiplication(matrix.posXZ, point);
                 point[0] = newPoint[0];
@@ -93,7 +113,7 @@ public class euclideanR3 extends abstractSpaceVisuals{
                 point[2] = newPoint[2];
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
 			for(double[] point : points) {
 				double[] newPoint = matrix.matrixVectorMultiplication(matrix.negXZ, point);
                 point[0] = newPoint[0];
@@ -101,7 +121,7 @@ public class euclideanR3 extends abstractSpaceVisuals{
                 point[2] = newPoint[2];
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
 			for(double[] point : points) {
 				double[] newPoint = matrix.matrixVectorMultiplication(matrix.posYZ, point);
                 point[0] = newPoint[0];
@@ -109,7 +129,7 @@ public class euclideanR3 extends abstractSpaceVisuals{
                 point[2] = newPoint[2];
 			}
 		}
-		if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
+		else if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
 			for(double[] point : points) {
 				double[] newPoint = matrix.matrixVectorMultiplication(matrix.negYZ, point);
                 point[0] = newPoint[0];
@@ -122,9 +142,6 @@ public class euclideanR3 extends abstractSpaceVisuals{
 
 
     public void update(){
-
-
-
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
 			for(double[][] line : lines) {
 				line[0] = matrix.matrixVectorMultiplication(matrix.posXY, line[0]);
@@ -162,23 +179,29 @@ public class euclideanR3 extends abstractSpaceVisuals{
 			}
 		}
         else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
-            X_MIN = -DEFAULT_XY_SCALE;
-            X_MAX = DEFAULT_XY_SCALE;
-            Y_MIN = -DEFAULT_XY_SCALE;
-            Y_MAX = DEFAULT_XY_SCALE;
-            zoomScale=5;
+           
+            frameScale=DEFAULT_VIEW_RADIUS;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            zoomScale++;
+            frameScale++;
+            X_MIN--;
+            X_MAX++;
+            Y_MIN--;
+            Y_MAX++;
+
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-            if(zoomScale > 1){
-                zoomScale--;
+            if(frameScale > 1){
+                frameScale--;
+                X_MIN++;
+                X_MAX--;
+                Y_MIN++;
+                Y_MAX--;
             }
             
         }
 
-        StdDraw.setScale(-zoomScale, zoomScale);
+        StdDraw.setScale(-frameScale, frameScale);
 	}
 
 

@@ -5,6 +5,7 @@ public abstract class abstractVisualMethod {
     abstractFunction function;
     abstractSpaceVisuals space;
     HashSet<double[]> mappedPoints;
+    int resolution;
     
 
     abstract void run();

@@ -24,12 +24,10 @@ public class DomainColor extends abstractVisualMethod{
 
     abstractFunction function;
     euclideanR2 space;
-    HashSet<double[]> mappedPoints;
   
     public DomainColor(){
         this.function =  new ComplexFunction();
         this.space = new euclideanR2(2, true, 2);
-        this.mappedPoints = new HashSet<double[]>();
     }
 
     
@@ -56,7 +54,7 @@ public class DomainColor extends abstractVisualMethod{
 
         double hue = Math.atan2(w[1], w[0])/(2*Math.PI);
         double saturation = Math.exp(-.1*magnitude);
-        double brightness =1;
+        double brightness = Math.exp(-.1*magnitude);
         return Color.getHSBColor((float)hue, (float)saturation, (float)brightness);
         
     }
@@ -71,13 +69,13 @@ public class DomainColor extends abstractVisualMethod{
         }
         Color color = getColor2(w);
         //double[] functionValue = ComplexOperations.add(new double[]{x, y}, new double[]{0, 0});
-        double mappedX = w[0];
+        /*double mappedX = w[0];
         double mappedY = w[1];
         double magnitude = Math.hypot(mappedX, mappedY); // mag = 13
         double angle = Math.atan2(mappedY, mappedX);
         double redStrength = getColor(angle, magnitude, 1);
         double greenStrength = getColor(angle, magnitude, 2);
-        double blueStrength = getColor(angle, magnitude, 3);
+        double blueStrength = getColor(angle, magnitude, 3);*/
         
       
         //StdDraw.setPenColor((int)(255*redStrength), (int)(255*greenStrength), (int)(255*blueStrength));
@@ -89,9 +87,10 @@ public class DomainColor extends abstractVisualMethod{
     }
 /* */
     public void drawPoints(){
-        double step = (space.X_MAX-space.X_MIN)/resolution;
-        for(double x = space.X_MIN; x < space.X_MAX+step; x += step){
-            for(double y = space.Y_MIN; y < space.Y_MAX+step; y += step){
+        double xStep = (space.X_MAX-space.X_MIN)/resolution;
+        double yStep = (space.Y_MAX-space.Y_MIN)/resolution;
+        for(double x = space.X_MIN; x < space.X_MAX+xStep; x += xStep){
+            for(double y = space.Y_MIN; y < space.Y_MAX+yStep; y += yStep){
                 mapPoint(new double[]{x, y});
             }
         }

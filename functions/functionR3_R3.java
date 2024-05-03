@@ -20,6 +20,14 @@ public class functionR3_R3 extends abstractFunction{
         return Math.pow(inputVector[1], 2);
     }
 
+    public double[] identity(double[] inputVector){
+        return inputVector;
+    }
+
+    public double[] constant(){
+        return new double[]{1, 1, 1};
+    }
+
 
     public double[] zero(){
         return new double[]{0, 0, 0};
