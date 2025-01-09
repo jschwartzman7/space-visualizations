@@ -1,138 +1,104 @@
 import edu.princeton.cs.introcs.StdDraw;
 import java.awt.event.KeyEvent;
 
-public class euclideanR2 extends abstractSpaceVisuals{
+public class euclideanR2 extends abstractSpaceVisual{
 
-    
-    public double X_MIN;
-    public double X_MAX;
-    public double Y_MIN;
-    public double Y_MAX;
-    private double translateSensitivity = 0.1;
-    private double zoomMagnitude = 0.25;
+    private final double X_LABEL_OFFSET = 0.02;
 
-    public euclideanR2(int defaultScale, boolean viewLabels, int labelInterval){
-        super(defaultScale, viewLabels, labelInterval);
-        X_MIN = -DEFAULT_VIEW_RADIUS;
-        X_MAX = DEFAULT_VIEW_RADIUS;
-        Y_MIN = -DEFAULT_VIEW_RADIUS;
-        Y_MAX = DEFAULT_VIEW_RADIUS;
+    public euclideanR2(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo){
+        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 5, 10, 0.08, 0.1);
     }
 
-
-
-    public void draw(){
-        StdDraw.setPenColor();
+    public void drawSpace(){
         StdDraw.setPenRadius();
+        StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.line(X_MIN, 0, X_MAX, 0);
+        StdDraw.setPenColor(StdDraw.GREEN);
         StdDraw.line(0, Y_MIN, 0, Y_MAX);
-        
-        if(viewLabels){
-            int xCur = (int)X_MIN;
-            while(xCur % labelInterval != 0){
-                xCur++;
+        if(VIEW_SPACE_INFO){
+            StdDraw.setPenColor();
+            StdDraw.setPenRadius(0.001);
+            for(double x = X_MIN-X_MIN%primaryLabelInterval; x <= X_MAX; x += primaryLabelInterval){
+                if(Math.abs(x) < FLOAT_TOLERANCE){continue;}
+                StdDraw.line(x, Y_MIN, x, Y_MAX);
+                StdDraw.text(x, -(Y_MAX-Y_MIN)*X_LABEL_OFFSET, toLabel(x));
             }
-            for(int x = xCur; x <= X_MAX; x+=labelInterval){
-                if(x != 0){
-                    StdDraw.text(x, 0, (int)(x)+"");
-                }
-            }
-            int yCur = (int)Y_MIN;
-            while(yCur % labelInterval != 0){
-                yCur++;
-            }
-            for(int y = yCur; y <= Y_MAX; y+=labelInterval){
-                if(y != 0){
-                    StdDraw.text(0, y, (int)(y)+"");
-                }
+            for(double y = Y_MIN-Y_MIN%secondaryLabelInterval; y <= Y_MAX; y += secondaryLabelInterval){
+                if(Math.abs(y) < FLOAT_TOLERANCE){continue;}
+                StdDraw.line(X_MIN, y, X_MAX, y);
+                StdDraw.text(0, y, toLabel(y));
             }
         }
     }
 
-    public void update(){
+    public void updateView(){
         double xRange = X_MAX-X_MIN;
+        double xRangeIntervalRatio = xRange / primaryLabelInterval;
+        if(xRangeIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
+            primaryLabelInterval *= 2;
+        }
+        else if(xRangeIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
+            primaryLabelInterval /= 2;
+        }
+
         double yRange = Y_MAX-Y_MIN;
+        double yRangeIntervalRatio = yRange / secondaryLabelInterval;
+        if(yRangeIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
+            secondaryLabelInterval *= 2;
+        }
+        else if(yRangeIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
+            secondaryLabelInterval /= 2;
+        }
+
         // translate along x axis
+        double xTranslationAmount = xRange*TRANSLATION_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
-            X_MIN += xRange*translateSensitivity;
-            X_MAX += xRange*translateSensitivity;
+            translateX(xTranslationAmount);
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_A)){
-            X_MIN -= xRange*translateSensitivity;
-            X_MAX -= xRange*translateSensitivity;
+            translateX(-xTranslationAmount);
         }
 
         // translate along y axis
-        else if(StdDraw.isKeyPressed(KeyEvent.VK_W)){
-            Y_MIN += yRange*translateSensitivity;
-            Y_MAX += yRange*translateSensitivity;
+        double yTranslationAmount = yRange*TRANSLATION_SENSITIVITY;
+        if(StdDraw.isKeyPressed(KeyEvent.VK_W)){
+            translateY(yTranslationAmount);
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
-            Y_MIN -= yRange*translateSensitivity;
-            Y_MAX -= yRange*translateSensitivity;
+            translateY(-yTranslationAmount);
         }
+
         // zoom in / zoom out
-        else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)){
-            if(Y_MAX <= Y_MIN){
-                System.out.println("Max Y zoom reached");
-            }
-            else{
-                Y_MIN += yRange*zoomMagnitude;
-                Y_MAX -= yRange*zoomMagnitude;
-            }
-            if(X_MAX <= X_MIN){
-                System.out.println("Max X zoom reached");
-            }
-            else{
-                X_MIN += xRange*zoomMagnitude;
-                X_MAX -= xRange*zoomMagnitude;
-            }
+        double xZoomAmount = xRange*ZOOM_SENSITIVITY;
+        double yZoomAmount = yRange*ZOOM_SENSITIVITY;
+        if(StdDraw.isKeyPressed(KeyEvent.VK_Q)){
+            zoomX(-xZoomAmount);
+            zoomY(-yZoomAmount);
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_E)){
-            Y_MIN -= yRange*zoomMagnitude;
-            Y_MAX += yRange*zoomMagnitude;
-            X_MIN -= xRange*zoomMagnitude;
-            X_MAX += xRange*zoomMagnitude;
+            zoomX(xZoomAmount);
+            zoomY(yZoomAmount);
         }
 
         // y axis zoom in / zoom out
-        else if (StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            Y_MIN -= yRange*zoomMagnitude;;
-            Y_MAX += yRange*zoomMagnitude;;
+        if (StdDraw.isKeyPressed(KeyEvent.VK_UP)){
+            zoomY(yZoomAmount);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-            if(Y_MAX <= Y_MIN){
-                System.out.println("Max Y zoom reached");
-
-            }
-            else{
-                Y_MIN += yRange*zoomMagnitude;;
-                Y_MAX -= yRange*zoomMagnitude;;
-            }
+            zoomY(-yZoomAmount);
         }
 
         // x axis zoom in / zoom out
-        else if (StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-            X_MIN -= xRange*zoomMagnitude;
-            X_MAX += xRange*zoomMagnitude;
+        if (StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
+            zoomX(xZoomAmount);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-            if(X_MAX <= X_MIN){
-                System.out.println("Max X zoom reached");
-        
-            }
-            else{
-                X_MIN += xRange*zoomMagnitude;
-                X_MAX -= xRange*zoomMagnitude;
-            }
+            zoomX(-xZoomAmount);
         }
 
         // reset scale
-       else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
-            X_MIN = -DEFAULT_VIEW_RADIUS;
-            X_MAX = DEFAULT_VIEW_RADIUS;
-            Y_MIN = -DEFAULT_VIEW_RADIUS;
-            Y_MAX = DEFAULT_VIEW_RADIUS;
+        else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
+            resetView();
         }
 
         StdDraw.setXscale(X_MIN, X_MAX);

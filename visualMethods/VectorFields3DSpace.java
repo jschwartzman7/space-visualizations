@@ -1,10 +1,10 @@
 import edu.princeton.cs.introcs.StdDraw;
 import java.util.Hashtable;
 
-class VectorFields3DSpace extends abstractVisualMethod{
+class VectorFields3DSpace extends abstractAnimation{
     
-    public abstractFunction function = new functionR3_R3();
-    public abstractSpaceVisuals space = new euclideanR3();
+    public abstractFunction function = new FunctionR3_R3();
+    public abstractSpaceVisual space = new euclideanR3();
     public static double domainStep = 1;
     public static double X_MIN = -10;
     public static double X_MAX = 10;
@@ -30,18 +30,6 @@ class VectorFields3DSpace extends abstractVisualMethod{
 
     public void drawVectors(){
         
-    }
-
-    public void run(){
-        addPointValues();
-        while(true){
-            StdDraw.clear();
-            space.draw();
-            drawVectors();
-            space.update();
-            StdDraw.show(50);
-
-        }
     }
 
 

@@ -5,85 +5,60 @@ import java.util.LinkedList;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ComplexFunction3DSpace extends abstractVisualMethod{
+public class ComplexFunction3DSpace extends abstractAnimation{
+
+    public euclideanR3 space;
+    public FunctionR2_R function;
+    public int pixelResolution;
     
-    public abstractFunction function = new ComplexFunction();
-    public euclideanR3 space = new euclideanR3(5, 0, false);
-    public double resolution = 100;
-    public LinkedList<double[]> pointValues = new LinkedList<double[]>();
-    //public static LinkedList<HashSet<double[]>> functionPoints = new LinkedList<HashSet<double[]>>();
-
-    public ComplexFunction3DSpace(){
-
+    public ComplexFunction3DSpace(FunctionR2_R function, euclideanR3 space, int pixelResolution, int frameSpeed){
+        super(space, frameSpeed);
+        this.space = space;
+        this.function = function;
+        this.pixelResolution = pixelResolution;
     }
 
-    public void drawPoints(){
-        double xStep = (space.X_MAX-space.X_MIN)/resolution;
-        double yStep = (space.Y_MAX-space.Y_MIN)/resolution;
+    public void draw(){
         StdDraw.setPenColor(Color.blue);
-        //pointValues.clear();
-        for(double x = space.X_MIN; x <= space.X_MAX; x += xStep){
-            for(double y = space.Y_MIN; y <= space.Y_MAX; y += yStep){
-                    double[] output = function.f(new double[]{x, y});
-                    double[] point3D = new double[]{x, y, get3D(output)};
-                    pointValues.add(point3D);
-                    double[] point2D = space.to2D(point3D);
-                    StdDraw.filledCircle(point2D[0], point2D[1], 0.01);
-                    
-                   // pointValues.add(get3D(new double[]{x, y, output[0], output[1]}));
-                   // pointValues.add(get4D(new double[]{x, y, output[0], output[1]}));
+        double numericXMin = space.X_MIN*space.xyDistortion;
+        double numericXMax = space.X_MAX*space.xyDistortion;
+        double numericYMin = space.Y_MIN*space.xyDistortion;
+        double numericYMax = space.Y_MAX*space.xyDistortion;
+
+        for(double numericX = numericXMin; numericX <= numericXMax; numericX += (numericXMax-numericXMin)/pixelResolution){
+            for(double numericY = numericYMin; numericY <= numericYMax; numericY += (numericYMax-numericYMin)/pixelResolution){
+                /*
+                 * double[] labelLocation = to2D(matrix.matrixVectorMultiplication(currentPosition, new double[]{numericX/xyDistortion, 0, 0}));
+                 * StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericX));
+                 */
+                double[] point = new double[]{numericX/space.xyDistortion, numericY/space.xyDistortion, function.hype(new double[]{numericX, numericY})[0]/space.zDistortion};
+                point = matrix.matrixVectorMultiplication(space.currentPosition, point);
+                double[] point2D = space.to2D(point);
+                StdDraw.filledCircle(point2D[0], point2D[1], 0.01);
+                
+                //pointValues.add(get3D(new double[]{x, y, output[0], output[1]}));
+                //pointValues.add(get4D(new double[]{x, y, output[0], output[1]}));
 
             }
         }
+        
+    }
+
+    public void update(){
+        
     }
 
     // Determines what will be graphed on the z axis
 
     public double get3D(double[] w){
-        return Math.hypot(w[0], w[1]);
+        return w[0];
         //return new double[]{point[0], point[1], Math.atan2(point[3], point[2])};
         //return new double[]{point[0], point[1], point[2]};
     }
 
-    public double get4D(double[] w){
-        //return new double[]{point[0], point[1], Math.hypot(point[2], point[3])};
-        //return new double[]{point[0], point[1], Math.atan2(point[3], point[2])};
-        //return new double[]{point[0], point[1], point[3]};
-        return 0;
-        
-    }
-
-
-    public void drawPointsOld(){
-        
-
-        StdDraw.setPenColor();
-		for(double[] point : pointValues) {
-			double[] point2D = space.to2D(point);
-            StdDraw.setPenColor(Color.blue);
-            
-			StdDraw.filledCircle(point2D[0], point2D[1], 0.01);
-	//		threeDimensionalCords.drawCord(point[0], point[1], point[2]);
-		}
-    }
-
-    public void run(){
-        
-        while(true){
-            StdDraw.clear();
-            space.draw();
-            drawPoints();
-            space.updatePoints(pointValues);
-            space.update();
-            StdDraw.show(50);
-
-        }
-    }
-
-
     public static void main(String[] args) {
         //System.out.println("HERE: "+args[0]);
-       new ComplexFunction3DSpace().run();
+       new ComplexFunction3DSpace(new FunctionR2_R(), new euclideanR3(5, 10, true), 100, 25).run();
         // <x+3, yxz, 6z-y>
         //run(inputs)
         

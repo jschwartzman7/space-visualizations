@@ -3,16 +3,15 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.util.Hashtable;
 
 
-public class VectorFields2DSpace extends abstractVisualMethod{
+public class VectorFields2DSpace extends abstractAnimation{
   
         public double resolution = 50;
-        public functionR2_R2 function = new functionR2_R2();
-        public euclideanR2 space = new euclideanR2(5, true, 2);
-        public static Hashtable<double[], double[]> mappedPoints = new Hashtable<double[], double[]>();
+        public FunctionR2_R2 function = new FunctionR2_R2();
+        public euclideanR2 space = new euclideanR2(5, 10, true, true);
     
     
     
-        public void drawPoints(){
+        public void draw(){
             double xRange = space.X_MAX-space.X_MIN;
             double yRange = space.Y_MAX-space.Y_MIN;
             for(double x = space.X_MIN; x <= space.X_MAX; x += xRange/resolution){
@@ -38,16 +37,6 @@ public class VectorFields2DSpace extends abstractVisualMethod{
     
         }
     
-        public void run(){
-            while(true){
-                StdDraw.clear();
-                drawPoints();
-                space.draw();
-                space.update();
-                StdDraw.show(50);
-    
-            }
-        }
     
     
         public static void main(String[] args) {

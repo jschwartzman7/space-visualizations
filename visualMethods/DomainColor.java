@@ -13,21 +13,16 @@ import java.awt.event.KeyEvent;
  */
 
 
-public class DomainColor extends abstractVisualMethod{
+public class DomainColor extends abstractAnimation{
  
 
     //final double POINT_SPACING = 0.01;
     //final double POINT_RADIUS = 0.005;
-    final int resolution = 500;
-
-    // improve resolution as zooms in, same with fractals
-
-    abstractFunction function;
-    euclideanR2 space;
+    public euclideanR2 space;
   
-    public DomainColor(){
-        this.function =  new ComplexFunction();
-        this.space = new euclideanR2(2, true, 2);
+    public DomainColor(abstractFunction function, euclideanR2 space, int pixelResolution, int frameSpeed){
+        super(function, space, pixelResolution, frameSpeed);
+        this.space = space;
     }
 
     
@@ -63,7 +58,7 @@ public class DomainColor extends abstractVisualMethod{
     public void mapPoint(double[] z){
         // Brightness variables in [0, 1]
         //
-        double[] w = function.f(z);
+        double[] w = function.identity(z);
         if(w == null){
             return;
         }
@@ -81,14 +76,14 @@ public class DomainColor extends abstractVisualMethod{
         //StdDraw.setPenColor((int)(255*redStrength), (int)(255*greenStrength), (int)(255*blueStrength));
         StdDraw.setPenColor(color);
         //StdDraw.filledCircle(x, y, pointRadius);
-        double radius = (space.X_MAX-space.X_MIN)/(2*resolution);
+        double radius = (space.X_MAX-space.X_MIN)/(2*this.pixelResolution);
         StdDraw.filledSquare(z[0], z[1], radius);
 
     }
 /* */
-    public void drawPoints(){
-        double xStep = (space.X_MAX-space.X_MIN)/resolution;
-        double yStep = (space.Y_MAX-space.Y_MIN)/resolution;
+    public void draw(){
+        double xStep = (space.X_MAX-space.X_MIN)/this.pixelResolution;
+        double yStep = (space.Y_MAX-space.Y_MIN)/this.pixelResolution;
         for(double x = space.X_MIN; x < space.X_MAX+xStep; x += xStep){
             for(double y = space.Y_MIN; y < space.Y_MAX+yStep; y += yStep){
                 mapPoint(new double[]{x, y});
@@ -96,18 +91,8 @@ public class DomainColor extends abstractVisualMethod{
         }
     }
 
-    public void run(){
-        while(true){
-            StdDraw.clear();
-            drawPoints();
-            space.draw();
-            space.update();
-            StdDraw.show(50);
-        }
-    }
-
     public static void main(String[] args) {
-        DomainColor test = new DomainColor();
+        DomainColor test = new DomainColor(new FunctionC_C(), new euclideanR2(5, 10, true), 250, 25);
         test.run();
         // f: C -> C
         // each z in C is colored based on the coordinates of f(z)

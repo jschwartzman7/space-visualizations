@@ -4,21 +4,19 @@ import java.util.Hashtable;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public class MandelbrotSet extends abstractVisualMethod{
+public class MandelbrotSet extends abstractAnimation{
     
 
 	
-	public static int resolution = 500;
-	//public static int[][] iterationsArray = new int[n][n];
 	public static int maxIterations = 50;
 
-    abstractFunction function;
     euclideanR2 space;
 	
-	public MandelbrotSet(){
-        this.function =  new ComplexFunction();
-        this.space = new euclideanR2(3, true, 2);
+	public MandelbrotSet(abstractFunction function, euclideanR2 space, int pixelResolution, int frameSpeed){
+		super(function, space, pixelResolution, frameSpeed);
+        this.space = space;
     }
+
 
 
 
@@ -30,7 +28,7 @@ public class MandelbrotSet extends abstractVisualMethod{
 			return iterationNum;
 		}
 		else {
-			return mandelbrotStatusHelper(ComplexFunction.add(ComplexFunction.multiply(zCur, zCur), z), z, iterationNum + 1);
+			return mandelbrotStatusHelper(FunctionC_C.add(FunctionC_C.multiply(zCur, zCur), z), z, iterationNum + 1);
 		}
 	}
 	
@@ -43,12 +41,12 @@ public class MandelbrotSet extends abstractVisualMethod{
 		return null;
 	}
 	
-	public void drawPoints() {
+	public void draw() {
 		HashMap<double[], Double> map  = new HashMap<double[], Double>();
 	    int iterationsMin = maxIterations;
 		int iterationsMax = 0;
-        double xStep = (space.X_MAX-space.X_MIN)/resolution;
-        double yStep = (space.Y_MAX-space.Y_MIN)/resolution;
+        double xStep = (space.X_MAX-space.X_MIN)/this.pixelResolution;
+        double yStep = (space.Y_MAX-space.Y_MIN)/this.pixelResolution;
 		for(double x = space.X_MIN; x < space.X_MAX+xStep; x += xStep){
 			for(double y = space.Y_MIN; y < space.Y_MAX+yStep; y += yStep){
 				double[] point = new double[]{x, y};
@@ -80,23 +78,6 @@ public class MandelbrotSet extends abstractVisualMethod{
 	}
 	
 	
-	public void run() {
-        StdDraw.setPenRadius(0.005);
-		while(true) {
-            StdDraw.clear();
-            drawPoints();
-            space.draw();
-            space.update();
-			StdDraw.show(50);
-		}
-        /*
-         * StdDraw.clear();
-            drawPoints();
-            space.draw();
-            space.update();
-            StdDraw.show(50);
-         */
-	}
 	
 	
 	
@@ -105,7 +86,7 @@ public class MandelbrotSet extends abstractVisualMethod{
 	
 	
 	public static void main(String[] args) {
-        MandelbrotSet test = new MandelbrotSet();
+        MandelbrotSet test = new MandelbrotSet(null, new euclideanR2(5, 10, false), 200, 25);
 		test.run();
 		// TODO Auto-generated method stub
 

@@ -1,8 +1,9 @@
-public class functionR3_R3 extends abstractFunction{
+public class FunctionR3_R3 extends abstractFunction{
 
-    public functionR3_R3(){
-        
-    }
+    /*
+    * Function: R^3 -> R^3
+    * (x, y, z) in R^3
+    */
 
     public double[] f(double[] inputVector){
         return new double[]{x(inputVector), y(inputVector), z(inputVector)};
@@ -20,16 +21,15 @@ public class functionR3_R3 extends abstractFunction{
         return Math.pow(inputVector[1], 2);
     }
 
-    public double[] identity(double[] inputVector){
-        return inputVector;
-    }
-
-    public double[] constant(){
-        return new double[]{1, 1, 1};
-    }
-
-
     public double[] zero(){
         return new double[]{0, 0, 0};
+    }
+
+    public double[] add(double[] u, double[] v){
+        return new double[]{u[0]+v[0], u[1]+v[1], u[2]+v[2]};
+    }
+
+    public double[] subtract(double[] u, double[] v){
+        return new double[]{u[0]-v[0], u[1]-v[1], u[2]-v[2]};
     }
 }

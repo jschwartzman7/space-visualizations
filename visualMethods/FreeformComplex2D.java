@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 
-public class FreeformComplex2D extends abstractVisualMethod {
+public class FreeformComplex2D extends abstractAnimation {
       final int resolution = 500;
 
     // improve resolution as zooms in, same with fractals
@@ -15,8 +15,9 @@ public class FreeformComplex2D extends abstractVisualMethod {
     HashMap<double[], double[]> functionMap;
   
     public FreeformComplex2D(){
-        this.function =  new ComplexFunction();
-        this.space = new euclideanR2(2, true, 30);
+        super(function, space, pixelResolution, frameSpeed);
+        this.function =  new FunctionC_C();
+        this.space = new euclideanR2(5, 10, true);
         functionMap = new HashMap<double[], double[]>();
     }
 
@@ -31,7 +32,7 @@ public class FreeformComplex2D extends abstractVisualMethod {
         
     }
 
-    public void drawPoints(){
+    public void draw(){
         StdDraw.setPenRadius(0.01);
         for(double[] point : functionMap.keySet()){
             double[] mappedPoint = functionMap.get(point);
@@ -44,21 +45,10 @@ public class FreeformComplex2D extends abstractVisualMethod {
     public void updateNewPoints(){
         if(StdDraw.isMousePressed()){
             double [] newPoint = new double[]{StdDraw.mouseX(), StdDraw.mouseY()};
-            functionMap.put(newPoint, function.f(newPoint));
+            functionMap.put(newPoint, function.identity(newPoint));
         }
     }
 
-    public void run(){
-        
-        while(true){
-            StdDraw.clear();
-            updateNewPoints();
-            drawPoints();
-            space.draw();
-            space.update();
-            StdDraw.show(50);
-        }
-    }
 
     public static void main(String[] args) {
         FreeformComplex2D test = new FreeformComplex2D();

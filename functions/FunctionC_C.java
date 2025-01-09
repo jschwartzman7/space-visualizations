@@ -3,30 +3,33 @@ import java.lang.Math;
 import java.awt.event.KeyEvent;
 
 
-public class ComplexFunction extends abstractFunction{
+public class FunctionC_C extends abstractFunction{
 
-    private double[] one = new double[]{1, 0};
-    private double[] i = new double[]{0, 1};
+    /*
+     * Function: C -> C, where C = R^2 is the complex plane
+     * z in C = a + ib, where a and b in R
+     */
+
+    public double[] one = new double[]{1, 0};
+    public double[] i = new double[]{0, 1};
+    public double[] zero = new double[]{0, 0};
     // z = a + ib
 
 
     public double[] f(double[] input){
         //return divide(one, multiply(multiply(input, add(input,one)), add(input, add(one, one))));
         //return zero();
-        return exp(divide(one, input));
+        //return divide(one, subtract(input, one));
+        return exp(multiply(input, input));
         //return divide(subtract(exp(multiply(input, new double[]{0, 1})), exp(multiply(input, new double[]{0, -1}))), new double[]{0, 2});
     }
 
-    public double[] zero(){ // 0
-        return new double[]{0, 0};
-    }
-
-    public double[] identity(double[] z){ // z
+    public double[] identity(double[] z){
         return z;
     }
 
-    public double[] constant(){ // k
-        return add(one, i);
+    public double[] zero(){
+        return zero;
     }
 
     public double[] conjugate(double[] z){ // a - bi
@@ -37,38 +40,22 @@ public class ComplexFunction extends abstractFunction{
         return new double[]{z[0]+w[0], z[1]+w[1]};
     }
 
-    public double[] add(double[] z, double x){ // z + x
-        return new double[]{z[0]+x, z[1]};
-    }
-
     public double[] subtract(double[] z, double[] w){ // z - w
         return new double[]{z[0]-w[0], z[1]-w[1]};
     }
 
-    public static double[] multiply(double[] z, double[] w){ // z*w
+    public static double[] multiply(double[] z, double[] w){ // z*w = (a+bi)(c+di) = (ac-bd) + (ad+bc)i
         return new double[]{z[0]*w[0]-z[1]*w[1], z[0]*w[1]+z[1]*w[0]};
     }
 
-    public double[] multiply(double[] z, double x){ // z*x
-        return new double[]{z[0]*x, z[1]*x};
-    }
-
-    public double[] divide(double[] z, double[] w){ // z / w
-        if(Math.abs(w[0]) <= 0.001 && Math.abs(w[1]) <= 0.001){
-            System.out.println("Divide by 0");
-            return new double[]{0, 0};
+    public double[] divide(double[] z, double[] w){ // z / w = (z*conj(w))/(w*conj(w)) = (z*conj(w))/(|w|^2)
+        if(w[0] == 0 && w[1] == 0){
+            System.out.println("Divide by 0: z/w");
+            return new double[]{Double.MAX_VALUE, Double.MAX_VALUE};
         }
         double[] numerator = multiply(z, conjugate(w));
         double denominator = w[0]*w[0] + w[1]*w[1];
         return new double[]{numerator[0]/denominator, numerator[1]/denominator};
-    }
-        
-    public double[] divide(double[] z, double x){ // z / x
-        if(x == 0){
-            System.out.println("Divide by 0");
-            return null;
-        }
-        return new double[]{z[0]/x,z[1]/x};
     }
         
     public double[] exp(double[] z){ // e^z := e^Rez(cosImz + sinImz)
@@ -82,10 +69,6 @@ public class ComplexFunction extends abstractFunction{
 
     public double[] power(double[] z, double[] w){ // z^w := e^logzw
         return exp(multiply(log(z), w));
-    }
-
-    public double[] power(double[] z, double x){ // z^x := e^logzx
-        return exp(multiply(log(z), new double[]{x, 0}));
     }
 
     public static void main(String[] args) {
