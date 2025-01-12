@@ -1,12 +1,12 @@
 import edu.princeton.cs.introcs.StdDraw;
 import java.awt.event.KeyEvent;
 
-public class euclideanR2 extends abstractSpaceVisual{
+public class Euclidean2D extends abstractSpaceVisual{
 
     private final double X_LABEL_OFFSET = 0.02;
 
-    public euclideanR2(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo){
-        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 5, 10, 0.08, 0.1);
+    public Euclidean2D(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo){
+        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 4, 20, 0.08, 0.1);
     }
 
     public void drawSpace(){
@@ -34,22 +34,10 @@ public class euclideanR2 extends abstractSpaceVisual{
     public void updateView(){
         double xRange = X_MAX-X_MIN;
         double xRangeIntervalRatio = xRange / primaryLabelInterval;
-        if(xRangeIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
-            primaryLabelInterval *= 2;
-        }
-        else if(xRangeIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
-            primaryLabelInterval /= 2;
-        }
-
         double yRange = Y_MAX-Y_MIN;
         double yRangeIntervalRatio = yRange / secondaryLabelInterval;
-        if(yRangeIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
-            secondaryLabelInterval *= 2;
-        }
-        else if(yRangeIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
-            secondaryLabelInterval /= 2;
-        }
-
+        updateLabelIntervals(xRangeIntervalRatio, yRangeIntervalRatio);
+        
         // translate along x axis
         double xTranslationAmount = xRange*TRANSLATION_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
@@ -80,22 +68,23 @@ public class euclideanR2 extends abstractSpaceVisual{
             zoomY(yZoomAmount);
         }
 
-        // y axis zoom in / zoom out
-        if (StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            zoomY(yZoomAmount);
-        }
-        else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-            zoomY(-yZoomAmount);
-        }
-
         // x axis zoom in / zoom out
-        if (StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-            zoomX(xZoomAmount);
-        }
-        else if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
+        if (StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
             zoomX(-xZoomAmount);
         }
+        else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
+            zoomX(xZoomAmount);
+        }
 
+        // y axis zoom in / zoom out
+        if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
+            zoomY(-yZoomAmount);
+        }
+        else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
+            zoomY(yZoomAmount);
+        }
+
+        
         // reset scale
         else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
             resetView();

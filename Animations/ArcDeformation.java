@@ -63,7 +63,7 @@ public class ArcDeformation extends abstractAnimation{
 
     public static void main(String[] args) {
         
-        ArcDeformation ad = new ArcDeformation(null, new euclideanR2(5, 10, true, true), 100, 25, 10, 4, 250);
+        ArcDeformation ad = new ArcDeformation(null, new Euclidean2D(5, 10, true, true), 100, 25, 10, 4, 250);
         ad.run();
     }
 }

@@ -9,7 +9,7 @@ import edu.princeton.cs.introcs.StdDraw;
 /*
  * adjust label interval as distortion changes, not just displayed value
  */
-public class euclideanR3 extends abstractSpaceVisual{
+public class Euclidean3D extends abstractSpaceVisual{
 
     private final double ROTATION_RATE = Math.PI/32;
     private double displayScale;
@@ -22,12 +22,12 @@ public class euclideanR3 extends abstractSpaceVisual{
     public double xyDistortion;
     public double zDistortion;
 
-    public euclideanR3(int defaultScale, int defaultLabelInterval, boolean viewSpaceInfo){
+    public Euclidean3D(int defaultScale, int defaultLabelInterval, boolean viewSpaceInfo){
         super(defaultScale, defaultLabelInterval, viewSpaceInfo, 3, 6, 0.08, 0.08);
         this.displayScale = defaultScale;
         this.Z_MIN = -defaultScale;
         this.Z_MAX = defaultScale;
-        this.currentPosition = matrix.identity;
+        this.currentPosition = Matrix.identity;
         this.xyDistortion = 1;
         this.zDistortion = 1;
         setAxes();
@@ -44,8 +44,8 @@ public class euclideanR3 extends abstractSpaceVisual{
     }
 
     private void drawAxis(double[][] axis, Color color, String label){
-        double[] axisP1 = matrix.matrixVectorMultiplication(currentPosition, axis[0]);
-        double[] axisP2 = matrix.matrixVectorMultiplication(currentPosition, axis[1]);
+        double[] axisP1 = Matrix.matrixVectorMultiplication(currentPosition, axis[0]);
+        double[] axisP2 = Matrix.matrixVectorMultiplication(currentPosition, axis[1]);
         double[] axisP12D = to2D(axisP1);
         double[] axisP22D = to2D(axisP2);
         StdDraw.setPenColor();
@@ -60,25 +60,25 @@ public class euclideanR3 extends abstractSpaceVisual{
         drawAxis(zAxis, Color.red, "z");
         if(VIEW_SPACE_INFO){
             StdDraw.setPenColor();
-            double numericXMin = X_MIN*xyDistortion;
-            double numericXMax = X_MAX*xyDistortion;
-            for(double numericX = numericXMin-numericXMin%primaryLabelInterval; numericX <= numericXMax; numericX += primaryLabelInterval){
+            double numericMin = X_MIN*xyDistortion;
+            double numericMax = X_MAX*xyDistortion;
+            for(double numericX = numericMin-numericMin%primaryLabelInterval; numericX <= numericMax; numericX += primaryLabelInterval){
                 if(Math.abs(numericX) < FLOAT_TOLERANCE){continue;}
-                double[] labelLocation = to2D(matrix.matrixVectorMultiplication(currentPosition, new double[]{numericX/xyDistortion, 0, 0}));
+                double[] labelLocation = to2D(Matrix.matrixVectorMultiplication(currentPosition, new double[]{numericX/xyDistortion, 0, 0}));
                 StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericX));
             }
-            double numericYMin = Y_MIN*xyDistortion;
-            double numericYMax = Y_MAX*xyDistortion;
-            for(double numericY = numericYMin-numericYMin%primaryLabelInterval; numericY <= numericYMax; numericY += primaryLabelInterval){
+            numericMin = Y_MIN*xyDistortion;
+            numericMax = Y_MAX*xyDistortion;
+            for(double numericY = numericMin-numericMin%primaryLabelInterval; numericY <= numericMax; numericY += primaryLabelInterval){
                 if(Math.abs(numericY) < FLOAT_TOLERANCE){continue;}
-                double[] labelLocation = to2D(matrix.matrixVectorMultiplication(currentPosition, new double[]{0, numericY/xyDistortion, 0}));
+                double[] labelLocation = to2D(Matrix.matrixVectorMultiplication(currentPosition, new double[]{0, numericY/xyDistortion, 0}));
                 StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericY));
             }
-            double numericZMin = Z_MIN*zDistortion;
-            double numericZMax = Z_MAX*zDistortion;
-            for(double numericZ = numericZMin-numericZMin%secondaryLabelInterval; numericZ <= numericZMax; numericZ += secondaryLabelInterval){
+            numericMin = Z_MIN*zDistortion;
+            numericMax = Z_MAX*zDistortion;
+            for(double numericZ = numericMin-numericMin%secondaryLabelInterval; numericZ <= numericMax; numericZ += secondaryLabelInterval){
                 if(Math.abs(numericZ) < FLOAT_TOLERANCE){continue;}
-                double[] labelLocation = to2D(matrix.matrixVectorMultiplication(currentPosition, new double[]{0, 0, numericZ/zDistortion}));
+                double[] labelLocation = to2D(Matrix.matrixVectorMultiplication(currentPosition, new double[]{0, 0, numericZ/zDistortion}));
                 StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericZ));
             }
         }
@@ -86,83 +86,66 @@ public class euclideanR3 extends abstractSpaceVisual{
 
     public void updateView(){
         double scalePrimaryIntervalRatio = displayScale*xyDistortion / primaryLabelInterval;
-        if(scalePrimaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
-            primaryLabelInterval *= 2;
-        }
-        else if(scalePrimaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
-            primaryLabelInterval /= 2;
-        }
         double scaleSecondaryIntervalRatio = displayScale*zDistortion / secondaryLabelInterval;
-        if(scaleSecondaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
-            secondaryLabelInterval *= 2;
-        }
-        else if(scaleSecondaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
-            secondaryLabelInterval /= 2;
-        }
-
-        double xRange = X_MAX-X_MIN;
-        double yRange = Y_MAX-Y_MIN;
-        double zRange = Z_MAX-Z_MIN;
-        double xTranslationAmount = xRange*TRANSLATION_SENSITIVITY;
-        double yTranslationAmount = yRange*TRANSLATION_SENSITIVITY;
-        double zTranslationAmount = zRange*TRANSLATION_SENSITIVITY;
-        double xZoomAmount = xRange*ZOOM_SENSITIVITY;
-        double yZoomAmount = yRange*ZOOM_SENSITIVITY;
-        double zZoomAmount = zRange*ZOOM_SENSITIVITY;
+        updateLabelIntervals(scalePrimaryIntervalRatio, scaleSecondaryIntervalRatio);
+        double range = X_MAX-X_MIN;
+        double translationAmount = range*TRANSLATION_SENSITIVITY;
+        double zoomAmount = range*ZOOM_SENSITIVITY;
+        double xyDistortionAmount = xyDistortion*ZOOM_SENSITIVITY;
+        double zDistortionAmount = zDistortion*ZOOM_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_SHIFT)){
             if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-                translateX(xTranslationAmount);
+                translateX(translationAmount);
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-                translateX(-xTranslationAmount);
+                translateX(-translationAmount);
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-                translateY(yTranslationAmount);
+                translateY(translationAmount);
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-                translateY(-yTranslationAmount);
+                translateY(-translationAmount);
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-                Z_MIN += zTranslationAmount;
-                Z_MAX += zTranslationAmount;
+                Z_MIN += translationAmount;
+                Z_MAX += translationAmount;
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-                Z_MIN -= zTranslationAmount;
-                Z_MAX -= zTranslationAmount;
+                Z_MIN -= translationAmount;
+                Z_MAX -= translationAmount;
             }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-                zDistortion += zDistortion*ZOOM_SENSITIVITY;
+            if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
+                zDistortion -= zDistortionAmount;
             }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-                zDistortion -= zDistortion*ZOOM_SENSITIVITY;
+            else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
+                zDistortion += zDistortionAmount;
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-                xyDistortion -= xyDistortion*ZOOM_SENSITIVITY;
+                xyDistortion -= xyDistortionAmount;
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-                xyDistortion += xyDistortion*ZOOM_SENSITIVITY;
+                xyDistortion += xyDistortionAmount;
             }
         }
         else{
             if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-                currentPosition = matrix.matrixMatrixMultiplication(matrix.posXY(ROTATION_RATE), currentPosition);
+                currentPosition = Matrix.matrixMatrixMultiplication(Matrix.posXY(ROTATION_RATE), currentPosition);
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-                currentPosition = matrix.matrixMatrixMultiplication(matrix.negXY(ROTATION_RATE), currentPosition);
+                currentPosition = Matrix.matrixMatrixMultiplication(Matrix.negXY(ROTATION_RATE), currentPosition);
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-                currentPosition = matrix.matrixMatrixMultiplication(matrix.negYZ(ROTATION_RATE), currentPosition);
+                currentPosition = Matrix.matrixMatrixMultiplication(Matrix.negYZ(ROTATION_RATE), currentPosition);
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-                currentPosition = matrix.matrixMatrixMultiplication(matrix.posYZ(ROTATION_RATE), currentPosition);
+                currentPosition = Matrix.matrixMatrixMultiplication(Matrix.posYZ(ROTATION_RATE), currentPosition);
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-                currentPosition = matrix.matrixMatrixMultiplication(matrix.posXZ(ROTATION_RATE), currentPosition);
+                currentPosition = Matrix.matrixMatrixMultiplication(Matrix.posXZ(ROTATION_RATE), currentPosition);
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-                currentPosition = matrix.matrixMatrixMultiplication(matrix.negXZ(ROTATION_RATE), currentPosition);
+                currentPosition = Matrix.matrixMatrixMultiplication(Matrix.negXZ(ROTATION_RATE), currentPosition);
             }
-
             if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
                 displayScale += displayScale*ZOOM_SENSITIVITY;
             }
@@ -170,30 +153,27 @@ public class euclideanR3 extends abstractSpaceVisual{
                 displayScale -= displayScale*ZOOM_SENSITIVITY;
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-                zoomX(-xZoomAmount);
-                zoomY(-yZoomAmount);
-                Z_MIN += zZoomAmount;
-                Z_MAX -= zZoomAmount;
+                zoomX(-zoomAmount);
+                zoomY(-zoomAmount);
+                Z_MIN += zoomAmount;
+                Z_MAX -= zoomAmount;
             }
             else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-                zoomX(xZoomAmount);
-                zoomY(yZoomAmount);
-                Z_MIN -= zZoomAmount;
-                Z_MAX += zZoomAmount;
+                zoomX(zoomAmount);
+                zoomY(zoomAmount);
+                Z_MIN -= zoomAmount;
+                Z_MAX += zoomAmount;
             }
         }
-        
-        
         if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
             resetView();
             Z_MIN = -DEFAULT_SCALE;
             Z_MAX = DEFAULT_SCALE;
             displayScale = DEFAULT_SCALE;
-            currentPosition = matrix.identity;
+            currentPosition = Matrix.identity;
             xyDistortion = 1;
             zDistortion = 1;
         }
-        
         setAxes();
         StdDraw.setScale(-displayScale, displayScale);
 	}

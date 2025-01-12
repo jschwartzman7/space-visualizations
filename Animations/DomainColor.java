@@ -18,9 +18,9 @@ public class DomainColor extends abstractAnimation{
 
     //final double POINT_SPACING = 0.01;
     //final double POINT_RADIUS = 0.005;
-    public euclideanR2 space;
+    public Euclidean2D space;
   
-    public DomainColor(abstractFunction function, euclideanR2 space, int pixelResolution, int frameSpeed){
+    public DomainColor(abstractFunction function, Euclidean2D space, int pixelResolution, int frameSpeed){
         super(function, space, pixelResolution, frameSpeed);
         this.space = space;
     }
@@ -92,7 +92,7 @@ public class DomainColor extends abstractAnimation{
     }
 
     public static void main(String[] args) {
-        DomainColor test = new DomainColor(new FunctionC_C(), new euclideanR2(5, 10, true), 250, 25);
+        DomainColor test = new DomainColor(new FunctionC_C(), new Euclidean2D(5, 10, true), 250, 25);
         test.run();
         // f: C -> C
         // each z in C is colored based on the coordinates of f(z)

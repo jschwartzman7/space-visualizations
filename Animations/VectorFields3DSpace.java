@@ -4,7 +4,7 @@ import java.util.Hashtable;
 class VectorFields3DSpace extends abstractAnimation{
     
     public abstractFunction function = new FunctionR3_R3();
-    public abstractSpaceVisual space = new euclideanR3();
+    public abstractSpaceVisual space = new Euclidean3D();
     public static double domainStep = 1;
     public static double X_MIN = -10;
     public static double X_MAX = 10;

@@ -11,13 +11,13 @@ public class FreeformComplex2D extends abstractAnimation {
     // improve resolution as zooms in, same with fractals
 
     abstractFunction function;
-    euclideanR2 space;
+    Euclidean2D space;
     HashMap<double[], double[]> functionMap;
   
     public FreeformComplex2D(){
         super(function, space, pixelResolution, frameSpeed);
         this.function =  new FunctionC_C();
-        this.space = new euclideanR2(5, 10, true);
+        this.space = new Euclidean2D(5, 10, true);
         functionMap = new HashMap<double[], double[]>();
     }
 

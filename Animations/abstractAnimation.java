@@ -1,5 +1,4 @@
 import java.util.HashSet;
-
 import edu.princeton.cs.introcs.StdDraw;
 
 public abstract class abstractAnimation {

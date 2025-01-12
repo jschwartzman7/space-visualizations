@@ -7,7 +7,7 @@ public class VectorFields2DSpace extends abstractAnimation{
   
         public double resolution = 50;
         public FunctionR2_R2 function = new FunctionR2_R2();
-        public euclideanR2 space = new euclideanR2(5, 10, true, true);
+        public Euclidean2D space = new Euclidean2D(5, 10, true, true);
     
     
     

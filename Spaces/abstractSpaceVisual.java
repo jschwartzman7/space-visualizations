@@ -54,6 +54,20 @@ public abstract class abstractSpaceVisual {
         this.Y_MIN -= amount;
         this.Y_MAX += amount;
     }
+    public void updateLabelIntervals(double primaryIntervalRatio, double secondaryIntervalRatio){
+        if(primaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
+            this.primaryLabelInterval *= 2;
+        }
+        else if(primaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
+            this.primaryLabelInterval /= 2;
+        }
+        if(secondaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
+            this.secondaryLabelInterval *= 2;
+        }
+        else if(secondaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
+            this.secondaryLabelInterval /= 2;
+        }
+    }
     public void resetView(){
         this.X_MIN = -DEFAULT_SCALE;
         this.X_MAX = DEFAULT_SCALE;
@@ -65,6 +79,8 @@ public abstract class abstractSpaceVisual {
     public String toLabel(double number){
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
-    abstract void updateView(); // check user movement or rotation and update scale accordingly
-    abstract void drawSpace(); // axis, labels, gridlines
+    // Checks for user key input and updates the view accordingly
+    abstract void updateView();
+    // Calls StdDraw methods to draw the current space
+    abstract void drawSpace();
 }

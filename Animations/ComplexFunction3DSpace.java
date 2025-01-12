@@ -7,11 +7,11 @@ import edu.princeton.cs.introcs.StdDraw;
 
 public class ComplexFunction3DSpace extends abstractAnimation{
 
-    public euclideanR3 space;
+    public Euclidean3D space;
     public FunctionR2_R function;
     public int pixelResolution;
     
-    public ComplexFunction3DSpace(FunctionR2_R function, euclideanR3 space, int pixelResolution, int frameSpeed){
+    public ComplexFunction3DSpace(FunctionR2_R function, Euclidean3D space, int pixelResolution, int frameSpeed){
         super(space, frameSpeed);
         this.space = space;
         this.function = function;
@@ -31,8 +31,8 @@ public class ComplexFunction3DSpace extends abstractAnimation{
                  * double[] labelLocation = to2D(matrix.matrixVectorMultiplication(currentPosition, new double[]{numericX/xyDistortion, 0, 0}));
                  * StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericX));
                  */
-                double[] point = new double[]{numericX/space.xyDistortion, numericY/space.xyDistortion, function.hype(new double[]{numericX, numericY})[0]/space.zDistortion};
-                point = matrix.matrixVectorMultiplication(space.currentPosition, point);
+                double[] point = new double[]{numericX/space.xyDistortion, numericY/space.xyDistortion, FunctionR2_R.hype(new double[]{numericX, numericY})[0]/space.zDistortion};
+                point = Matrix.matrixVectorMultiplication(space.currentPosition, point);
                 double[] point2D = space.to2D(point);
                 StdDraw.filledCircle(point2D[0], point2D[1], 0.01);
                 
@@ -58,7 +58,7 @@ public class ComplexFunction3DSpace extends abstractAnimation{
 
     public static void main(String[] args) {
         //System.out.println("HERE: "+args[0]);
-       new ComplexFunction3DSpace(new FunctionR2_R(), new euclideanR3(5, 10, true), 100, 25).run();
+       new ComplexFunction3DSpace(new FunctionR2_R(), new Euclidean3D(5, 10, true), 100, 25).run();
         // <x+3, yxz, 6z-y>
         //run(inputs)
         

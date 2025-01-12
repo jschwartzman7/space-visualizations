@@ -10,9 +10,9 @@ public class MandelbrotSet extends abstractAnimation{
 	
 	public static int maxIterations = 50;
 
-    euclideanR2 space;
+    Euclidean2D space;
 	
-	public MandelbrotSet(abstractFunction function, euclideanR2 space, int pixelResolution, int frameSpeed){
+	public MandelbrotSet(abstractFunction function, Euclidean2D space, int pixelResolution, int frameSpeed){
 		super(function, space, pixelResolution, frameSpeed);
         this.space = space;
     }
@@ -86,7 +86,7 @@ public class MandelbrotSet extends abstractAnimation{
 	
 	
 	public static void main(String[] args) {
-        MandelbrotSet test = new MandelbrotSet(null, new euclideanR2(5, 10, false), 200, 25);
+        MandelbrotSet test = new MandelbrotSet(null, new Euclidean2D(5, 10, false), 200, 25);
 		test.run();
 		// TODO Auto-generated method stub
 

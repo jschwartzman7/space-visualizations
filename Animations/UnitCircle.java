@@ -47,6 +47,6 @@ public class UnitCircle extends abstractAnimation {
     }
 
     public static void main(String[] args){
-        new UnitCircle(null, new euclideanR2(5, 1, true), 200, 25).run();
+        new UnitCircle(null, new Euclidean2D(5, 1, true), 200, 25).run();
     }
 }
