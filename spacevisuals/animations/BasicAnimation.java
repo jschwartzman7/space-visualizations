@@ -4,12 +4,12 @@ import spacevisuals.spaces.AbstractSpace;
 import edu.princeton.cs.introcs.StdDraw;
 
 
-public class BasicAnimation<ConcreteSpaceVisual extends AbstractSpace> {
+public class BasicAnimation<ConcreteSpace extends AbstractSpace> {
     
-    ConcreteSpaceVisual space;
+    ConcreteSpace space;
     int frameRate;
 
-    public BasicAnimation(ConcreteSpaceVisual space, int frameRate){
+    public BasicAnimation(ConcreteSpace space, int frameRate){
         this.space = space;
         this.frameRate = frameRate;
     }

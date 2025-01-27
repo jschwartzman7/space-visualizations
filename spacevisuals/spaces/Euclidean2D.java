@@ -8,7 +8,11 @@ public class Euclidean2D extends AbstractSpace{
     private final double X_LABEL_OFFSET = 0.02;
 
     public Euclidean2D(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo){
-        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 4, 20, 0.08, 0.1);
+        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 4, 20, 0.08, 0.08);
+    }
+
+    public double[] toPoint(double[] numericPoint){
+        return new double[]{numericPoint[0]/primaryDistortion, numericPoint[1]/secondaryDistortion};
     }
 
     public void drawSpace(){

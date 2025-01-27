@@ -11,8 +11,6 @@ public class UnitCircle extends BasicAnimation<Euclidean2D> {
     private double tStep = 0.008;
     private double t;
 
-
-
     public UnitCircle(Euclidean2D space, int frameSpeed){
         super(space, frameSpeed);
         this.points = new double[numPoints][2];
@@ -55,6 +53,6 @@ public class UnitCircle extends BasicAnimation<Euclidean2D> {
     }
 
     public static void main(String[] args){
-        new UnitCircle(new Euclidean2D(5, 1, true), 25).run();
+        
     }
 }

@@ -6,24 +6,24 @@ import edu.princeton.cs.introcs.StdDraw;
 * Extended by R2 and R3
 */
 public abstract class AbstractSpace {
-    final int CANVAS_WIDTH = 700;
-    final int CANVAS_HEIGHT = 700;
-    final double FLOAT_TOLERANCE = 0.000001;
-    final int DEFAULT_SCALE;
-    final double DEFAULT_LABEL_INTERVAL;
-    final boolean VIEW_SPACE_INFO;
-    final double RANGE_INTERVAL_RATIO_MIN;
-    final double RANGE_INTERVAL_RATIO_MAX;
-    final double TRANSLATION_SENSITIVITY;
-    final double ZOOM_SENSITIVITY;
-    double primaryLabelInterval;
-    double secondaryLabelInterval;
-    double primaryDistortion;
-    double secondaryDistortion;
-    double X_MIN;
-    double X_MAX;
-    double Y_MIN;
-    double Y_MAX;
+    protected final int CANVAS_WIDTH = 700;
+    protected final int CANVAS_HEIGHT = 700;
+    protected final double FLOAT_TOLERANCE = 0.000001;
+    protected final int DEFAULT_SCALE;
+    protected final double DEFAULT_LABEL_INTERVAL;
+    protected final boolean VIEW_SPACE_INFO;
+    protected final double RANGE_INTERVAL_RATIO_MIN;
+    protected final double RANGE_INTERVAL_RATIO_MAX;
+    protected final double TRANSLATION_SENSITIVITY;
+    protected final double ZOOM_SENSITIVITY;
+    public double primaryLabelInterval;
+    public double secondaryLabelInterval;
+    public double primaryDistortion;
+    public double secondaryDistortion;
+    public double X_MIN;
+    public double X_MAX;
+    public double Y_MIN;
+    public double Y_MAX;
     public AbstractSpace(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo, int rangeIntervalRatioMin, int rangeIntervalRatioMax, double translationSensitivity, double zoomSensitivity){
         this.DEFAULT_SCALE = defaultScale;
         this.DEFAULT_LABEL_INTERVAL = defaultLabelInterval;
@@ -95,6 +95,7 @@ public abstract class AbstractSpace {
     public String toLabel(double number){
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
+    public abstract double[] toPoint(double[] numericPoint);
     // Checks for user key input and updates the view accordingly
     public abstract void updateView();
     // Calls StdDraw methods to draw the current space

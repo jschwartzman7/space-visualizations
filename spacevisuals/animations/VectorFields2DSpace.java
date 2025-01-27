@@ -1,17 +1,19 @@
 package spacevisuals.animations;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.spaces.Euclidean2D;
+
 import java.util.Hashtable;
 import java.util.function.Function;
 
 
-public class VectorFields2DSpace extends abstractLatticeAnimation<Euclidean2D> {
+public class VectorFields2DSpace extends PointSetAnimation<Lattice2DHelper> {
     
-        public VectorFields2DSpace(Euclidean2D space, int frameSpeed, int resolution, Function<double[], double[]> function){
-            super(space, frameSpeed, resolution, function);
+        public VectorFields2DSpace(Euclidean2D space, int frameSpeed, double pixelResolution, Function<Double[], Double[]> function){
+            super(space, frameSpeed, function, new Lattice2DHelper(space, pixelResolution));
         }
 
-        public void handleImage(double[] input, double[] output){
+        public void handleImage(Double[] input, Double[] output){
             /*
              * Add vector lines to list to send to space to draw
              */
@@ -32,7 +34,6 @@ public class VectorFields2DSpace extends abstractLatticeAnimation<Euclidean2D> {
     
         public static void main(String[] args) {
             //System.out.println("HERE: "+args[0]);
-            new VectorFields2DSpace(new Euclidean2D(5, 5, true), 25, 50, FunctionR2_R2::f).run();
             // <x+3, yxz, 6z-y>
             //run(inputs)
             

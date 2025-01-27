@@ -2,11 +2,11 @@ package spacevisuals.functions;
 
 public class Rn_R{
 
-    static double[] zero(){
+    public static double[] zero(){
         return new double[]{0};
     }
 
-    static double dotProduct(double[] u, double[] v){
+    public static double dotProduct(double[] u, double[] v){
         double result = 0;
         for(int i = 0; i < u.length; i++){
             result += u[i]*v[i];
@@ -14,11 +14,11 @@ public class Rn_R{
         return result;
     }
 
-    static double magnitude(double[] u){
+    public static double magnitude(double[] u){
         return Math.sqrt(dotProduct(u, u));
     }
 
-    static double supNorm(double[] u){
+    public static double supNorm(double[] u){
         double max = 0;
         for(int i = 0; i < u.length; i++){
             if(Math.abs(u[i]) > max){
@@ -28,7 +28,7 @@ public class Rn_R{
         return max;
     }
 
-    static double pNorm(double[] u, double p){
+    public static double pNorm(double[] u, double p){
         double sum = 0;
         for(int i = 0; i < u.length; i++){
             sum += Math.pow(Math.abs(u[i]), p);

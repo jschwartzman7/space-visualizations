@@ -1,5 +1,8 @@
 package spacevisuals.animations;
 
+import spacevisuals.functions.*;
+import spacevisuals.spaces.Euclidean2D;
+
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -7,13 +10,13 @@ import java.util.function.Function;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public class MandelbrotSet extends abstractLatticeAnimation<Euclidean2D> {
+public class MandelbrotSet extends PointSetAnimation<Lattice2DHelper<Euclidean2D>>{
     
 	public static int maxIterations = 70;
 	public static double thresholdRadius = 4;
 	
-	public MandelbrotSet(Euclidean2D space, int frameSpeed, int pixelResolution){
-		super(space, frameSpeed, pixelResolution, MandelbrotSet::mandelbrotStatus);
+	public MandelbrotSet(Euclidean2D space, int frameRate, int pixelResolution){
+		super(space, frameRate, MandelbrotSet::mandelbrotStatus, new Lattice2DHelper<Euclidean2D>(space, pixelResolution));
     }
 
 	// number of iterations for location to surpass threshold radius
@@ -27,11 +30,11 @@ public class MandelbrotSet extends abstractLatticeAnimation<Euclidean2D> {
 		return mandelbrotStatusHelper(C_C.add(C_C.multiply(zCur, zCur), location), location, iterationNum + 1);
 	}
 	
-	public static double[] mandelbrotStatus(double[] z) {
-		return new double[]{mandelbrotStatusHelper(C_C.zero, z, 0)};
+	public static Double[] mandelbrotStatus(Double[] z) {
+		return new Double[]{(double)mandelbrotStatusHelper(C_C.zero, new double[]{z[0], z[1]}, 0)};
 	}
 
-	public void handleImage(double[] input, double[] numIterations) {
+	public void handleImage(Double[] input, Double[] numIterations) {
 		double iterationsToEscape = numIterations[0];
 		/*if(MandelbrotStatus < iterationsMin) {
 				iterationsMin = MandelbrotStatus;
@@ -41,17 +44,13 @@ public class MandelbrotSet extends abstractLatticeAnimation<Euclidean2D> {
 		}*/
 
 		// in Mandelbrot set
+		double[] z = new double[]{input[0], input[1]};
 		if(iterationsToEscape > maxIterations) {
-			StdDraw.setPenColor();
+			traverser.drawPoint(z, Color.BLACK);
 		}
 		else{
-			StdDraw.setPenColor(new Color(Color.HSBtoRGB((float)hue(iterationsToEscape), (float)saturation(iterationsToEscape), (float)brightness(iterationsToEscape))));
+			traverser.drawPoint(z, new Color(Color.HSBtoRGB((float)hue(iterationsToEscape), (float)saturation(iterationsToEscape), (float)brightness(iterationsToEscape))));
 		}
-		double numericXMin = space.X_MIN*space.primaryDistortion;
-		double numericXMax = space.X_MAX*space.primaryDistortion;
-		double numericYMin = space.Y_MIN*space.secondaryDistortion;
-		double numericYMax = space.Y_MAX*space.secondaryDistortion;
-		StdDraw.filledRectangle(input[0]/space.primaryDistortion, input[1]/space.secondaryDistortion, (numericXMax-numericXMin)/(2*this.pixelResolution), (numericYMax-numericYMin)/(2*this.pixelResolution));
 	}
 
 	private double hue(double z) {
@@ -69,7 +68,7 @@ public class MandelbrotSet extends abstractLatticeAnimation<Euclidean2D> {
 	}
 	
 	public static void main(String[] args) {
-        new MandelbrotSet(new Euclidean2D(2, 1, false), 30, 300).run();
+       
 	}
 
 }

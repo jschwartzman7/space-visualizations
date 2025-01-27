@@ -2,10 +2,10 @@ package spacevisuals.animations;
 
 import java.awt.Color;
 import java.util.LinkedList;
-
+import spacevisuals.spaces.Euclidean2D;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ArcDeformation  extends BasicAnimation<Euclidean2D>{
+public class ArcDeformation extends BasicAnimation<Euclidean2D>{
 
     // draw "continuously" deforming semi-circles starting from upper hemisphere ending at lower hemisphere
     // StdDraw.arc(x, y, radius, angle1, angle2);
@@ -16,19 +16,31 @@ public class ArcDeformation  extends BasicAnimation<Euclidean2D>{
     LinkedList<Double> shadow;
     int shadowLength;
     double r0;
-    double t;
-    double tStep = 0.008;
+    TimeInterval timeInterval;
     
-    public ArcDeformation(Euclidean2D space, int frameSpeed, int shadowLength){
-        super(space, frameSpeed);
+    public ArcDeformation(Euclidean2D space, int frameRate, int shadowLength){
+        super(space, frameRate);
         this.shadowLength = shadowLength;
         this.shadow = new LinkedList<Double>();
-        this.t = -1;
         this.r0 = 1;
+        this.timeInterval = new TimeInterval(-1, 1, resoution);
     }
 
     public void drawAnimation(){
-        int timePassed = shadowLength - shadow.size();
+        if(Math.abs(timeInterval.t) > resoution){
+            double r = (r0*(1+timeInterval.t*timeInterval.t))/(2*timeInterval.t);
+            double y = r-timeInterval.t*r0;
+            double angle1 = Math.atan2(-y, -r0*Math.signum(timeInterval.t))*180/Math.PI;
+            if(timeInterval.t < 0){
+                StdDraw.arc(0, y, Math.abs(r), angle1, 180-angle1);
+            }
+            else{
+                StdDraw.arc(0, y, Math.abs(r), angle1, -180-angle1);
+            }
+            
+        }
+
+        /*int timePassed = shadowLength - shadow.size();
         for(Double pasT : shadow){
             StdDraw.setPenColor((int)(255*(1-(double)timePassed/shadowLength)),(int)(255*(1-(double)timePassed/shadowLength)),255);
             if(Math.abs(pasT) > resoution){
@@ -44,25 +56,10 @@ public class ArcDeformation  extends BasicAnimation<Euclidean2D>{
                 
             }
             timePassed++;
-        }
+        }*/
     }   
 
     public void updateAnimation(){
-        if(shadow.size() < shadowLength){
-            shadow.addLast(t);
-        }
-        else{
-            shadow.removeFirst();
-            shadow.addLast(t);
-        }
-
-        if(Math.abs(t + tStep) > 1){
-            tStep = -tStep;
-        }
-            t += tStep;
-    }
-
-    public static void main(String[] args) {
-        new ArcDeformation(new Euclidean2D(5, 1, true), 25, 10).run();
+        timeInterval.updateT();
     }
 }

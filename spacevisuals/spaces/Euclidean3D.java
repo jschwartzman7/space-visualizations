@@ -11,10 +11,10 @@ import edu.princeton.cs.introcs.StdDraw;
 public class Euclidean3D extends AbstractSpace{
 
     private final double ROTATION_RATE = Math.PI/32;
-    public double displayScale;
     private double[][] xAxis;
     private double[][] yAxis;
     private double[][] zAxis;
+    public double displayScale;
     public double Z_MIN;
     public double Z_MAX;
     public double[][] currentPosition;
@@ -26,6 +26,13 @@ public class Euclidean3D extends AbstractSpace{
         this.Z_MAX = defaultScale;
         this.currentPosition = Matrix.identity;
         setAxes();
+    }
+
+    public double[] toPoint(double[] numericPoint){
+        double[] distortedPoint = new double[]{numericPoint[0]*primaryDistortion, numericPoint[1]*primaryDistortion, numericPoint[2]*secondaryDistortion};
+        double[] rotatedPoint = Matrix.matrixVectorMultiplication(currentPosition, distortedPoint);
+        double[] point2D = to2D(rotatedPoint);
+        return point2D;
     }
 
 	public double[] to2D(double[] cord) {
