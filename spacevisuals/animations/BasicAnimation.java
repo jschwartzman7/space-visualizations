@@ -18,7 +18,7 @@ public class BasicAnimation<ConcreteSpace extends AbstractSpace> {
     public void run(){
         while(true){
             StdDraw.clear();
-            space.updateView();
+            space.updateSpace();
             this.updateAnimation();
             space.drawSpace();
             this.drawAnimation();

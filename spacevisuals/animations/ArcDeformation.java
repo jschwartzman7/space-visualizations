@@ -12,26 +12,24 @@ public class ArcDeformation extends BasicAnimation<Euclidean2D>{
     // want center of arc (0, h) to move at constant speed
     // t ranges from -1 to 1
 
-    double resoution = 0.008;
-    LinkedList<Double> shadow;
-    int shadowLength;
-    double r0;
-    TimeInterval timeInterval;
+    //LinkedList<Double> shadow;
+    //int shadowLength;
+    double r0 = 1;
+    TimeInterval T;
     
     public ArcDeformation(Euclidean2D space, int frameRate, int shadowLength){
         super(space, frameRate);
-        this.shadowLength = shadowLength;
-        this.shadow = new LinkedList<Double>();
-        this.r0 = 1;
-        this.timeInterval = new TimeInterval(-1, 1, resoution);
+        //this.shadowLength = shadowLength;
+        //this.shadow = new LinkedList<Double>();
+        this.T = new TimeInterval(-1, 1, 0.008);
     }
 
     public void drawAnimation(){
-        if(Math.abs(timeInterval.t) > resoution){
-            double r = (r0*(1+timeInterval.t*timeInterval.t))/(2*timeInterval.t);
-            double y = r-timeInterval.t*r0;
-            double angle1 = Math.atan2(-y, -r0*Math.signum(timeInterval.t))*180/Math.PI;
-            if(timeInterval.t < 0){
+        if(Math.abs(T.t) > T.tStep){
+            double r = (r0*(1+T.t*T.t))/(2*T.t);
+            double y = r-T.t*r0;
+            double angle1 = Math.atan2(-y, -r0*Math.signum(T.t))*180/Math.PI;
+            if(T.t < 0){
                 StdDraw.arc(0, y, Math.abs(r), angle1, 180-angle1);
             }
             else{
@@ -60,6 +58,6 @@ public class ArcDeformation extends BasicAnimation<Euclidean2D>{
     }   
 
     public void updateAnimation(){
-        timeInterval.updateT();
+        T.updateT();
     }
 }

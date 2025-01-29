@@ -44,37 +44,37 @@ public abstract class AbstractSpace {
         StdDraw.setScale(-defaultScale, defaultScale);
         StdDraw.enableDoubleBuffering();
     }
-    public void translateX(double amount){
+    protected void translateX(double amount){
         this.X_MIN += amount;
         this.X_MAX += amount;
     }
-    public void translateY(double amount){
+    protected void translateY(double amount){
         this.Y_MIN += amount;
         this.Y_MAX += amount;
     }
-    public void zoomX(double amount){
+    protected void zoomX(double amount){
         this.X_MIN -= amount;
         this.X_MAX += amount;
     }
-    public void zoomY(double amount){
+    protected void zoomY(double amount){
         this.Y_MIN -= amount;
         this.Y_MAX += amount;
     }
-    public void adjustPrimaryDistortion(double amount){
+    protected void adjustPrimaryDistortion(double amount){
         this.primaryDistortion += amount;
     }
-    public void adjustSecondaryDistortion(double amount){
+    protected void adjustSecondaryDistortion(double amount){
         this.secondaryDistortion += amount;
     }
-    public void updateLabelIntervals(double primaryIntervalRatio, double secondaryIntervalRatio){
-        double distortedPrimaryIntervalRatio = primaryIntervalRatio*primaryDistortion;
+    protected void updateLabelIntervals(double primaryRange, double secondaryRange){
+        double distortedPrimaryIntervalRatio = primaryRange*primaryDistortion/primaryLabelInterval;
         if(distortedPrimaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
             this.primaryLabelInterval *= 2;
         }
         else if(distortedPrimaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
             this.primaryLabelInterval /= 2;
         }
-        double distortedSecondaryIntervalRatio = secondaryIntervalRatio*secondaryDistortion;
+        double distortedSecondaryIntervalRatio = secondaryRange*secondaryDistortion/secondaryLabelInterval;
         if(distortedSecondaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
             this.secondaryLabelInterval *= 2;
         }
@@ -82,7 +82,7 @@ public abstract class AbstractSpace {
             this.secondaryLabelInterval /= 2;
         }
     }
-    public void resetView(){
+    protected void resetView(){
         this.X_MIN = -DEFAULT_SCALE;
         this.X_MAX = DEFAULT_SCALE;
         this.Y_MIN = -DEFAULT_SCALE;
@@ -95,9 +95,19 @@ public abstract class AbstractSpace {
     public String toLabel(double number){
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
-    public abstract double[] toPoint(double[] numericPoint);
-    // Checks for user key input and updates the view accordingly
+    public void updateSpace(){
+        updateView();
+        if(VIEW_SPACE_INFO){updateLabels();}
+    };
+
+    public void drawSpace(){
+        drawAxes();
+        if(VIEW_SPACE_INFO){drawSpaceInfo();}
+    };
+    public abstract double[] toDrawablePoint(double[] numericPoint);
     public abstract void updateView();
-    // Calls StdDraw methods to draw the current space
-    public abstract void drawSpace();
+    public abstract void updateLabels();
+    public abstract void drawAxes();
+    public abstract void drawSpaceInfo();
+    
 }

@@ -2,15 +2,20 @@ package spacevisuals.animations;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean2D;
+import spacevisuals.spaces.Lattice2DHelper;
 
 import java.util.Hashtable;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 
-public class VectorFields2DSpace extends PointSetAnimation<Lattice2DHelper> {
+public class VectorFields2DSpace extends PointSetAnimation<Euclidean2D> {
     
-        public VectorFields2DSpace(Euclidean2D space, int frameSpeed, double pixelResolution, Function<Double[], Double[]> function){
-            super(space, frameSpeed, function, new Lattice2DHelper(space, pixelResolution));
+	    Lattice2DHelper<Euclidean2D> traverser;
+
+        public VectorFields2DSpace(Euclidean2D space, int frameSpeed, Function<Double[], Double[]> function, double pixelResolution){
+            super(space, frameSpeed, function);
+            this.traverser = new Lattice2DHelper<Euclidean2D>(space, pixelResolution);
         }
 
         public void handleImage(Double[] input, Double[] output){
@@ -26,17 +31,9 @@ public class VectorFields2DSpace extends PointSetAnimation<Lattice2DHelper> {
             StdDraw.line(input[0], input[1], input[0]+Math.cos(angle)*(0.01*range), input[1]+Math.sin(angle)*(0.01*range));
     
         }
-    
-        public void updateAnimation(){
-            
-        }
-    
-    
-        public static void main(String[] args) {
-            //System.out.println("HERE: "+args[0]);
-            // <x+3, yxz, 6z-y>
-            //run(inputs)
-            
+
+        public void traverseDomain(Consumer<Double[]> handlePoint){
+            traverser.traverseDomain(this::handlePoint);
         }
     }
     

@@ -6,21 +6,21 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.lang.Math;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import spacevisuals.animations.HashSetHelper;
 
 
-public class FreeformComplex2D extends PointSetAnimation<HashSetHelper>{
+public class FreeformComplex2D extends PointSetAnimation<Euclidean2D>{
 
     // improve resolution as zooms in, same with fractals
 
     private HashSet<Double[]> points;
   
     public FreeformComplex2D(Euclidean2D space, int frameRate, Function<Double[], Double[]> function){
-        super(space, frameRate, function, new HashSetHelper());
-        this.points = traverser.getSet();
+        super(space, frameRate, function);
+        this.points = new HashSet<Double[]>();
     }
 
     public Color getColor2(Double[] w){
@@ -32,12 +32,17 @@ public class FreeformComplex2D extends PointSetAnimation<HashSetHelper>{
         
     }
 
+    public void traverseDomain(Consumer<Double[]> handlePoint){
+        for(Double[] point : points){
+            handlePoint.accept(point);
+        }
+    }
+
     public void updateAnimation(){
         if(StdDraw.isMousePressed()){
             Double [] newPoint = new Double[]{StdDraw.mouseX(), StdDraw.mouseY()};
             points.add(newPoint);
         }
-        traverser.setSet(points);
     }
 
     public void handleImage(Double[] input, Double[] output){

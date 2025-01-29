@@ -1,20 +1,14 @@
-package spacevisuals.animations;
+package spacevisuals.spaces;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import spacevisuals.spaces.*;
 
-public class Lattice3DHelper implements PointSetHelper{
-
-    Euclidean3D space;
-    double primaryPixelResolution;
-    double secondaryPixelResolution;
+public class Lattice3DHelper extends EuclideanSpaceTraverser<Euclidean3D>{
 
     public Lattice3DHelper(Euclidean3D space, double pixelResolution){
-        this.space = space;
-        this.primaryPixelResolution = pixelResolution;
-        this.secondaryPixelResolution = pixelResolution;
+        super(space, pixelResolution);
     }
 
     public void traverseDomain(Consumer<Double[]> handlePoint){

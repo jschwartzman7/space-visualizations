@@ -17,8 +17,8 @@ public class TimeInterval{
     public void updateT(){
         double tNext = t + tStep;
         if(tNext > tMax || tNext < tMin){
-            tStep = -tStep;
+            this.tStep = -tStep;
         }
-        t += tStep;
+        this.t += tStep;
     }
 }

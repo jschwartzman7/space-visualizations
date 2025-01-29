@@ -39,7 +39,7 @@ public class C_C{
     public static double[] divide(double[] z, double[] w){ // z / w = (z*conj(w))/(w*conj(w)) = (z*conj(w))/(|w|^2)
         if(w[0] == 0 && w[1] == 0){
             System.out.println("Divide by 0: z/w");
-            return new double[]{double.MAX_VALUE, double.MAX_VALUE};
+            return new double[]{Double.MAX_VALUE, Double.MAX_VALUE};
         }
         double[] numerator = multiply(z, conjugate(w));
         double denominator = w[0]*w[0] + w[1]*w[1];

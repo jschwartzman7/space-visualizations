@@ -2,21 +2,26 @@ package spacevisuals.animations;
 
 import spacevisuals.functions.*;
 import spacevisuals.spaces.Euclidean2D;
+import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.spaces.Lattice2DHelper;
 
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public class MandelbrotSet extends PointSetAnimation<Lattice2DHelper<Euclidean2D>>{
+public class MandelbrotSet extends PointSetAnimation<Euclidean2D> {
     
 	public static int maxIterations = 70;
 	public static double thresholdRadius = 4;
+	Lattice2DHelper<Euclidean2D> traverser;
 	
 	public MandelbrotSet(Euclidean2D space, int frameRate, int pixelResolution){
-		super(space, frameRate, MandelbrotSet::mandelbrotStatus, new Lattice2DHelper<Euclidean2D>(space, pixelResolution));
+		super(space, frameRate, MandelbrotSet::mandelbrotStatus);
+		this.traverser = new Lattice2DHelper<Euclidean2D>(space, pixelResolution);
     }
 
 	// number of iterations for location to surpass threshold radius
@@ -46,10 +51,10 @@ public class MandelbrotSet extends PointSetAnimation<Lattice2DHelper<Euclidean2D
 		// in Mandelbrot set
 		double[] z = new double[]{input[0], input[1]};
 		if(iterationsToEscape > maxIterations) {
-			traverser.drawPoint(z, Color.BLACK);
+			traverser.drawPointRectangle(z, Color.BLACK);
 		}
 		else{
-			traverser.drawPoint(z, new Color(Color.HSBtoRGB((float)hue(iterationsToEscape), (float)saturation(iterationsToEscape), (float)brightness(iterationsToEscape))));
+			traverser.drawPointRectangle(z, new Color(Color.HSBtoRGB((float)hue(iterationsToEscape), (float)saturation(iterationsToEscape), (float)brightness(iterationsToEscape))));
 		}
 	}
 
@@ -63,14 +68,13 @@ public class MandelbrotSet extends PointSetAnimation<Lattice2DHelper<Euclidean2D
 		return Math.exp(-.01*z);
 	}
 
+	public void traverseDomain(Consumer<Double[]> handlePoint) {
+		traverser.traverseDomain(handlePoint);
+	}
 
 	public void updateAnimation() {
 	}
 	
-	public static void main(String[] args) {
-       
-	}
-
 }
 
     

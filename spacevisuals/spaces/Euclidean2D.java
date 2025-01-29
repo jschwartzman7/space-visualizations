@@ -11,44 +11,46 @@ public class Euclidean2D extends AbstractSpace{
         super(defaultScale, defaultLabelInterval, viewSpaceInfo, 4, 20, 0.08, 0.08);
     }
 
-    public double[] toPoint(double[] numericPoint){
+    public double[] toDrawablePoint(double[] numericPoint){
         return new double[]{numericPoint[0]/primaryDistortion, numericPoint[1]/secondaryDistortion};
     }
 
-    public void drawSpace(){
+    public void drawAxes(){
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
         StdDraw.line(X_MIN, 0, X_MAX, 0);
         StdDraw.setPenColor(StdDraw.GREEN);
         StdDraw.line(0, Y_MIN, 0, Y_MAX);
-        if(VIEW_SPACE_INFO){
-            StdDraw.setPenColor();
-            StdDraw.setPenRadius(0.001);
-            double numericMin = X_MIN*primaryDistortion;
-            double numericMax = X_MAX*primaryDistortion;
-            for(double numericX = numericMin-numericMin%primaryLabelInterval; numericX <= numericMax; numericX += primaryLabelInterval){
-                if(Math.abs(numericX) < FLOAT_TOLERANCE){continue;}
-                double x = numericX/primaryDistortion;
-                StdDraw.line(x, Y_MIN, x, Y_MAX);
-                StdDraw.text(x, -(Y_MAX-Y_MIN)*X_LABEL_OFFSET, toLabel(numericX));
-            }
-            numericMin = Y_MIN*secondaryDistortion;
-            numericMax = Y_MAX*secondaryDistortion;
-            for(double numericY = numericMin-numericMin%secondaryLabelInterval; numericY <= numericMax; numericY += secondaryLabelInterval){
-                if(Math.abs(numericY) < FLOAT_TOLERANCE){continue;}
-                double y = numericY/secondaryDistortion;
-                StdDraw.line(X_MIN, y, X_MAX, y);
-                StdDraw.text(0, y, toLabel(numericY));
-            }
+    }
+
+    public void drawSpaceInfo(){
+        StdDraw.setPenColor();
+        StdDraw.setPenRadius(0.001);
+        double numericMin = X_MIN*primaryDistortion;
+        double numericMax = X_MAX*primaryDistortion;
+        for(double numericX = numericMin-numericMin%primaryLabelInterval; numericX <= numericMax; numericX += primaryLabelInterval){
+            if(Math.abs(numericX) < FLOAT_TOLERANCE){continue;}
+            double x = numericX/primaryDistortion;
+            StdDraw.line(x, Y_MIN, x, Y_MAX);
+            StdDraw.text(x, -(Y_MAX-Y_MIN)*X_LABEL_OFFSET, toLabel(numericX));
+        }
+        numericMin = Y_MIN*secondaryDistortion;
+        numericMax = Y_MAX*secondaryDistortion;
+        for(double numericY = numericMin-numericMin%secondaryLabelInterval; numericY <= numericMax; numericY += secondaryLabelInterval){
+            if(Math.abs(numericY) < FLOAT_TOLERANCE){continue;}
+            double y = numericY/secondaryDistortion;
+            StdDraw.line(X_MIN, y, X_MAX, y);
+            StdDraw.text(0, y, toLabel(numericY));
         }
     }
+
+    public void updateLabels(){
+        updateLabelIntervals(X_MAX-X_MIN, Y_MAX-Y_MIN);
+    }
+    
     public void updateView(){
         double xRange = X_MAX-X_MIN;
-        double xRangeIntervalRatio = xRange / primaryLabelInterval;
         double yRange = Y_MAX-Y_MIN;
-        double yRangeIntervalRatio = yRange / secondaryLabelInterval;
-        updateLabelIntervals(xRangeIntervalRatio, yRangeIntervalRatio);
-        
         // translate along x axis
         double xTranslationAmount = xRange*TRANSLATION_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
