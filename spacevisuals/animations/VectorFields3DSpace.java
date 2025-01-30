@@ -3,7 +3,7 @@ package spacevisuals.animations;
 import spacevisuals.functions.*;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.spaces.Lattice2DHelper;
+import spacevisuals.spaces.Lattice2DHelper2D;
 import spacevisuals.spaces.Lattice3DHelper;
 import edu.princeton.cs.introcs.StdDraw;
 import java.util.Hashtable;

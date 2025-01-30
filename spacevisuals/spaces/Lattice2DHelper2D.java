@@ -7,9 +7,9 @@ import java.util.function.Function;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.*;
 
-public class Lattice2DHelper<ConcreteSpace extends AbstractSpace> extends EuclideanSpaceTraverser<ConcreteSpace>{
+public class Lattice2DHelper2D extends EuclideanSpaceTraverser<Euclidean2D>{
     
-    public Lattice2DHelper(ConcreteSpace space, double pixelResolution){
+    public Lattice2DHelper2D(Euclidean2D space, double pixelResolution){
         super(space, pixelResolution);
     }
 

@@ -2,7 +2,7 @@ package spacevisuals.animations;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.Lattice2DHelper;
+import spacevisuals.spaces.Lattice2DHelper2D;
 
 import java.util.Hashtable;
 import java.util.function.Consumer;
@@ -11,11 +11,11 @@ import java.util.function.Function;
 
 public class VectorFields2DSpace extends PointSetAnimation<Euclidean2D> {
     
-	    Lattice2DHelper<Euclidean2D> traverser;
+	    Lattice2DHelper2D<Euclidean2D> traverser;
 
         public VectorFields2DSpace(Euclidean2D space, int frameSpeed, Function<Double[], Double[]> function, double pixelResolution){
             super(space, frameSpeed, function);
-            this.traverser = new Lattice2DHelper<Euclidean2D>(space, pixelResolution);
+            this.traverser = new Lattice2DHelper2D<Euclidean2D>(space, pixelResolution);
         }
 
         public void handleImage(Double[] input, Double[] output){

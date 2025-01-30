@@ -19,8 +19,8 @@ public class Lattice3DHelper extends EuclideanSpaceTraverser<Euclidean3D>{
         double numericXMax = space.X_MAX*space.primaryDistortion;
         double numericYMin = space.Y_MIN*space.primaryDistortion;
         double numericYMax = space.Y_MAX*space.primaryDistortion;
-        double numericZMin = space.Y_MIN*space.secondaryDistortion;
-        double numericZMax = space.Y_MAX*space.secondaryDistortion;
+        double numericZMin = space.Z_MIN*space.secondaryDistortion;
+        double numericZMax = space.Z_MAX*space.secondaryDistortion;
         for(double x = numericXMin; x <= numericXMax; x += xStep){
             for(double y = numericYMin; y <= numericYMax; y += yStep){
                 for(double z = numericZMin; z <= numericZMax; z += zStep){

@@ -7,6 +7,10 @@ public class Rn_R{
     }
 
     public static double dotProduct(double[] u, double[] v){
+        if(u.length != v.length) {
+            System.out.println("Error: u and v must have the same length");
+            return 0;
+		}
         double result = 0;
         for(int i = 0; i < u.length; i++){
             result += u[i]*v[i];

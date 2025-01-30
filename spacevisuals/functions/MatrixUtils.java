@@ -78,60 +78,77 @@ public class MatrixUtils {
 	}
 
 	public  double[] matrixVectorR2x2_R2(double[][] matrix, double[] vector) {
-		double[] vectorNew = new double[2];
-		vectorNew[0] = matrix[0][0] * vector[0] + matrix[0][1] * vector[1];
-		vectorNew[1] = matrix[1][0] * vector[0] + matrix[1][1] * vector[1];
-		return vectorNew;
+		double[] vectorProd = new double[2];
+		vectorProd[0] = matrix[0][0] * vector[0] + matrix[0][1] * vector[1];
+		vectorProd[1] = matrix[1][0] * vector[0] + matrix[1][1] * vector[1];
+		return vectorProd;
 	}
 
-	public  double[] matrixVectorRnxmRn_Rm(double[][] a, double[] x) {
-		double[] vector = new double[a.length];
+	public  double[] matrixVectorRmxnRn_Rm(double[][] a, double[] x) {
+		
+		double[] vectorProd = new double[a.length];
 		for(int i = 0; i < a.length; ++i) {
-			for(int j = 0; j < a[0].length; ++j) {
-				vector[i] += a[i][j] * x[j];
-			}
+			vectorProd[i] = Rn_R.dotProduct(a[i], x);
 		}
-		return vector;
+		return vectorProd;
 	}
 
 	public  double[][] matrixMatrixRmxnRnxp_Rmxp(double[][] a, double[][] b) {
 		/*
-		 * matrix a = m x n
-		 * matrix b = n x s
 		 * 
-		 * matrix product = ab = m x s
-		 * 
-		assert(a[0].length == b.length);
-		double[][] productMatrix = new double[a.length][b[0].length];
-		for(int i = 0; i < b[0].length; ++i){
-			double[] vectorProd = matrixVectorMultiplication(a, b[i]);
-		}*/
-
+		 */
+	    double[][] matrixProd = new double[a.length][b[0].length];
 	    double value = 0;
-	    double[][] product = new double[a.length][b[0].length];
-	    for(int i = 0; i < product.length; ++i){
-	      for(int j = 0; j < product[0].length; ++j){
+	    for(int i = 0; i < matrixProd.length; ++i){
+	      for(int j = 0; j < matrixProd[0].length; ++j){
 	        value = 0;
 	        for(int x = 0; x < b.length; ++x){
-	          value += a[i][x]*b[x][j];
+	        	value += a[i][x]*b[x][j];
 	        }
-	        product[i][j] = value;
-	      }
+	        matrixProd[i][j] = value;
+	    	}
 	    }
-			return product;
+		return matrixProd;
 	}
 
-	void printMatrix(double[][] matrix) {
-		for(int i = 0; i < matrix.length; ++i) {
-			for(int j = 0; j < matrix[0].length; ++j) {
-				System.out.print(matrix[i][j] + "  ");
+	public static double[][] transposeMatrix(double[][] matrix) {
+		double[][] transposed = new double[matrix[0].length][matrix.length];
+		for(int i = 0; i < matrix[0].length; ++i) {
+			for(int j = 0; j < matrix.length; ++j) {
+				transposed[i][j] = matrix[j][i];
 			}
-			System.out.println();
+		}
+		return transposed;
+	}
+
+	public static void printMatrix(double[][] matrix) {
+		int maxChars = 0;
+		for(double[] row : matrix) {
+			for(double element : row) {
+				if(Double.toString(element).length() > maxChars) {
+					maxChars = Double.toString(element).length();
+				}
+			}
+		}
+		int elementLength = 0;
+		for(int i = 0; i < matrix.length; ++i) {
+			System.out.print("[ ");
+			for(int j = 0; j < matrix[0].length; ++j) {
+				elementLength = Double.toString(matrix[i][j]).length();
+				System.out.print(matrix[i][j]);
+				for(int k = 0; k < maxChars - elementLength + 1; ++k) {
+					System.out.print(" ");
+				}
+			}
+			System.out.println("]");
 		}
 		System.out.println();
 	}
 	public static void main(String[] args) {
-		double[][] a = new double[][] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+		double[][] a = new double[][] {{1, 2, 3.1415926535}, {4, 5, 6}};
+		printMatrix(a);
+		System.out.println();
+		printMatrix(transposeMatrix(a));
 	}
 
 }

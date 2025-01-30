@@ -3,7 +3,7 @@ package spacevisuals.animations;
 import spacevisuals.functions.*;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.spaces.Lattice2DHelper;
+import spacevisuals.spaces.Lattice2DHelper2D;
 
 import java.awt.Color;
 import java.util.HashMap;
@@ -17,11 +17,11 @@ public class MandelbrotSet extends PointSetAnimation<Euclidean2D> {
     
 	public static int maxIterations = 70;
 	public static double thresholdRadius = 4;
-	Lattice2DHelper<Euclidean2D> traverser;
+	Lattice2DHelper2D<Euclidean2D> traverser;
 	
 	public MandelbrotSet(Euclidean2D space, int frameRate, int pixelResolution){
 		super(space, frameRate, MandelbrotSet::mandelbrotStatus);
-		this.traverser = new Lattice2DHelper<Euclidean2D>(space, pixelResolution);
+		this.traverser = new Lattice2DHelper2D<Euclidean2D>(space, pixelResolution);
     }
 
 	// number of iterations for location to surpass threshold radius

@@ -8,7 +8,7 @@ import java.util.function.Function;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.Lattice2DHelper;
+import spacevisuals.spaces.Lattice2DHelper2D;
 
 /* Coloring Scheme
     Color gets whiter as radius decreases
@@ -21,11 +21,11 @@ import spacevisuals.spaces.Lattice2DHelper;
 
 public class DomainColor extends PointSetAnimation<Euclidean2D>{
 
-    Lattice2DHelper<Euclidean2D> traverser;
+    Lattice2DHelper2D<Euclidean2D> traverser;
 
     public DomainColor(Euclidean2D space, int frameRate, Function<Double[], Double[]> function, int pixelResolution){
         super(space, frameRate, function);
-        this.traverser = new Lattice2DHelper<Euclidean2D> (space, pixelResolution);
+        this.traverser = new Lattice2DHelper2D<Euclidean2D> (space, pixelResolution);
     }
 
     private double sigmoid(double x, double a, double k){

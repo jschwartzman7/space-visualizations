@@ -4,19 +4,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.functions.*;;
 
-public class Polygons extends BasicAnimation<Euclidean3D>{
+public class Polygons extends BasicAnimation<AbstractSpace>{
 
     private List<double[][]> linePointPairs;
-    private MatrixUtils matrixHelper;
 
-    public Polygons(Euclidean3D space, int frameRate){
+    public Polygons(AbstractSpace space, int frameRate){
         super(space, frameRate);
         this.linePointPairs = new LinkedList<double[][]>();
-        this.matrixHelper = space.matrixUtils;
-        addCube(3, new double[]{1, 0, 0});
+        addCube(3, new double[]{2, 0, 0});
         addTetrahedron(new double[]{0, 0, 2}, 1);
     }
 
