@@ -3,7 +3,7 @@ package spacevisuals.animations;
 import spacevisuals.functions.*;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.spaces.Lattice2DHelper2D;
+import spacevisuals.spaces.helpers.Lattice2DHelper2D;
 
 import java.awt.Color;
 import java.util.HashMap;
@@ -17,11 +17,11 @@ public class MandelbrotSet extends PointSetAnimation<Euclidean2D> {
     
 	public static int maxIterations = 70;
 	public static double thresholdRadius = 4;
-	Lattice2DHelper2D<Euclidean2D> traverser;
+	Lattice2DHelper2D traverser;
 	
 	public MandelbrotSet(Euclidean2D space, int frameRate, int pixelResolution){
 		super(space, frameRate, MandelbrotSet::mandelbrotStatus);
-		this.traverser = new Lattice2DHelper2D<Euclidean2D>(space, pixelResolution);
+		this.traverser = new Lattice2DHelper2D(space, pixelResolution);
     }
 
 	// number of iterations for location to surpass threshold radius
@@ -35,11 +35,11 @@ public class MandelbrotSet extends PointSetAnimation<Euclidean2D> {
 		return mandelbrotStatusHelper(C_C.add(C_C.multiply(zCur, zCur), location), location, iterationNum + 1);
 	}
 	
-	public static Double[] mandelbrotStatus(Double[] z) {
-		return new Double[]{(double)mandelbrotStatusHelper(C_C.zero, new double[]{z[0], z[1]}, 0)};
+	public static double[] mandelbrotStatus(double[] z) {
+		return new double[]{mandelbrotStatusHelper(C_C.zero, new double[]{z[0], z[1]}, 0)};
 	}
 
-	public void handleImage(Double[] input, Double[] numIterations) {
+	public void handleImage(double[] input, double[] numIterations) {
 		double iterationsToEscape = numIterations[0];
 		/*if(MandelbrotStatus < iterationsMin) {
 				iterationsMin = MandelbrotStatus;
@@ -68,7 +68,7 @@ public class MandelbrotSet extends PointSetAnimation<Euclidean2D> {
 		return Math.exp(-.01*z);
 	}
 
-	public void traverseDomain(Consumer<Double[]> handlePoint) {
+	public void traverseDomain(Consumer<double[]> handlePoint) {
 		traverser.traverseDomain(handlePoint);
 	}
 

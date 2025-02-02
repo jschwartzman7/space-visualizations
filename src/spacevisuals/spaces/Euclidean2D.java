@@ -8,103 +8,119 @@ public class Euclidean2D extends AbstractSpace{
     private final double X_LABEL_OFFSET = 0.02;
 
     public Euclidean2D(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo){
-        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 4, 20, 0.08, 0.08);
+        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 5, 14, 0.08);
     }
 
     public double[] toDrawablePoint(double[] numericPoint){
-        return new double[]{numericPoint[0]/primaryDistortion, numericPoint[1]/secondaryDistortion};
+        return new double[]{numericPoint[0], numericPoint[1]};
     }
 
     public void drawAxes(){
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
-        StdDraw.line(X_MIN, 0, X_MAX, 0);
+        double yCord;
+        if(yMaxClip < 0){
+            yCord = yMaxClip;
+        }
+        else if (yMinClip > 0){
+            yCord = yMinClip;
+        }
+        else{
+            yCord = 0;
+        }
+        StdDraw.line(xMinClip, yCord, xMaxClip, yCord);
         StdDraw.setPenColor(StdDraw.GREEN);
-        StdDraw.line(0, Y_MIN, 0, Y_MAX);
+        double xCord;
+        if(xMaxClip < 0){
+            xCord = xMaxClip;
+        }
+        else if (xMinClip > 0){
+            xCord = xMinClip;
+        }
+        else{
+            xCord = 0;
+        }
+        StdDraw.line(xCord, yMinClip, xCord, yMaxClip);
     }
 
     public void drawSpaceInfo(){
         StdDraw.setPenColor();
         StdDraw.setPenRadius(0.001);
-        double numericMin = X_MIN*primaryDistortion;
-        double numericMax = X_MAX*primaryDistortion;
+        double numericMin = xMinClip;
+        double numericMax = xMaxClip;
         for(double numericX = numericMin-numericMin%primaryLabelInterval; numericX <= numericMax; numericX += primaryLabelInterval){
             if(Math.abs(numericX) < FLOAT_TOLERANCE){continue;}
-            double x = numericX/primaryDistortion;
-            StdDraw.line(x, Y_MIN, x, Y_MAX);
-            StdDraw.text(x, -(Y_MAX-Y_MIN)*X_LABEL_OFFSET, toLabel(numericX));
+            double x = numericX;
+            StdDraw.line(x, yMinClip, x, yMaxClip);
+            StdDraw.text(x, -(yMaxClip-yMinClip)*X_LABEL_OFFSET, toLabel(numericX));
         }
-        numericMin = Y_MIN*secondaryDistortion;
-        numericMax = Y_MAX*secondaryDistortion;
+        numericMin = yMinClip;
+        numericMax = yMaxClip;
         for(double numericY = numericMin-numericMin%secondaryLabelInterval; numericY <= numericMax; numericY += secondaryLabelInterval){
             if(Math.abs(numericY) < FLOAT_TOLERANCE){continue;}
-            double y = numericY/secondaryDistortion;
-            StdDraw.line(X_MIN, y, X_MAX, y);
+            double y = numericY;
+            StdDraw.line(xMinClip, y, xMaxClip, y);
             StdDraw.text(0, y, toLabel(numericY));
         }
     }
 
     public void updateLabels(){
-        updateLabelIntervals(X_MAX-X_MIN, Y_MAX-Y_MIN);
+        updateLabelIntervals(xMaxClip-xMinClip, yMaxClip-yMinClip);
     }
     
     public void updateView(){
-        double xRange = X_MAX-X_MIN;
-        double yRange = Y_MAX-Y_MIN;
+        double xRange = xMaxClip-xMinClip;
+        double yRange = yMaxClip-yMinClip;
         // translate along x axis
-        double xTranslationAmount = xRange*TRANSLATION_SENSITIVITY;
+        double xTranslationAmount = xRange*MOVE_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
-            translateX(xTranslationAmount);
+            translateXClip(xTranslationAmount);
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_A)){
-            translateX(-xTranslationAmount);
+            translateXClip(-xTranslationAmount);
         }
 
         // translate along y axis
-        double yTranslationAmount = yRange*TRANSLATION_SENSITIVITY;
+        double yTranslationAmount = yRange*MOVE_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_W)){
-            translateY(yTranslationAmount);
+            translateYClip(yTranslationAmount);
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
-            translateY(-yTranslationAmount);
+            translateYClip(-yTranslationAmount);
         }
 
         // zoom in / zoom out
-        double xZoomAmount = xRange*ZOOM_SENSITIVITY;
-        double yZoomAmount = yRange*ZOOM_SENSITIVITY;
+        double xZoomAmount = xRange*MOVE_SENSITIVITY;
+        double yZoomAmount = yRange*MOVE_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_Q)){
-            zoomX(-xZoomAmount);
-            zoomY(-yZoomAmount);
+            zoomXClip(-xZoomAmount);
+            zoomYClip(-yZoomAmount);
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_E)){
-            zoomX(xZoomAmount);
-            zoomY(yZoomAmount);
+            zoomXClip(xZoomAmount);
+            zoomYClip(yZoomAmount);
         }
-        double primaryDistortionAmount = primaryDistortion*ZOOM_SENSITIVITY;
-        double secondaryDistortionAmount = secondaryDistortion*ZOOM_SENSITIVITY;
         // x axis distort
         if (StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-            adjustPrimaryDistortion(-primaryDistortionAmount);
+            zoomXClip(-xZoomAmount);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-            adjustPrimaryDistortion(primaryDistortionAmount);
+            zoomXClip(xZoomAmount);
         }
 
         // y axis distort
         if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-            adjustSecondaryDistortion(-secondaryDistortionAmount);
+            zoomYClip(-yZoomAmount);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            adjustSecondaryDistortion(secondaryDistortionAmount);
+            zoomYClip(yZoomAmount);
         }
 
         // reset scale
         else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
             resetView();
         }
-
-        StdDraw.setXscale(X_MIN, X_MAX);
-        StdDraw.setYscale(Y_MIN, Y_MAX);
+        setSpaceScale();
     }
 }
 

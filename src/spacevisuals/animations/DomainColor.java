@@ -8,24 +8,15 @@ import java.util.function.Function;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.Lattice2DHelper2D;
-
-/* Coloring Scheme
-    Color gets whiter as radius decreases
-    Color gets darker as radius increases
-    Hue depends on angle
-
-
- */
-
+import spacevisuals.spaces.helpers.Lattice2DHelper2D;
 
 public class DomainColor extends PointSetAnimation<Euclidean2D>{
 
-    Lattice2DHelper2D<Euclidean2D> traverser;
+    Lattice2DHelper2D traverser;
 
-    public DomainColor(Euclidean2D space, int frameRate, Function<Double[], Double[]> function, int pixelResolution){
+    public DomainColor(Euclidean2D space, int frameRate, Function<double[], double[]> function, int pixelResolution){
         super(space, frameRate, function);
-        this.traverser = new Lattice2DHelper2D<Euclidean2D> (space, pixelResolution);
+        this.traverser = new Lattice2DHelper2D (space, pixelResolution);
     }
 
     private double sigmoid(double x, double a, double k){
@@ -42,7 +33,7 @@ public class DomainColor extends PointSetAnimation<Euclidean2D>{
         }
     }
     
-    private Color getColor2(Double[] w){
+    private Color getColor2(double[] w){
         double magnitude = Math.hypot(w[0], w[1]);
         double hue = Math.atan2(w[1], w[0])/(2*Math.PI);
         double saturation = Math.exp(-.1*magnitude);
@@ -50,7 +41,7 @@ public class DomainColor extends PointSetAnimation<Euclidean2D>{
         return Color.getHSBColor((float)hue, (float)saturation, (float)brightness);
     }
 
-    public void handleImage(Double[] z, Double[] w){
+    public void handleImage(double[] z, double[] w){
         if(w == null){
             return;
         }
@@ -61,15 +52,7 @@ public class DomainColor extends PointSetAnimation<Euclidean2D>{
         //StdDraw.filledSquare(z[0], z[1], radius);
     }
 
-    public void traverseDomain(Consumer<Double[]> handlePoint){
+    public void traverseDomain(Consumer<double[]> handlePoint){
         traverser.traverseDomain(this::handlePoint);
     }
-
-    public static void main(String[] args) {
-        // f: C -> C
-        // each z in C is colored based on the coordinates of f(z)
-    }
-
-    
-    
 }

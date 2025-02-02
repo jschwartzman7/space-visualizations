@@ -1,5 +1,6 @@
 package spacevisuals.animations;
 
+import spacevisuals.animations.helpers.*;
 import java.awt.Color;
 import java.util.LinkedList;
 import spacevisuals.spaces.Euclidean2D;

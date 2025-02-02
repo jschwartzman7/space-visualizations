@@ -29,15 +29,15 @@ public class Main {
         //System.out.println(args[0]);
         //System.out.println("^^");
         Euclidean2D euclidean2d = new Euclidean2D(10, 1, true);
-        Euclidean3D euclidean3d = new Euclidean3D(10, 1, true);
-        Perspective3D perspective3D = new Perspective3D(10, 1, false);
+        Euclidean3D euclidean3d = new Euclidean3D(10, 1, false);
+        
         BasicAnimation<Euclidean2D> basic2DAnimation = new BasicAnimation<Euclidean2D>(euclidean2d, 25);
         BasicAnimation<Euclidean3D> basic3DAnimation = new BasicAnimation<Euclidean3D>(euclidean3d, 25);
-        BasicAnimation<Perspective3D> perspective3DAnimation = new BasicAnimation<Perspective3D>(perspective3D, 25);
-        Function<Double[], Double[]> function = (Double[] point) -> {
-            return new Double[]{Math.sin(point[0]*Math.cos(point[1]))};
+        Function<double[], double[]> function = (double[] point) -> {
+            return new double[]{Math.sin(point[0]*Math.cos(point[1]))};
         };
-        Polygons polygons = new Polygons(perspective3D, 25);
-        polygons.run();
+        Polygons polygons = new Polygons(euclidean3d, 25);
+        SphereMagnet sphereMagnet = new SphereMagnet(euclidean3d, 25);
+        sphereMagnet.run();
     }
 }

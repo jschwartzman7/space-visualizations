@@ -12,13 +12,13 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 
-public class FreeformComplex2D extends PointSetAnimation<Euclidean2D>{
+public class FreeformR2_R2 extends PointSetAnimation<Euclidean2D>{
 
     // improve resolution as zooms in, same with fractals
 
     private HashSet<Double[]> points;
   
-    public FreeformComplex2D(Euclidean2D space, int frameRate, Function<Double[], Double[]> function){
+    public FreeformR2_R2(Euclidean2D space, int frameRate, Function<Double[], Double[]> function){
         super(space, frameRate, function);
         this.points = new HashSet<Double[]>();
     }

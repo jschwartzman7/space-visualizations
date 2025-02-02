@@ -1,4 +1,4 @@
-package spacevisuals.animations;
+package spacevisuals.animations.helpers;
 
 public class TimeInterval{
 

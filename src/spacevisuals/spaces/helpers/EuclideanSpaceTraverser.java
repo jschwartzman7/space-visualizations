@@ -1,4 +1,4 @@
-package spacevisuals.spaces;
+package spacevisuals.spaces.helpers;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -18,5 +18,5 @@ public abstract class EuclideanSpaceTraverser<ConcreteSpace extends AbstractSpac
         this.secondaryPixelResolution = pixelResolution;
     }
 
-    abstract void traverseDomain(Consumer<Double[]> handlePoint);
+    abstract void traverseDomain(Consumer<double[]> handlePoint);
 }
