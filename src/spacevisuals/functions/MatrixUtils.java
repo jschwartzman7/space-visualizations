@@ -5,7 +5,7 @@ public class MatrixUtils {
 
 	public static double[][] identity = new double[][] {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
 
-	public static double[][] XY(double angle) {
+	public static double[][] XY3x3(double angle) {
 		return new double[][] {{Math.cos(angle), -Math.sin(angle), 0},
 							   {Math.sin(angle),  Math.cos(angle), 0},
 							   {0, 0, 1}};
@@ -16,13 +16,13 @@ public class MatrixUtils {
 							   {0, 0, 1, 0},
 							   {0, 0, 0, 1}};
 	}
-	public static double[] XYRotate(double angle, double[] input) {
+	public static double[] XYRotate3x3(double angle, double[] input) {
 		return new double[]{input[0]*Math.cos(angle) - input[1]*Math.sin(angle),
 							input[0]*Math.sin(angle) + input[1]*Math.cos(angle),
 							input[2]};
 	}
 
-	public static double[][] YZ(double angle) {
+	public static double[][] YZ3x3(double angle) {
 		return new double[][] {{1, 0, 0},
 							   {0, Math.cos(angle), -Math.sin(angle)},
 							   {0, Math.sin(angle), Math.cos(angle)}};
@@ -33,13 +33,13 @@ public class MatrixUtils {
 							   {0, Math.sin(angle), Math.cos(angle), 0},
 							   {0, 0, 0, 1}};
 	}
-	public static double[] YZRotate(double angle, double[] input) {
+	public static double[] YZRotate3x3(double angle, double[] input) {
 		return new double[]{input[0],
 							input[1]*Math.cos(angle) - input[2]*Math.sin(angle),
 							input[1]*Math.sin(angle) + input[2]*Math.cos(angle)};
 	}
 
-	public static double[][] XZ(double angle) {
+	public static double[][] XZ3x3(double angle) {
 		return new double[][] {{Math.cos(angle), 0, Math.sin(angle)},
 							   {0, 1, 0},
 							   {-Math.sin(angle), 0, Math.cos(angle)}};
@@ -50,7 +50,7 @@ public class MatrixUtils {
 							   {-Math.sin(angle), 0, Math.cos(angle), 0},
 							   {0, 0, 0, 1}};
 	}
-	public static double[] XZRotate(double angle, double[] input) {
+	public static double[] XZRotate3x3(double angle, double[] input) {
 		return new double[]{input[0]*Math.cos(angle) + input[2]*Math.sin(angle),
 							input[1],
 							-input[0]*Math.sin(angle) + input[2]*Math.cos(angle)};

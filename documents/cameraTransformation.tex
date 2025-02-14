@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+\title{Space Visualizations}
+\author{Jonah Schwartzman}
+\date{\today}
+
+\maketitle
+
+\section{Introduction}
+This document is not real.
+
+\section{Camera3D}
+A Camera3D represents a viewer in 3D space, with a focal length to the view plane. The main function of a Camera3D is to convert from a point in world view to a 2D point on the view plane.
+\begin{itemize}
+    \item $x$
+    \item $y$
+    \item $z$
+    \item pitch (angle 1): $\theta$
+    \item roll (angle 2): $\phi$
+    \item yaw (angle 3): $\gamma$
+    \item focal length: $f$
+\end{itemize}
+
+\section{Transform Idea}
+Keep track of how the camera moves with user input, and use this to convert world points to view plane points.
+\newline\newline Taking $f > 0$ and all other values 0 to correspond to the camera facing down the positive z-axis, with x and y axes normalized, placed at $(0,0,0)$ with view plane centered at $(0, 0, f)$ camera coordinates, parallel to the xy-plane. So the view
+\newline\newline \textbf{How to convert from (x, y, z) in the world to (X, Y) on the screen?}
+
+    \texttt{StdDraw.point(xClip, yClip)}
+    \[worldPoint =  \begin{pmatrix}
+    x \\ y \\ z
+    \end{pmatrix}\]
+    \[T(worldPoint) = \begin{pmatrix}
+    \text{xClip} \\ \text{yClip}
+    \end{pmatrix}\]
+Find $T$ that converts from world coordinates to clipping coodinates.
+\[T: WorldSpace \longrightarrow CameraSpace \longrightarrow ClipSpace\]
+Figure out which way to apply the transformations from in matrices.
+
+
+\end{document}

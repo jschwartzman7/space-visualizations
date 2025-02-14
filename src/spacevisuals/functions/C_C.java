@@ -6,18 +6,26 @@ import java.util.function.Function;
 public class C_C{
     /*
      * Function: C -> C, where C ~ R^2 is the complex plane
-     * z in C = a + ib, where a and b in R
+     * z in C = a + ib, where a and b are in R
      */
-    public static double[] one = new double[]{1.0, 0.0};
-    public static double[] i = new double[]{0.0, 1.0};
-    public static double[] zero = new double[]{0.0, 0.0};
+    public static double[] one = new double[]{1, 0};
+    public static double[] i = new double[]{0, 1};
+    public static double[] zero = new double[]{0, 0};
     
-    public static double[] f(double[] input){
-        return exp(multiply(input, input));
+    public static double[] essentialSingularity(double[] input){
+        return exp(divide(one, input));
+    }
+
+    public static double[] identity(double[] z){
+        return new double[]{z[0], z[1]};
+    }
+
+    public static double[] negative(double[] z){
+        return new double[]{-z[0], -z[1]};
     }
 
     public static double[] zeroFunction(){
-        return new double[]{zero[0], zero[1]};
+        return new double[]{0, 0};
     }
 
     public static double[] conjugate(double[] z){ // a - bi
@@ -37,12 +45,12 @@ public class C_C{
     }
 
     public static double[] divide(double[] z, double[] w){ // z / w = (z*conj(w))/(w*conj(w)) = (z*conj(w))/(|w|^2)
-        if(w[0] == 0 && w[1] == 0){
+        double denominator = w[0]*w[0] + w[1]*w[1];
+        if(denominator == 0){
             System.out.println("Divide by 0: z/w");
             return new double[]{Double.MAX_VALUE, Double.MAX_VALUE};
         }
         double[] numerator = multiply(z, conjugate(w));
-        double denominator = w[0]*w[0] + w[1]*w[1];
         return new double[]{numerator[0]/denominator, numerator[1]/denominator};
     }
         

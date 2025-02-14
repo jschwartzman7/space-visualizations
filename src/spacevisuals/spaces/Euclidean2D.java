@@ -1,17 +1,32 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.helpers.*;
+import spacevisuals.Animation;
 import java.awt.event.KeyEvent;
 
 public class Euclidean2D extends AbstractSpace{
 
     private final double X_LABEL_OFFSET = 0.02;
+    
 
-    public Euclidean2D(int defaultScale, double defaultLabelInterval, boolean viewSpaceInfo){
-        super(defaultScale, defaultLabelInterval, viewSpaceInfo, 5, 14, 0.08);
+    public Euclidean2D(boolean viewSpaceInfo){
+        super(viewSpaceInfo);
+        if(viewSpaceInfo){
+            initializeLabeler();
+        }
+    }
+    public Euclidean2D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
+        super(defaultScale, moveSensitivity, viewSpaceInfo);
+        if(viewSpaceInfo){
+            initializeLabeler();
+        }
     }
 
-    public double[] toDrawablePoint(double[] numericPoint){
+    private void initializeLabeler(){
+        this.labeler = new AxisLabeler(new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
+    }
+    public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};
     }
 
@@ -19,106 +34,105 @@ public class Euclidean2D extends AbstractSpace{
         StdDraw.setPenRadius();
         StdDraw.setPenColor(StdDraw.BLUE);
         double yCord;
-        if(yMaxClip < 0){
-            yCord = yMaxClip;
+        if(yClipMax < 0){
+            yCord = yClipMax;
         }
-        else if (yMinClip > 0){
-            yCord = yMinClip;
+        else if (yClipMin > 0){
+            yCord = yClipMin;
         }
         else{
             yCord = 0;
         }
-        StdDraw.line(xMinClip, yCord, xMaxClip, yCord);
+        StdDraw.line(xClipMin, yCord, xClipMax, yCord);
         StdDraw.setPenColor(StdDraw.GREEN);
         double xCord;
-        if(xMaxClip < 0){
-            xCord = xMaxClip;
+        if(xClipMax < 0){
+            xCord = xClipMax;
         }
-        else if (xMinClip > 0){
-            xCord = xMinClip;
+        else if (xClipMin > 0){
+            xCord = xClipMin;
         }
         else{
             xCord = 0;
         }
-        StdDraw.line(xCord, yMinClip, xCord, yMaxClip);
+        StdDraw.line(xCord, yClipMin, xCord, yClipMax);
     }
 
-    public void drawSpaceInfo(){
+    public void drawLabels(){
         StdDraw.setPenColor();
         StdDraw.setPenRadius(0.001);
-        double numericMin = xMinClip;
-        double numericMax = xMaxClip;
-        for(double numericX = numericMin-numericMin%primaryLabelInterval; numericX <= numericMax; numericX += primaryLabelInterval){
+        double numericMin = xClipMin;
+        double numericMax = xClipMax;
+        for(double numericX = numericMin-numericMin%labeler.labelIntervals[0]; numericX <= numericMax; numericX += labeler.labelIntervals[0]){
             if(Math.abs(numericX) < FLOAT_TOLERANCE){continue;}
             double x = numericX;
-            StdDraw.line(x, yMinClip, x, yMaxClip);
-            StdDraw.text(x, -(yMaxClip-yMinClip)*X_LABEL_OFFSET, toLabel(numericX));
+            StdDraw.line(x, yClipMin, x, yClipMax);
+            StdDraw.text(x, -(yClipMax-yClipMin)*X_LABEL_OFFSET, toLabel(numericX));
         }
-        numericMin = yMinClip;
-        numericMax = yMaxClip;
-        for(double numericY = numericMin-numericMin%secondaryLabelInterval; numericY <= numericMax; numericY += secondaryLabelInterval){
+        numericMin = yClipMin;
+        numericMax = yClipMax;
+        for(double numericY = numericMin-numericMin%labeler.labelIntervals[1]; numericY <= numericMax; numericY += labeler.labelIntervals[1]){
             if(Math.abs(numericY) < FLOAT_TOLERANCE){continue;}
             double y = numericY;
-            StdDraw.line(xMinClip, y, xMaxClip, y);
+            StdDraw.line(xClipMin, y, xClipMax, y);
             StdDraw.text(0, y, toLabel(numericY));
         }
     }
 
     public void updateLabels(){
-        updateLabelIntervals(xMaxClip-xMinClip, yMaxClip-yMinClip);
+        if(VIEW_SPACE_INFO){
+            double xClipRange = xClipMax-xClipMin;
+            labeler.updateLabelInterval(0, xClipRange);
+            double yClipRange = yClipMax-yClipMin;
+            labeler.updateLabelInterval(1, yClipRange);
+        }
     }
     
     public void updateView(){
-        double xRange = xMaxClip-xMinClip;
-        double yRange = yMaxClip-yMinClip;
         // translate along x axis
-        double xTranslationAmount = xRange*MOVE_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
-            translateXClip(xTranslationAmount);
+            translateXClipPos();
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_A)){
-            translateXClip(-xTranslationAmount);
+            translateXClipNeg();
         }
 
         // translate along y axis
-        double yTranslationAmount = yRange*MOVE_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_W)){
-            translateYClip(yTranslationAmount);
+            translateYClipPos();
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
-            translateYClip(-yTranslationAmount);
+            translateYClipNeg();
         }
 
         // zoom in / zoom out
-        double xZoomAmount = xRange*MOVE_SENSITIVITY;
-        double yZoomAmount = yRange*MOVE_SENSITIVITY;
         if(StdDraw.isKeyPressed(KeyEvent.VK_Q)){
-            zoomXClip(-xZoomAmount);
-            zoomYClip(-yZoomAmount);
+            zoomXClipIn();
+            zoomYClipIn();
         }
         else if (StdDraw.isKeyPressed(KeyEvent.VK_E)){
-            zoomXClip(xZoomAmount);
-            zoomYClip(yZoomAmount);
+            zoomXClipOut();
+            zoomYClipOut();
         }
         // x axis distort
         if (StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-            zoomXClip(-xZoomAmount);
+            zoomXClipIn();
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-            zoomXClip(xZoomAmount);
+            zoomXClipOut();
         }
 
         // y axis distort
         if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-            zoomYClip(-yZoomAmount);
+            zoomYClipIn();
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            zoomYClip(yZoomAmount);
+            zoomYClipOut();
         }
 
         // reset scale
         else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
-            resetView();
+            resetClipScale();
         }
         setSpaceScale();
     }
