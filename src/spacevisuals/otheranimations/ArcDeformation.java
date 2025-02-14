@@ -9,7 +9,7 @@ import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.Euclidean2D;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ArcDeformation implements Animation {
+public class ArcDeformation extends SpaceAnimation<Euclidean2D> {
 
     // draw "continuously" deforming semi-circles starting from upper hemisphere ending at lower hemisphere
     // StdDraw.arc(x, y, radius, angle1, angle2);
@@ -22,10 +22,9 @@ public class ArcDeformation implements Animation {
     TimeInterval T;
     private Color color = new Color(5, 20, 10);
     private double penWidth = 0.008;
-    Euclidean2D space;
     
     public ArcDeformation(Euclidean2D space){
-        this.space = space;
+        super(space);
         //this.shadowLength = shadowLength;
         //this.shadow = new LinkedList<Double>();
         this.T = new TimeInterval(-1, 1, 0.03);

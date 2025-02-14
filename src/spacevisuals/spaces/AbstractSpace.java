@@ -1,13 +1,13 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.Animation;
+import spacevisuals.SpaceAnimation;
 import spacevisuals.helpers.AxisLabeler;
 /*
 * Base class for Euclidean space to be rendered
 * Extended by R2 and R3
 */
-public abstract class AbstractSpace implements Animation {
+public abstract class AbstractSpace {
     protected final int CANVAS_WIDTH = 700;
     protected final int CANVAS_HEIGHT = 700;
     protected final double FLOAT_TOLERANCE = 0.000001;
@@ -124,12 +124,12 @@ public abstract class AbstractSpace implements Animation {
     public String toLabel(double number){
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
-    public void updateAnimation(){
+    public void updateSpace(){
         updateView();
         if(VIEW_SPACE_INFO){updateLabels();}
     };
 
-    public void drawAnimation(){
+    public void drawSpace(){
         drawAxes();
         if(VIEW_SPACE_INFO){drawLabels();}
     };

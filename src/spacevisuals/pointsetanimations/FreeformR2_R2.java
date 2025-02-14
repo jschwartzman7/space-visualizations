@@ -17,15 +17,14 @@ import spacevisuals.*;
 import spacevisuals.helpers.*;
 
 
-public class FreeformR2_R2 implements PointSetAnimation{
+public class FreeformR2_R2 extends PointSetAnimation<Euclidean2D>{
 
-    Euclidean2D space;
-    public Function<double[], double[]> function;
     private LinkedList<double[]> points;
     private LinkedList<Color> pointColors;
     private double pointRadius = 0.01;
   
     public FreeformR2_R2(Euclidean2D space, Function<double[], double[]> function){
+        super(space, function);
         this.space = space;
         this.function = function;
         this.points = new LinkedList<double[]>();

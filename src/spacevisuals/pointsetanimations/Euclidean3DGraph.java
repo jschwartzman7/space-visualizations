@@ -10,16 +10,13 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Euclidean3DGraph implements PointSetAnimation {
+public class Euclidean3DGraph extends PointSetAnimation<Euclidean3D> {
 
     Euclidean3DTraverser2D traverser;
-    Function<double[], double[]> function;
-    Euclidean3D space;
 
     public Euclidean3DGraph(Euclidean3D space, Function<double[], double[]> function){
-        this.space = space;
+        super(space, function);
         this.traverser = new Euclidean3DTraverser2D(space);
-        this.function = function;
     }
 
     public void traverseDomain(Consumer<double[]> handlePoint){

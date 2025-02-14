@@ -12,17 +12,14 @@ import java.awt.event.KeyEvent;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.helpers.Euclidean2DTraverser;
 
-public class DomainColor implements PointSetAnimation{
+public class DomainColor extends PointSetAnimation<Euclidean2D>{
 
     Euclidean2DTraverser traverser;
-    Function<double[], double[]> function;
     ColorHelper colorHelper = new ColorHelper(2);
-    Euclidean2D space;
 
     public DomainColor(Euclidean2D space, Function<double[], double[]> function){
-        this.space = space;
+        super(space, function);
         this.traverser = new Euclidean2DTraverser (space);
-        this.function = function;
     }
 
     public void handlePoint(double[] z){

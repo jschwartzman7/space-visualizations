@@ -1,8 +1,6 @@
 # space-visualizations
 
-Visualizing functions in multiple dimensions through 
-Exploring 3D graphing, complex valued functions, and fractals through StdDraw Java drawing api.
-
+Visualizing functions and spaces in multiple dimensions through coloring techniques, vector fields, user manipulation, and perspective changes. Relies on Java StdDraw drawing for rendering shapes.
 
 To run the program:
 
@@ -14,3 +12,8 @@ Ensure you have access permissions
 
 Start the program with arguments[i=0]
 % ./run.sh <arguments[i]> <arguments[i+1]>
+
+Help:
+animation options:
+
+animation input parameters should be based on the same space, meaning either all 2D spaces or all 3D spaces.

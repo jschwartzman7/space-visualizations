@@ -29,9 +29,9 @@ public class Camera3DSpace {
         this.yaw = DEFAULT_YAW;
         this.DEFAULT_X = 10;
         this.x = DEFAULT_X;
-        this.DEFAULT_Y = 10;
+        this.DEFAULT_Y = 0;
         this.y = DEFAULT_Y;
-        this.DEFAULT_Z = 10;
+        this.DEFAULT_Z = 0;
         this.z = DEFAULT_Z;
         this.DEFAULT_FOCAL_LENGTH = 3;
         this.focalLength = DEFAULT_FOCAL_LENGTH;
@@ -64,8 +64,8 @@ public class Camera3DSpace {
         worldPoint[0] -= x;
         worldPoint[1] -= y;
         worldPoint[2] -= z;
-        worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(getCameraPosition(), worldPoint);
-        //worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.YZ3x3(-yaw), MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.XZ3x3(-roll), MatrixUtils.XY3x3(-pitch))), worldPoint);
+        //worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(getCameraPosition(), worldPoint);
+        worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.YZ3x3(-yaw), MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.XZ3x3(-roll), MatrixUtils.XY3x3(-pitch))), worldPoint);
         return worldPoint;
     }
 

@@ -7,7 +7,7 @@ import spacevisuals.functions.*;
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class VectorField3D implements PointSetAnimation {
+public class VectorField3D extends PointSetAnimation<Euclidean3D> {
 
         MatrixUtils matrixHelper;
         private double vectorLengthFraction;
@@ -17,11 +17,10 @@ public class VectorField3D implements PointSetAnimation {
         Euclidean3D space;
     
         public VectorField3D(Euclidean3D space, Function<double[], double[]> function){
-            this.space = space;
+            super(space, function);
             this.matrixHelper = space.matrixUtils;
             this.vectorLengthFraction = 0.1;
             this.vectorLength = 0.1;
-            this.function = function;
             this.traverser = new Euclidean3DTraverser(space);
         }
 

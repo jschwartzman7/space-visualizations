@@ -2,7 +2,7 @@ package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.helpers.*;
-import spacevisuals.Animation;
+import spacevisuals.SpaceAnimation;
 import java.awt.event.KeyEvent;
 
 public class Euclidean2D extends AbstractSpace{

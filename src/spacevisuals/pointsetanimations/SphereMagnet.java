@@ -8,17 +8,18 @@ import java.util.function.Consumer;
 import spacevisuals.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class SphereMagnet implements PointSetAnimation {
+public class SphereMagnet extends PointSetAnimation<Euclidean3D> {
 
     private double maxPointRadius = 70;
     private int numPoints = 25000;
     private double[][] points;
-    private TimeInterval T;
+    private TimeInterval timeInterval;
     Euclidean3D space;
 
     public SphereMagnet(Euclidean3D space){
+        super(space, SphereMagnet::transformPoint);
         this.space = space;
-        this.T = new TimeInterval(.5, 1, 0.004);
+        this.timeInterval = new TimeInterval(.5, 1, 0.004);
         this.points = new double[numPoints][3];
         for(int i = 0; i < points.length; i++){
             double x = Math.random()-0.5;
@@ -34,20 +35,20 @@ public class SphereMagnet implements PointSetAnimation {
     }
 
     public void updateAnimation(){
-        T.updateT();
+        timeInterval.updateT();
     }
 
     /*public static double[] transformPoint(double t, Double[] input){
         return new double[]{input[0]*(1+t*(1/Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2))-1)), input[1]*(1+t*(1/Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2))-1))};
     }*/
-    public static double[] transformPoint(double t, double[] input){
+    public static double[] transformPoint(double[] input){
         double x = input[0];
         double y = input[1];
         double z = input[2];
         double r = Math.sqrt(x*x+y*y+z*z);
         double theta = Math.acos(z/r);
         double phi = Math.atan2(y, x);
-        double newR = r*(1+t*(1/r-1));
+        double newR = r*(1+input[3]*(1/r-1));
         return new double[]{newR*Math.sin(theta)*Math.cos(phi), newR*Math.sin(theta)*Math.sin(phi), newR*Math.cos(theta)};
 
     }
@@ -58,11 +59,11 @@ public class SphereMagnet implements PointSetAnimation {
             StdDraw.point(point[0], point[1]);
         }
         else{
-            double[] point = space.toViewScreenPoint(transformPoint(T.t, input));
+            double[] point = space.toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
             StdDraw.point(point[0], point[1]);
         }
     }
-
+    
     @Override
     public void traverseDomain(Consumer<double[]> handlePoint) {
         for(int i = 0; i < points.length; i++){

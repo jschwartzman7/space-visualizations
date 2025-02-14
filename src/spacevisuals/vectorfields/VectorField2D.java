@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class VectorField2D implements PointSetAnimation {
+public class VectorField2D extends PointSetAnimation<Euclidean2D> {
     
         Euclidean2D space;
         Function<double[], double[]> function;
@@ -18,9 +18,9 @@ public class VectorField2D implements PointSetAnimation {
         private double vectorRadius = 0.002;
         
         public VectorField2D(Euclidean2D space, Function<double[], double[]> function){
+            super(space, function);
             this.space = space;
             this.traverser = new Euclidean2DTraverser(space, 20);
-            this.function = function;
         }
 
         public void handlePoint(double[] input){

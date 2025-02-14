@@ -5,15 +5,14 @@ import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.Animation;
+import spacevisuals.SpaceAnimation;
 
-public class Polygons implements Animation {
+public class Polygons extends SpaceAnimation<Euclidean3D> {
 
     private List<double[][]> linePointPairs;
-    private Euclidean3D space;
-
+    
     public Polygons(Euclidean3D space){
-        this.space = space;
+        super(space);
         this.linePointPairs = new LinkedList<double[][]>();
         addCube(3, new double[]{2, 0, 0});
         addTetrahedron(new double[]{0, 0, 2}, 1);

@@ -9,39 +9,39 @@ import edu.princeton.cs.introcs.StdDraw;
 /*
  * Object for running animations in a specific space
  */
-public class SpaceAnimationRunner {
+public class SpaceAnimationRunner<T extends AbstractSpace> {
     
-    AbstractSpace space;
+    T space;
     int frameRate;
-    public LinkedList<Animation> animations;
+    LinkedList<SpaceAnimation<T>> animations;
 
-    public SpaceAnimationRunner(AbstractSpace space, int frameRate){
+    public SpaceAnimationRunner(T space, int frameRate){
         this.space = space;
         this.frameRate = frameRate;
-        this.animations = new LinkedList<Animation>();
+        this.animations = new LinkedList<SpaceAnimation<T>>();
     }
-    public SpaceAnimationRunner(AbstractSpace space, int frameRate, LinkedList<Animation> animations){
+    public SpaceAnimationRunner(T space, int frameRate, LinkedList<SpaceAnimation<T>> animations){
         this.space = space;
         this.frameRate = frameRate;
         this.animations = animations;
     }
 
     public void updateAnimation(){
-        for(Animation animation : animations){
+        for(SpaceAnimation<T> animation : animations){
             animation.updateAnimation();
         }
     };
     public void drawAnimation(){
-        for(Animation animation : animations){
+        for(SpaceAnimation<T> animation : animations){
             animation.drawAnimation();
         }
     };
     public void run(){
         while(true){
             StdDraw.clear();
-            space.updateAnimation();
+            space.updateSpace();
             this.updateAnimation();
-            space.drawAnimation();
+            space.drawSpace();
             this.drawAnimation();
             StdDraw.show(frameRate);
         }

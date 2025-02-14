@@ -8,7 +8,6 @@ import spacevisuals.functions.C_C;
 import spacevisuals.functions.Rn_R;
 import spacevisuals.functions.statistics;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.helpers.Euclidean2DTraverser;
 import spacevisuals.other.fractalIterStats;
 
 import java.awt.Color;
@@ -16,7 +15,7 @@ import java.awt.event.KeyEvent;
 
 import spacevisuals.*;
 
-public class JuliaSet implements PointSetAnimation {
+public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 
 	public static double[][] juliaSetConstants = new double[][]{
 												new double[]{.355, .355},
@@ -31,16 +30,14 @@ public class JuliaSet implements PointSetAnimation {
 	ColorHelper colorHelper = new ColorHelper(1);
 	public String fileName = "JuliaSetINSIDE";
 	public int fileCounter = 0;
-	Euclidean2D space;
-
 	
 	public JuliaSet(Euclidean2D space){
-		this.space = space;							
+		super(space);					
 		this.traverser = new Euclidean2DTraverser(space);
 		this.c = juliaSetConstants[juliaSetConstants.length-1];
     }
     public JuliaSet(Euclidean2D space, double[] c){
-		this.space = space;
+		super(space);
 		this.traverser = new Euclidean2DTraverser(space);
         this.c = c;
     }
