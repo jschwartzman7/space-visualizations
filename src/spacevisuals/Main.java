@@ -15,6 +15,7 @@ public class Main {
     static Euclidean2D euclidean2d = new Euclidean2D(5, .08, true);
     static Euclidean3D euclidean3d = new Euclidean3D(5, .08, true);
     static Function<double[], double[]> function = (double[] point) -> C_C.multiply(point, point);
+    static Function<double[], double[]> complexLog = (double[] point) -> new double[]{Rn_R.magnitude((C_C.log(point)))};
     static SpaceAnimationRunner animationRunner;
     static SpaceAnimationRunner<Euclidean2D> animationRunner2d = new SpaceAnimationRunner<Euclidean2D>(euclidean2d, 25);
     static SpaceAnimationRunner<Euclidean3D> animationRunner3d = new SpaceAnimationRunner<Euclidean3D>(euclidean3d, 25);
@@ -30,7 +31,7 @@ public class Main {
     static HashMap<String, SpaceAnimation<Euclidean3D>> animations3d = new HashMap<String, SpaceAnimation<Euclidean3D>>(){
        {
         put("vectorfield3d", new VectorField3D(euclidean3d, function));
-        put("graph3d", new Euclidean3DGraph(euclidean3d, function));
+        put("graph3d", new Euclidean3DGraph(euclidean3d, complexLog));
         put("polygons", new Polygons(euclidean3d));
         put("spheremagnet", new SphereMagnet(euclidean3d));
         };

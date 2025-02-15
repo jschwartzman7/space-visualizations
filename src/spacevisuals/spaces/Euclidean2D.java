@@ -2,13 +2,11 @@ package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.helpers.*;
-import spacevisuals.SpaceAnimation;
 import java.awt.event.KeyEvent;
 
 public class Euclidean2D extends AbstractSpace{
 
     private final double X_LABEL_OFFSET = 0.02;
-    
 
     public Euclidean2D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
