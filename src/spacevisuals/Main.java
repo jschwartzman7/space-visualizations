@@ -4,34 +4,32 @@ import java.util.function.*;
 import spacevisuals.pointsetanimations.*;
 import spacevisuals.fractalanimations.*;
 import spacevisuals.functions.*;
-import spacevisuals.vectorfields.*;
+import spacevisuals.vectorfieldanimations.*;
 import spacevisuals.spaces.*;
+import spacevisuals.spaces.axislabelers.*;
 import spacevisuals.otheranimations.*;
 import java.util.HashMap;
 
 
 public class Main {
-
     static Euclidean2D euclidean2d = new Euclidean2D(5, .08, true);
     static Euclidean3D euclidean3d = new Euclidean3D(5, .08, true);
-    static Function<double[], double[]> function = (double[] point) -> C_C.multiply(point, point);
-    static Function<double[], double[]> complexLog = (double[] point) -> new double[]{Rn_R.magnitude((C_C.log(point)))};
-    static SpaceAnimationRunner animationRunner;
     static SpaceAnimationRunner<Euclidean2D> animationRunner2d = new SpaceAnimationRunner<Euclidean2D>(euclidean2d, 25);
     static SpaceAnimationRunner<Euclidean3D> animationRunner3d = new SpaceAnimationRunner<Euclidean3D>(euclidean3d, 25);
     static HashMap<String, SpaceAnimation<Euclidean2D>> animations2d = new HashMap<String, SpaceAnimation<Euclidean2D>>(){
         {     
-        put("vectorfield2d", new VectorField2D(euclidean2d, function));
-        put("domaincolor", new DomainColor(euclidean2d, function));
-        put("freeform2d", new FreeformR2_R2(euclidean2d, function));
+        put("vectorfield2d", new VectorField2D(euclidean2d, FunctionHandler.functions.get("pairwisesine")));
+        put("domaincolor", new DomainColor(euclidean2d, FunctionHandler.functions.get("pairwisesine")));
+        put("freeform2d", new FreeformR2_R2(euclidean2d, C_C::essentialSingularity));
         put("juliaset", new JuliaSet(euclidean2d));
         put("mandelbrot", new MandelbrotSet(euclidean2d));
         };
     };
+    // animations3d keys = "vectorfield3d", "graph3d", "polygons", "spheremagnet"
     static HashMap<String, SpaceAnimation<Euclidean3D>> animations3d = new HashMap<String, SpaceAnimation<Euclidean3D>>(){
        {
-        put("vectorfield3d", new VectorField3D(euclidean3d, function));
-        put("graph3d", new Euclidean3DGraph(euclidean3d, complexLog));
+        put("vectorfield3d", new VectorField3D(euclidean3d, FunctionHandler.functions.get("sumsines")));
+        put("graph3d", new Euclidean3DGraph(euclidean3d, FunctionHandler.functions.get("sunsquares")));
         put("polygons", new Polygons(euclidean3d));
         put("spheremagnet", new SphereMagnet(euclidean3d));
         };
@@ -39,13 +37,12 @@ public class Main {
 
     public static void runAnimationBuilder(){
         if(animationRunner3d.animations.size() > 0){
-            animationRunner = animationRunner3d;
             System.out.println("Running 3D animations.");
+            animationRunner3d.run();
         }
         else{
-            animationRunner = animationRunner2d;
+            animationRunner2d.run();
         }
-        animationRunner.run();
     }
 
     public static void handleCommandLineArgs(String[] args){
@@ -70,6 +67,7 @@ public class Main {
 
     public static void main(String[] args) {
         handleCommandLineArgs(args);
+        //handleCommandLineArgs(new String[]{"domaincolor"});
         runAnimationBuilder();
     }
 }

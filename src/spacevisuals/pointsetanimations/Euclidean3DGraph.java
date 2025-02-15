@@ -2,21 +2,23 @@ package spacevisuals.pointsetanimations;
 
 
 import spacevisuals.*;
-import spacevisuals.functions.MatrixUtils;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.helpers.Euclidean3DTraverser2D;
+import spacevisuals.spaces.spacetraversers.Euclidean3DPlaneTraverser;
 import edu.princeton.cs.introcs.StdDraw;
-
+import spacevisuals.colors.*;
+import java.awt.Color;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class Euclidean3DGraph extends PointSetAnimation<Euclidean3D> {
 
-    Euclidean3DTraverser2D traverser;
+    Euclidean3DPlaneTraverser traverser;
+    ColorStrategy colorHelper;
 
     public Euclidean3DGraph(Euclidean3D space, Function<double[], double[]> function){
         super(space, function);
-        this.traverser = new Euclidean3DTraverser2D(space);
+        this.traverser = new Euclidean3DPlaneTraverser(space);
+        this.colorHelper = new DomainColorStrategy();
     }
 
     public void traverseDomain(Consumer<double[]> handlePoint){
@@ -29,9 +31,14 @@ public class Euclidean3DGraph extends PointSetAnimation<Euclidean3D> {
         if (output[0] < space.zAxisMin || output[0] > space.zAxisMax){
             return;
         }
-        double[] point = space.toViewScreenPoint(new double[]{input[0], input[1], output[0]});
-        StdDraw.setPenColor();
-        StdDraw.point(point[0], point[1]);
+        if(output.length > 1){
+            for(double outputPoint: output){
+                double[] point = space.toViewScreenPoint(new double[]{input[0], input[1], outputPoint});
+                StdDraw.setPenColor(colorHelper.getColor(input));
+                StdDraw.point(point[0], point[1]);
+            }
+        }
+        
     }
 
 }

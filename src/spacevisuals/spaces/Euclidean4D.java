@@ -27,10 +27,6 @@ public class Euclidean4D extends AbstractSpace {
         throw new UnsupportedOperationException("Unimplemented method 'updateView'");
     }
     @Override
-    public void updateLabels() {
-        
-    }
-    @Override
     public void drawAxes() {
         for(double w = wMin; w < wMax; w += wResolution){
             double distance = Math.abs(w - wViewRadius);
@@ -43,6 +39,12 @@ public class Euclidean4D extends AbstractSpace {
     @Override
     public void drawLabels() {
         
+    }
+
+    @Override
+    public void initializeLabeler() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'initializeLabeler'");
     }
 
     

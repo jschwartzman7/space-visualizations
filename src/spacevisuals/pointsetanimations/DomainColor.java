@@ -1,25 +1,23 @@
 package spacevisuals.pointsetanimations;
 
 import spacevisuals.*;
-import spacevisuals.helpers.ColorHelper;
-import edu.princeton.cs.introcs.StdDraw;
-import java.lang.Math;
-import java.util.HashSet;
+import spacevisuals.colors.ColorStrategy;
+import spacevisuals.colors.DomainColorStrategy;
+
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
-import java.awt.event.KeyEvent;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.helpers.Euclidean2DTraverser;
+import spacevisuals.spaces.spacetraversers.ClippingTraverser;
 
 public class DomainColor extends PointSetAnimation<Euclidean2D>{
 
-    Euclidean2DTraverser traverser;
-    ColorHelper colorHelper = new ColorHelper(2);
+    ClippingTraverser traverser;
+    ColorStrategy colorHelper = new DomainColorStrategy();
 
     public DomainColor(Euclidean2D space, Function<double[], double[]> function){
         super(space, function);
-        this.traverser = new Euclidean2DTraverser (space);
+        this.traverser = new ClippingTraverser (space);
     }
 
     public void handlePoint(double[] z){

@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import spacevisuals.*;
+import spacevisuals.colors.ColorStrategy;
 import spacevisuals.helpers.*;
 
 
@@ -47,7 +48,7 @@ public class FreeformR2_R2 extends PointSetAnimation<Euclidean2D>{
         if(StdDraw.isMousePressed()){
             double [] newPoint = new double[]{StdDraw.mouseX(), StdDraw.mouseY()};
             points.add(newPoint);
-            pointColors.add(ColorHelper.getRandomColor());
+            pointColors.add(ColorStrategy.getRandomColor());
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_R)){
             points.clear();

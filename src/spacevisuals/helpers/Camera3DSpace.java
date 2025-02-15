@@ -1,6 +1,6 @@
 package spacevisuals.helpers;
 
-import spacevisuals.functions.MatrixUtils;
+import spacevisuals.functions.Matrix3D;
 
 public class Camera3DSpace {
 
@@ -21,19 +21,19 @@ public class Camera3DSpace {
     public double focalLength;
 
     public Camera3DSpace(){
-        this.DEFAULT_PITCH = -Math.PI/3;
+        this.DEFAULT_PITCH = 0;
         this.pitch = DEFAULT_PITCH;
-        this.DEFAULT_ROLL = Math.PI/3;
+        this.DEFAULT_ROLL = 0;
         this.roll = DEFAULT_ROLL;
-        this.DEFAULT_YAW = Math.PI/3;
+        this.DEFAULT_YAW = -Math.PI/2;
         this.yaw = DEFAULT_YAW;
-        this.DEFAULT_X = 10;
+        this.DEFAULT_X = 1;
         this.x = DEFAULT_X;
-        this.DEFAULT_Y = 0;
+        this.DEFAULT_Y = 10;
         this.y = DEFAULT_Y;
-        this.DEFAULT_Z = 0;
+        this.DEFAULT_Z = 1;
         this.z = DEFAULT_Z;
-        this.DEFAULT_FOCAL_LENGTH = 3;
+        this.DEFAULT_FOCAL_LENGTH = 5;
         this.focalLength = DEFAULT_FOCAL_LENGTH;
     }
 
@@ -57,16 +57,17 @@ public class Camera3DSpace {
     public double[] toDrawablePoint(double[] worldPoint){
         double[] cameraViewOrientedPoint = toCameraPosition(worldPoint);
         double[] projectedPoint = projectPoint(cameraViewOrientedPoint);
+        if(projectedPoint == null){
+            return new double[]{0, 0};
+        }
         return new double[]{projectedPoint[0], projectedPoint[1]};
     }
 
     private double[] toCameraPosition(double[] worldPoint){
-        worldPoint[0] -= x;
-        worldPoint[1] -= y;
-        worldPoint[2] -= z;
+        double[] translatedPoint = new double[]{worldPoint[0]-x, worldPoint[1]-y, worldPoint[2]-z};
+        double[] rotatedPoint = Matrix3D.matrixVectorRmxnRn_Rm(Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix3D.YZ(-yaw), Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix3D.XZ(-roll), Matrix3D.XY(-pitch))), translatedPoint);
         //worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(getCameraPosition(), worldPoint);
-        worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.YZ3x3(-yaw), MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.XZ3x3(-roll), MatrixUtils.XY3x3(-pitch))), worldPoint);
-        return worldPoint;
+        return rotatedPoint;
     }
 
 
@@ -80,10 +81,8 @@ public class Camera3DSpace {
     }*/
 
     private double[] projectPoint(double[] cameraViewPoint){
-        if(cameraViewPoint[2] < focalLength){
-            System.out.println("Point is eclipsing camera.");
-            return new double[]{cameraViewPoint[0], cameraViewPoint[1]};
-            
+        if(cameraViewPoint[2] == 0){
+            return null;
         }
         double scaleFactor = focalLength/cameraViewPoint[2];
         return new double[]{cameraViewPoint[0]*scaleFactor, cameraViewPoint[1]*scaleFactor};

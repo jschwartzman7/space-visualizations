@@ -1,8 +1,7 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.SpaceAnimation;
-import spacevisuals.helpers.AxisLabeler;
+import spacevisuals.spaces.axislabelers.*;;
 /*
 * Base class for Euclidean space to be rendered
 * Extended by R2 and R3
@@ -27,6 +26,7 @@ public abstract class AbstractSpace {
         this.xClipMax = DEFAULT_CLIP_SCALE;
         this.yClipMin = -DEFAULT_CLIP_SCALE;
         this.yClipMax = DEFAULT_CLIP_SCALE;
+        initializeLabeler();
         StdDraw.setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
         StdDraw.setScale(-DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE);
         StdDraw.enableDoubleBuffering();
@@ -39,6 +39,7 @@ public abstract class AbstractSpace {
         this.xClipMax = defaultScale;
         this.yClipMin = -defaultScale;
         this.yClipMax = defaultScale;
+        initializeLabeler();
         StdDraw.setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
         StdDraw.setScale(-defaultScale, defaultScale);
         StdDraw.enableDoubleBuffering();
@@ -126,16 +127,16 @@ public abstract class AbstractSpace {
     }
     public void updateSpace(){
         updateView();
-        if(VIEW_SPACE_INFO){updateLabels();}
+        if(VIEW_SPACE_INFO){labeler.updateLabelIntervals();}
     };
 
     public void drawSpace(){
         drawAxes();
         if(VIEW_SPACE_INFO){drawLabels();}
     };
+    public abstract void initializeLabeler();
     public abstract double[] toViewScreenPoint(double[] worldPoint);
     public abstract void updateView();
-    public abstract void updateLabels();
     public abstract void drawAxes();
     public abstract void drawLabels();
 }

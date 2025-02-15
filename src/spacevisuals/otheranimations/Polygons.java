@@ -15,7 +15,7 @@ public class Polygons extends SpaceAnimation<Euclidean3D> {
         super(space);
         this.linePointPairs = new LinkedList<double[][]>();
         addCube(3, new double[]{2, 0, 0});
-        addTetrahedron(new double[]{0, 0, 2}, 1);
+        addTetrahedron(new double[]{1, 1, 2}, 2);
     }
 
     private void addCube(double radius, double[] center){
@@ -67,9 +67,8 @@ public class Polygons extends SpaceAnimation<Euclidean3D> {
             double[] point2D1 = space.toViewScreenPoint(linePointPair[0]);
             double[] point2D2 = space.toViewScreenPoint(linePointPair[1]);
             StdDraw.setPenColor();
+            System.out.println(point2D1[0] + " " + point2D1[1] + " " + point2D2[0] + " " + point2D2[1]);
             StdDraw.line(point2D1[0], point2D1[1], point2D2[0], point2D2[1]);
         }
-    }
-    public void updateAnimation(){
     }
 }

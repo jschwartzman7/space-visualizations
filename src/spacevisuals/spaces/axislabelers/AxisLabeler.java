@@ -1,12 +1,10 @@
-package spacevisuals.helpers;
-
-import spacevisuals.spaces.AbstractSpace;
+package spacevisuals.spaces.axislabelers;
 
 public class AxisLabeler{
 
     public static final double DEFAULT_LABEL_INTERVAL = 1;
     public static final double DEFAULT_RANGE_INTERVAL_MIN = 5;
-    public static final double DEFAULT_RANGE_INTERVAL_MAX = 13;
+    public static final double DEFAULT_RANGE_INTERVAL_MAX = 12;
     public double[] labelIntervals;
     public double[][] rangeIntervalRatios;
 
@@ -34,5 +32,5 @@ public class AxisLabeler{
             this.labelIntervals[index] *= 2;
         }
     }
-    
+    public void updateLabelIntervals(){};
 }

@@ -16,6 +16,10 @@ public class C_C{
         return exp(divide(one, input));
     }
 
+    public static double[] eToTheXSquared(double[] input){
+        return exp(multiply(input, input));
+    }
+
     public static double[] identity(double[] z){
         return new double[]{z[0], z[1]};
     }
@@ -61,6 +65,14 @@ public class C_C{
     public static double[] log(double[] z){ // logz := log|z| + iarg(z)
         return new double[]{Math.log(Math.hypot(z[0], z[1])), Math.atan2(z[1], z[0])};
     }
+
+    public static double[] logMultivalue(double[] z, int numValues){
+        double[] logValues = new double[numValues];
+        for(int i = 0; i < numValues; i++){
+            logValues[i] = add(log(z), new double[]{0, 2*Math.PI*i})[1];
+        }
+        return logValues;
+    }   
 
     public static double[] power(double[] z, double[] w){ // z^w := e^logzw
         return exp(multiply(log(z), w));

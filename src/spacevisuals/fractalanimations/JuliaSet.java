@@ -8,12 +8,13 @@ import spacevisuals.functions.C_C;
 import spacevisuals.functions.Rn_R;
 import spacevisuals.functions.statistics;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.other.fractalIterStats;
+import spacevisuals.spaces.spacetraversers.*;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import spacevisuals.*;
+import spacevisuals.colors.*;
 
 public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 
@@ -23,22 +24,22 @@ public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 												new double[]{0, 1},
 												new double[]{-.7, .2}};
     
-	public int iterationMax = 70;
-	Euclidean2DTraverser traverser;
+	public int iterationMax = 350;
+	ClippingTraverser traverser;
     double[] c;
 	ArrayList<Integer> escapeIterations = new ArrayList<Integer>();
-	ColorHelper colorHelper = new ColorHelper(1);
+	ColorStrategy colorHelper = new JuliaSetColorStrategy();
 	public String fileName = "JuliaSetINSIDE";
 	public int fileCounter = 0;
 	
 	public JuliaSet(Euclidean2D space){
 		super(space);					
-		this.traverser = new Euclidean2DTraverser(space);
+		this.traverser = new ClippingTraverser(space);
 		this.c = juliaSetConstants[juliaSetConstants.length-1];
     }
-    public JuliaSet(Euclidean2D space, double[] c){
+    public JuliaSet(Euclidean2D space, double[] c, int pixelResolution){
 		super(space);
-		this.traverser = new Euclidean2DTraverser(space);
+		this.traverser = new ClippingTraverser(space, pixelResolution);
         this.c = c;
     }
 
@@ -61,8 +62,7 @@ public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 		}
 		else{
 			escapeIterations.add((int)iterationsToEscape);
-			double escapeMean = statistics.mean(escapeIterations.stream().mapToDouble(i -> i).toArray());
-			traverser.drawPointRectangle(z, colorHelper.getColor(new double[]{iterationsToEscape, escapeMean}));
+			traverser.drawPointRectangle(z, colorHelper.getColor(new double[]{iterationsToEscape}));
 		}
 	}
 
@@ -84,7 +84,6 @@ public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 				sb.append(escapeIterations.get(i) + "\n");
 			}
 			sb.insert(0, fileName + fileCounter + "\n");
-			fractalIterStats.writeToNewFile(fileName + fileCounter, sb.toString());
 			fileCounter++;
 		}
 	}

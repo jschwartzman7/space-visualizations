@@ -2,9 +2,9 @@ package spacevisuals.spaces;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import spacevisuals.functions.MatrixUtils;
+import spacevisuals.functions.Matrix3D;
 import spacevisuals.helpers.*;
-
+import spacevisuals.spaces.axislabelers.*;
 import edu.princeton.cs.introcs.StdDraw;
 /*
  * adjust label interval as distortion changes, not just displayed value
@@ -18,16 +18,13 @@ public class Euclidean3D extends AbstractSpace{
     public double yAxisMax;
     public double zAxisMin;
     public double zAxisMax;
-    public MatrixUtils matrixUtils;
+    public Matrix3D matrixUtils;
     public Camera3DSpace camera;
     //public double[][] currentPosition;
 
     public Euclidean3D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
         this.camera = new Camera3DSpace();
-        if(viewSpaceInfo){
-            initializeLabeler();
-        }
     }
 
     public Euclidean3D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
@@ -39,14 +36,11 @@ public class Euclidean3D extends AbstractSpace{
         this.zAxisMin = -defaultScale;
         this.zAxisMax = defaultScale;
         this.camera = new Camera3DSpace();
-        if(viewSpaceInfo){
-            initializeLabeler();
-        }
-    }
-    private void initializeLabeler(){
-        this.labeler = new AxisLabeler(new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {2, 5}, {2, 10}});
     }
 
+    public void initializeLabeler(){
+        this.labeler = new AxisLabeler3D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {2, 5}, {2, 10}});
+    }
     public double[] toViewScreenPoint(double[] numericPoint){
         return camera.toDrawablePoint(numericPoint);
         /*double[] rotatedPoint = matrixUtils.matrixVectorRmxnRn_Rm(c, new double[]{numericPoint[0], numericPoint[1], numericPoint[2]});
@@ -130,17 +124,6 @@ public class Euclidean3D extends AbstractSpace{
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericZ));
         }
     }
-
-    public void updateLabels(){;
-        double xRange = xAxisMax-xAxisMin;
-        labeler.updateLabelInterval(0, xRange);
-        
-        double yRange = yAxisMax-yAxisMin;
-        labeler.updateLabelInterval(1, yRange);
-        
-        double zRange = zAxisMax-zAxisMin;
-        labeler.updateLabelInterval(2, zRange);
-    };
 
     public void updateView(){
         double primaryRange = xClipMax-xClipMin;

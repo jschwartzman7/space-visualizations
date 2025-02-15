@@ -2,6 +2,8 @@ package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.helpers.*;
+import spacevisuals.spaces.axislabelers.*;
+
 import java.awt.event.KeyEvent;
 
 public class Euclidean2D extends AbstractSpace{
@@ -10,19 +12,13 @@ public class Euclidean2D extends AbstractSpace{
 
     public Euclidean2D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
-        if(viewSpaceInfo){
-            initializeLabeler();
-        }
     }
     public Euclidean2D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         super(defaultScale, moveSensitivity, viewSpaceInfo);
-        if(viewSpaceInfo){
-            initializeLabeler();
-        }
     }
 
-    private void initializeLabeler(){
-        this.labeler = new AxisLabeler(new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
+    public void initializeLabeler(){
+        this.labeler = new AxisLabeler2D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};
@@ -74,15 +70,6 @@ public class Euclidean2D extends AbstractSpace{
             double y = numericY;
             StdDraw.line(xClipMin, y, xClipMax, y);
             StdDraw.text(0, y, toLabel(numericY));
-        }
-    }
-
-    public void updateLabels(){
-        if(VIEW_SPACE_INFO){
-            double xClipRange = xClipMax-xClipMin;
-            labeler.updateLabelInterval(0, xClipRange);
-            double yClipRange = yClipMax-yClipMin;
-            labeler.updateLabelInterval(1, yClipRange);
         }
     }
     
