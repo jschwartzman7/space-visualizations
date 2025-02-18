@@ -1,9 +1,11 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.colors.ColorScheme;
 import spacevisuals.helpers.*;
-import spacevisuals.spaces.axislabelers.*;
-
+import spacevisuals.spaces.axisintervals.*;
+import spacevisuals.spaces.spacemovers.DefaultSpaceMover2D;
+import spacevisuals.spaces.spacemovers.*;
 import java.awt.event.KeyEvent;
 
 public class Euclidean2D extends AbstractSpace{
@@ -16,9 +18,14 @@ public class Euclidean2D extends AbstractSpace{
     public Euclidean2D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         super(defaultScale, moveSensitivity, viewSpaceInfo);
     }
-
+    public void initializeMover(){
+        this.mover = new DefaultSpaceMover2D(this);
+    }
     public void initializeLabeler(){
-        this.labeler = new AxisLabeler2D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
+        this.labeler = new AxisIntervals2D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
+    }
+    public void initializeColorScheme(){
+        this.colorScheme = new ColorScheme("");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};
@@ -26,7 +33,7 @@ public class Euclidean2D extends AbstractSpace{
 
     public void drawAxes(){
         StdDraw.setPenRadius();
-        StdDraw.setPenColor(StdDraw.BLUE);
+        StdDraw.setPenColor(colorScheme.xAxisColor);
         double yCord;
         if(yClipMax < 0){
             yCord = yClipMax;
@@ -38,7 +45,7 @@ public class Euclidean2D extends AbstractSpace{
             yCord = 0;
         }
         StdDraw.line(xClipMin, yCord, xClipMax, yCord);
-        StdDraw.setPenColor(StdDraw.GREEN);
+        StdDraw.setPenColor(colorScheme.yAxisColor);
         double xCord;
         if(xClipMax < 0){
             xCord = xClipMax;
@@ -53,7 +60,7 @@ public class Euclidean2D extends AbstractSpace{
     }
 
     public void drawLabels(){
-        StdDraw.setPenColor();
+        StdDraw.setPenColor(colorScheme.labelColor);
         StdDraw.setPenRadius(0.001);
         double numericMin = xClipMin;
         double numericMax = xClipMax;
@@ -71,55 +78,6 @@ public class Euclidean2D extends AbstractSpace{
             StdDraw.line(xClipMin, y, xClipMax, y);
             StdDraw.text(0, y, toLabel(numericY));
         }
-    }
-    
-    public void updateView(){
-        // translate along x axis
-        if(StdDraw.isKeyPressed(KeyEvent.VK_D)){
-            translateXClipPos();
-        }
-        else if (StdDraw.isKeyPressed(KeyEvent.VK_A)){
-            translateXClipNeg();
-        }
-
-        // translate along y axis
-        if(StdDraw.isKeyPressed(KeyEvent.VK_W)){
-            translateYClipPos();
-        }
-        else if (StdDraw.isKeyPressed(KeyEvent.VK_S)){
-            translateYClipNeg();
-        }
-
-        // zoom in / zoom out
-        if(StdDraw.isKeyPressed(KeyEvent.VK_Q)){
-            zoomXClipIn();
-            zoomYClipIn();
-        }
-        else if (StdDraw.isKeyPressed(KeyEvent.VK_E)){
-            zoomXClipOut();
-            zoomYClipOut();
-        }
-        // x axis distort
-        if (StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-            zoomXClipIn();
-        }
-        else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-            zoomXClipOut();
-        }
-
-        // y axis distort
-        if (StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-            zoomYClipIn();
-        }
-        else if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-            zoomYClipOut();
-        }
-
-        // reset scale
-        else if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
-            resetClipScale();
-        }
-        setSpaceScale();
     }
 }
 

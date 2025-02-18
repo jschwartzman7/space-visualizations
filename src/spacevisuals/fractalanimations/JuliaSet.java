@@ -16,7 +16,7 @@ import java.awt.event.KeyEvent;
 import spacevisuals.*;
 import spacevisuals.colors.*;
 
-public class JuliaSet extends SpaceAnimation<Euclidean2D> {
+public class JuliaSet extends Animation2DSpace implements PointSetAnimation{
 
 	public static double[][] juliaSetConstants = new double[][]{
 												new double[]{.355, .355},
@@ -24,7 +24,7 @@ public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 												new double[]{0, 1},
 												new double[]{-.7, .2}};
     
-	public int iterationMax = 350;
+	public int iterationMax = 100;
 	ClippingTraverser traverser;
     double[] c;
 	ArrayList<Integer> escapeIterations = new ArrayList<Integer>();
@@ -36,6 +36,11 @@ public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 		super(space);					
 		this.traverser = new ClippingTraverser(space);
 		this.c = juliaSetConstants[juliaSetConstants.length-1];
+    }
+	public JuliaSet(Euclidean2D space, double[] c){
+		super(space);
+		this.traverser = new ClippingTraverser(space);
+        this.c = c;
     }
     public JuliaSet(Euclidean2D space, double[] c, int pixelResolution){
 		super(space);
@@ -66,6 +71,7 @@ public class JuliaSet extends SpaceAnimation<Euclidean2D> {
 		}
 	}
 
+	@Override
 	public void drawAnimation() {
 		escapeIterations.clear();
 		traverseDomain(this::handlePoint);

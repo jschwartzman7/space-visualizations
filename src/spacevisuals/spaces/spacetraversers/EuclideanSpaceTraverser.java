@@ -2,25 +2,23 @@ package spacevisuals.spaces.spacetraversers;
 
 import java.util.function.Consumer;
 import spacevisuals.spaces.AbstractSpace;
+import spacevisuals.spaces.spacetraversers.steppers.*;
 
 public abstract class EuclideanSpaceTraverser<T extends AbstractSpace> {
 
     public T space;
-    public static final int DEFAULT_PIXEL_RESOLUTION = 50;
+    public final double DEFAULT_PIXEL_RESOLUTION;
+    public Stepper stepper;
     public double primaryPixelResolution;
     public double secondaryPixelResolution;
 
 
-    public EuclideanSpaceTraverser(T space){
+    public EuclideanSpaceTraverser(T space, double defaultPixelResolution){
         this.space = space;
-        this.primaryPixelResolution = DEFAULT_PIXEL_RESOLUTION;
-        this.secondaryPixelResolution = DEFAULT_PIXEL_RESOLUTION;
+        this.DEFAULT_PIXEL_RESOLUTION = defaultPixelResolution;
+        this.primaryPixelResolution = defaultPixelResolution;
+        this.secondaryPixelResolution = defaultPixelResolution;
     }
-    public EuclideanSpaceTraverser(T space, double pixelResolution){
-        this.space = space;
-        this.primaryPixelResolution = pixelResolution;
-        this.secondaryPixelResolution = pixelResolution;
-    }
-
-    abstract void traverseDomain(Consumer<double[]> handlePoint);
+    public abstract void traverseDomain(Consumer<double[]> handlePoint);
+    
 }

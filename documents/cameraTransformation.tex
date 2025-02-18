@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{graphicx}
 
 \begin{document}
 
@@ -14,23 +15,22 @@
 This document is not real.
 
 \section{Camera3D}
-A Camera3D represents a viewer in 3D space, with a focal length to the view plane. The main function of a Camera3D is to convert from a point in world view to a 2D point on the view plane.
+A Camera3D represents a viewer in 3D space, with a focal length to the view plane.
+The main function of a Camera3D is to convert from a point in 3D world view to a 2D point on the view plane.
+The camer3D has seven parameters:
 \begin{itemize}
-    \item $x$
-    \item $y$
-    \item $z$
-    \item pitch (angle 1): $\theta$
-    \item roll (angle 2): $\phi$
-    \item yaw (angle 3): $\gamma$
-    \item focal length: $f$
+    \item $x$: camera x-coordinate
+    \item $y$: camera y-coordinate
+    \item $z$: camera z-coordinate
+    \item $\theta$: pitch (angle 1)
+    \item $\phi$: roll (angle 2)
+    \item $\gamma$: yaw (angle 3)
+    \item $f$: focal length
 \end{itemize}
 
 \section{Transform Idea}
 Keep track of how the camera moves with user input, and use this to convert world points to view plane points.
-\newline\newline Taking $f > 0$ and all other values 0 to correspond to the camera facing down the positive z-axis, with x and y axes normalized, placed at $(0,0,0)$ with view plane centered at $(0, 0, f)$ camera coordinates, parallel to the xy-plane. So the view
-\newline\newline \textbf{How to convert from (x, y, z) in the world to (X, Y) on the screen?}
-
-    \texttt{StdDraw.point(xClip, yClip)}
+\texttt{StdDraw.point(xClip, yClip)}
     \[worldPoint =  \begin{pmatrix}
     x \\ y \\ z
     \end{pmatrix}\]
@@ -38,8 +38,11 @@ Keep track of how the camera moves with user input, and use this to convert worl
     \text{xClip} \\ \text{yClip}
     \end{pmatrix}\]
 Find $T$ that converts from world coordinates to clipping coodinates.
-\[T: WorldSpace \longrightarrow CameraSpace \longrightarrow ClipSpace\]
-Figure out which way to apply the transformations from in matrices.
-
+\[T: WorldSpace \longrightarrow_W CameraSpace \longrightarrow_C ClipSpace\]
+$C: \mathbb{R}^3 \to \mathbb{R}^2$ uses the focal length to divide out the $z$ coordinate.
+So, in CameraSpace the $z$-axis is perpendicular to the view plane.
+\newline\newline $W = [T]_c^w: \mathbb{R}^3 \to \mathbb{R}^3$ transforms a vector written in world coordinates to the same vector in camera coordinates.
+\newline\includegraphics[scale=0.5]{3d000.png}
+\newline\includegraphics[scale=0.5]{3dxyz.png}
 
 \end{document}

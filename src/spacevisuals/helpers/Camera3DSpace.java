@@ -1,6 +1,7 @@
 package spacevisuals.helpers;
 
 import spacevisuals.functions.Matrix3D;
+import spacevisuals.spaces.AbstractSpace;
 
 public class Camera3DSpace {
 
@@ -25,13 +26,13 @@ public class Camera3DSpace {
         this.pitch = DEFAULT_PITCH;
         this.DEFAULT_ROLL = 0;
         this.roll = DEFAULT_ROLL;
-        this.DEFAULT_YAW = -Math.PI/2;
+        this.DEFAULT_YAW = 0;
         this.yaw = DEFAULT_YAW;
-        this.DEFAULT_X = 1;
+        this.DEFAULT_X = 0;
         this.x = DEFAULT_X;
-        this.DEFAULT_Y = 10;
+        this.DEFAULT_Y = 0;
         this.y = DEFAULT_Y;
-        this.DEFAULT_Z = 1;
+        this.DEFAULT_Z = 0;
         this.z = DEFAULT_Z;
         this.DEFAULT_FOCAL_LENGTH = 5;
         this.focalLength = DEFAULT_FOCAL_LENGTH;
@@ -54,6 +55,18 @@ public class Camera3DSpace {
         this.focalLength = focalLength;
     }
 
+    public void drawInfoTextBox(AbstractSpace space){
+        TextBox textBox = new TextBox(space);
+        textBox.addText("pitch", String.valueOf(pitch));
+        textBox.addText("roll", String.valueOf(roll));
+        textBox.addText("yaw", String.valueOf(yaw));
+        textBox.addText("x", String.valueOf(x));
+        textBox.addText("y", String.valueOf(y));
+        textBox.addText("z", String.valueOf(z));
+        textBox.addText("focal length", String.valueOf(focalLength));
+        textBox.drawTextBox();
+    }
+
     public double[] toDrawablePoint(double[] worldPoint){
         double[] cameraViewOrientedPoint = toCameraPosition(worldPoint);
         double[] projectedPoint = projectPoint(cameraViewOrientedPoint);
@@ -64,17 +77,20 @@ public class Camera3DSpace {
     }
 
     private double[] toCameraPosition(double[] worldPoint){
-        double[] translatedPoint = new double[]{worldPoint[0]-x, worldPoint[1]-y, worldPoint[2]-z};
-        double[] rotatedPoint = Matrix3D.matrixVectorRmxnRn_Rm(Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix3D.YZ(-yaw), Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix3D.XZ(-roll), Matrix3D.XY(-pitch))), translatedPoint);
+        double[] rotatedPoint = Matrix3D.matrixVectorRmxnRn_Rm(Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix3D.YZ(-yaw), Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix3D.XZ(-roll), Matrix3D.XY(-pitch))), worldPoint);
+        double[] translatedPoint = new double[]{rotatedPoint[0]-x, rotatedPoint[1]-y, rotatedPoint[2]-z};
         //worldPoint = MatrixUtils.matrixVectorRmxnRn_Rm(getCameraPosition(), worldPoint);
-        return rotatedPoint;
+        return translatedPoint;
     }
 
-
-    private double[][] getCameraPosition(){
-        return new double[][]{{Math.cos(-pitch)*Math.cos(-roll), -Math.cos(roll)*Math.sin(pitch), -Math.sin(-roll)},     
-        {Math.cos(-yaw)*Math.sin(-pitch)-Math.sin(-yaw)*Math.sin(-roll)*Math.cos(-pitch), Math.sin(-pitch)*Math.sin(-roll)*Math.sin(-yaw)+Math.cos(-pitch)*Math.cos(yaw), -Math.sin(-yaw)*Math.cos(-roll)},
-        {Math.cos(-pitch)*Math.sin(-roll)*Math.cos(-yaw)+Math.sin(-pitch)*Math.sin(-yaw), Math.sin(-yaw)*Math.cos(-pitch)-Math.cos(-yaw)*Math.sin(-roll)*Math.sin(-pitch), Math.cos(-roll)*Math.cos(-yaw)}};
+    public void resetCamera(){
+        this.pitch = DEFAULT_PITCH;
+        this.roll = DEFAULT_ROLL;
+        this.yaw = DEFAULT_YAW;
+        this.x = DEFAULT_X;
+        this.y = DEFAULT_Y;
+        this.z = DEFAULT_Z;
+        this.focalLength = DEFAULT_FOCAL_LENGTH;
     }
     /*private double[][] getCameraPosition(){
         return MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.YZ4x4(roll), MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.XZ4x4(pitch), MatrixUtils.matrixMatrixRmxnRnxp_Rmxp(MatrixUtils.YZ4x4(yaw), new double[][]{{x}, {y}, {z}, {1}})));

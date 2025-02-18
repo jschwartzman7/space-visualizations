@@ -18,7 +18,7 @@ import spacevisuals.colors.ColorStrategy;
 import spacevisuals.helpers.*;
 
 
-public class FreeformR2_R2 extends PointSetAnimation<Euclidean2D>{
+public class FreeformR2_R2 extends Animation2DSpace implements PointSetAnimation{
 
     private LinkedList<double[]> points;
     private LinkedList<Color> pointColors;
@@ -31,11 +31,10 @@ public class FreeformR2_R2 extends PointSetAnimation<Euclidean2D>{
         this.points = new LinkedList<double[]>();
         this.pointColors = new LinkedList<Color>();
     }
-
+    @Override
     public void drawAnimation(){
-        traverseDomain(this::handlePoint);
+        PointSetAnimation.super.drawAnimation();
     }
-
     public void traverseDomain(Consumer<double[]> handlePoint){
         StdDraw.setPenRadius(pointRadius);
         for(int i = 0; i < points.size(); i++){

@@ -5,9 +5,11 @@ import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.Animation2DSpace;
+import spacevisuals.Animation3DSpace;
 import spacevisuals.SpaceAnimation;
 
-public class Polygons extends SpaceAnimation<Euclidean3D> {
+public class Polygons extends Animation3DSpace{
 
     private List<double[][]> linePointPairs;
     
@@ -62,12 +64,12 @@ public class Polygons extends SpaceAnimation<Euclidean3D> {
 
     }
 
+    @Override
     public void drawAnimation(){
         for(double[][] linePointPair: linePointPairs){
             double[] point2D1 = space.toViewScreenPoint(linePointPair[0]);
             double[] point2D2 = space.toViewScreenPoint(linePointPair[1]);
             StdDraw.setPenColor();
-            System.out.println(point2D1[0] + " " + point2D1[1] + " " + point2D2[0] + " " + point2D2[1]);
             StdDraw.line(point2D1[0], point2D1[1], point2D2[0], point2D2[1]);
         }
     }

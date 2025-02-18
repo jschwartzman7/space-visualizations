@@ -10,7 +10,7 @@ import java.awt.Color;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.spacetraversers.ClippingTraverser;
 
-public class DomainColor extends PointSetAnimation<Euclidean2D>{
+public class DomainColor extends Animation2DSpace implements PointSetAnimation{
 
     ClippingTraverser traverser;
     ColorStrategy colorHelper = new DomainColorStrategy();
@@ -19,7 +19,7 @@ public class DomainColor extends PointSetAnimation<Euclidean2D>{
         super(space, function);
         this.traverser = new ClippingTraverser (space);
     }
-
+    @Override
     public void handlePoint(double[] z){
         double[] w = function.apply(z);
         if(w == null){
@@ -32,7 +32,12 @@ public class DomainColor extends PointSetAnimation<Euclidean2D>{
         //double radius = (space.X_MAX-space.X_MIN)/(2*this.pixelResolution);
         //StdDraw.filledSquare(z[0], z[1], radius);
     }
+    @Override
     public void traverseDomain(Consumer<double[]> handlePoint){
         traverser.traverseDomain(this::handlePoint);
     }
+    @Override
+	public void drawAnimation() {
+		PointSetAnimation.super.drawAnimation();
+	}
 }

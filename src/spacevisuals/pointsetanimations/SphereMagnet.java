@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import spacevisuals.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class SphereMagnet extends PointSetAnimation<Euclidean3D> {
+public class SphereMagnet extends Animation3DSpace implements PointSetAnimation{
 
     private double maxPointRadius = 70;
     private int numPoints = 25000;
@@ -69,5 +69,9 @@ public class SphereMagnet extends PointSetAnimation<Euclidean3D> {
         for(int i = 0; i < points.length; i++){
             handlePoint.accept(points[i]);
         }
+    }
+    @Override
+    public void drawAnimation(){
+        PointSetAnimation.super.drawAnimation();
     }
 }

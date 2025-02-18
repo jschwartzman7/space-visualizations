@@ -2,16 +2,19 @@ package spacevisuals.spaces;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+
+import spacevisuals.colors.ColorScheme;
 import spacevisuals.functions.Matrix3D;
 import spacevisuals.helpers.*;
-import spacevisuals.spaces.axislabelers.*;
+import spacevisuals.spaces.axisintervals.*;
+import spacevisuals.spaces.spacemovers.DefaultSpaceMover3D;
 import edu.princeton.cs.introcs.StdDraw;
 /*
  * adjust label interval as distortion changes, not just displayed value
  */
 public class Euclidean3D extends AbstractSpace{
 
-    private final double ROTATION_RATE = Math.PI/32;
+    public final double ROTATION_RATE = Math.PI/32;
     public double xAxisMin;
     public double xAxisMax;
     public double yAxisMin;
@@ -37,9 +40,14 @@ public class Euclidean3D extends AbstractSpace{
         this.zAxisMax = defaultScale;
         this.camera = new Camera3DSpace();
     }
-
+    public void initializeMover(){
+        this.mover = new DefaultSpaceMover3D(this);
+    }
     public void initializeLabeler(){
-        this.labeler = new AxisLabeler3D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {2, 5}, {2, 10}});
+        this.labeler = new AxisIntervals3D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {2, 5}, {2, 10}});
+    }
+    public void initializeColorScheme(){
+        this.colorScheme = new ColorScheme("");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return camera.toDrawablePoint(numericPoint);
@@ -93,15 +101,14 @@ public class Euclidean3D extends AbstractSpace{
     }
 
     public void drawAxes(){
-        drawAxis(new double[][]{{xAxisMin, 0, 0}, {xAxisMax, 0, 0}}, Color.blue, "x");
-        drawAxis(new double[][]{{0, yAxisMin, 0}, {0, yAxisMax, 0}}, Color.green, "y");
-        drawAxis(new double[][]{{0, 0, zAxisMin}, {0, 0, zAxisMax}}, Color.red, "z");
-        StdDraw.text(xClipMax-.2*(xClipMax-xClipMin), yClipMin+0.2*(yClipMax-yClipMin), "focal length: "+camera.focalLength);
-   
+        drawAxis(new double[][]{{xAxisMin, 0, 0}, {xAxisMax, 0, 0}}, colorScheme.xAxisColor, "x");
+        drawAxis(new double[][]{{0, yAxisMin, 0}, {0, yAxisMax, 0}}, colorScheme.yAxisColor, "y");
+        drawAxis(new double[][]{{0, 0, zAxisMin}, {0, 0, zAxisMax}}, colorScheme.zAxisColor, "z");
+        camera.drawInfoTextBox(this);
     }
 
     public void drawLabels(){
-        StdDraw.setPenColor();
+        StdDraw.setPenColor(colorScheme.labelColor);
         double numericMin = xAxisMin;
         double numericMax = xAxisMax;
         for(double numericX = numericMin-numericMin%labeler.labelIntervals[0]; numericX <= numericMax; numericX += labeler.labelIntervals[0]){
@@ -124,89 +131,5 @@ public class Euclidean3D extends AbstractSpace{
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericZ));
         }
     }
-
-    public void updateView(){
-        double primaryRange = xClipMax-xClipMin;
-        double primaryZoomAmount = primaryRange*MOVE_SENSITIVITY;
-        if(StdDraw.isKeyPressed(KeyEvent.VK_SHIFT)){
-            if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-                camera.x += primaryZoomAmount;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-                camera.x -= primaryZoomAmount;
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-                camera.y += primaryZoomAmount;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-                camera.y -= primaryZoomAmount;
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-                camera.z += primaryZoomAmount;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-                camera.z -= primaryZoomAmount;
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_F)){
-                camera.focalLength *= (1.05);
-            }
-        }
-        else{
-            if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-                camera.pitch += ROTATION_RATE;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-                camera.pitch -= ROTATION_RATE;
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-                camera.roll += ROTATION_RATE;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-                camera.roll -= ROTATION_RATE;
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-                camera.yaw += ROTATION_RATE;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-                camera.yaw -= ROTATION_RATE;
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_F)){
-                camera.focalLength *= (0.95);
-            }
-            
-            
-            if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
-                zoomXClipOut();
-                zoomYClipOut();
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_DOWN)){
-                zoomXClipIn();
-                zoomYClipIn();
-            }
-            if(StdDraw.isKeyPressed(KeyEvent.VK_LEFT)){
-                xAxisMin += primaryZoomAmount;
-                xAxisMax -= primaryZoomAmount;
-                yAxisMin += primaryZoomAmount;
-                yAxisMax -= primaryZoomAmount;
-            }
-            else if(StdDraw.isKeyPressed(KeyEvent.VK_RIGHT)){
-                xAxisMin -= primaryZoomAmount;
-                xAxisMax += primaryZoomAmount;
-                yAxisMin -= primaryZoomAmount;
-                yAxisMax += primaryZoomAmount;
-            }
-        }
-        if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
-            resetClipScale();
-            this.camera = new Camera3DSpace();
-            this.xAxisMin = -DEFAULT_CLIP_SCALE;
-            this.xAxisMax = DEFAULT_CLIP_SCALE;
-            this.yAxisMin = -DEFAULT_CLIP_SCALE;
-            this.yAxisMax = DEFAULT_CLIP_SCALE;
-            this.zAxisMin = -DEFAULT_CLIP_SCALE;
-            this.zAxisMax = DEFAULT_CLIP_SCALE;
-        }
-        setSpaceScale();
-	}
 }
 

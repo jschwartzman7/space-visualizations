@@ -1,6 +1,6 @@
-package spacevisuals.spaces.axislabelers;
+package spacevisuals.spaces.axisintervals;
 
-public class AxisLabeler{
+public class IntervalsRange{
 
     public static final double DEFAULT_LABEL_INTERVAL = 1;
     public static final double DEFAULT_RANGE_INTERVAL_MIN = 5;
@@ -9,7 +9,7 @@ public class AxisLabeler{
     public double[][] rangeIntervalRatios;
 
 
-    public AxisLabeler(int numAxes){
+    public IntervalsRange(int numAxes){
         this.labelIntervals = new double[numAxes];
         this.rangeIntervalRatios = new double[numAxes][2];
         for(int i = 0; i < numAxes; i++){
@@ -18,7 +18,7 @@ public class AxisLabeler{
             rangeIntervalRatios[i][1] = DEFAULT_RANGE_INTERVAL_MAX;
         }
     }
-    public AxisLabeler(double[] labelIntervals, double[][] rangeIntervalRatios){
+    public IntervalsRange(double[] labelIntervals, double[][] rangeIntervalRatios){
         this.labelIntervals = labelIntervals;
         this.rangeIntervalRatios = rangeIntervalRatios;
     }

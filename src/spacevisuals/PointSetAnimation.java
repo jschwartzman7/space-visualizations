@@ -9,14 +9,9 @@ import spacevisuals.*;
 /*
  * Extended interface for an animation that traverses a set and acts on each element
  */
-public abstract class PointSetAnimation<T extends AbstractSpace> extends SpaceAnimation<T> {
-    public Function<double[], double[]> function;
-    public PointSetAnimation(T space, Function<double[], double[]> function){
-        super(space);
-        this.function = function;
-    }
+public interface PointSetAnimation extends SpaceAnimation {
     @Override
-    public void drawAnimation(){
+    public default void drawAnimation(){
         traverseDomain(this::handlePoint);
     };
     public abstract void traverseDomain(Consumer<double[]> handlePoint);

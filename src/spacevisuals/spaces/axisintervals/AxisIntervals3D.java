@@ -1,18 +1,18 @@
-package spacevisuals.spaces.axislabelers;
+package spacevisuals.spaces.axisintervals;
 
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 
-public class AxisLabeler3D extends AxisLabeler{
+public class AxisIntervals3D extends IntervalsRange{
 
     Euclidean3D space;
 
-    public AxisLabeler3D(Euclidean3D space){
+    public AxisIntervals3D(Euclidean3D space){
         super(3);
         this.space = space;
     }
 
-    public AxisLabeler3D(Euclidean3D space, double[] labelIntervals, double[][] rangeIntervalRatios){
+    public AxisIntervals3D(Euclidean3D space, double[] labelIntervals, double[][] rangeIntervalRatios){
         super(labelIntervals, rangeIntervalRatios);
         this.space = space;
     }

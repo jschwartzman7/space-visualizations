@@ -4,7 +4,7 @@ import spacevisuals.spaces.Euclidean2D;
 
 public class MandelbrotSet extends JuliaSet {
 	
-	private static final int DEFAULT_PIXEL_RESOLUTION = 350;
+	private static final int DEFAULT_PIXEL_RESOLUTION = 500;
 
 	public MandelbrotSet(Euclidean2D space){
 		super(space, null, DEFAULT_PIXEL_RESOLUTION);

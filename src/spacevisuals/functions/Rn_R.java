@@ -48,11 +48,20 @@ public class Rn_R{
     public static double sumOfSines(double[] u){
         return sumOf(u, x -> Math.sin(x));
     }
+    public static double sumOfCosines(double[] u){
+        return sumOf(u, x -> Math.cos(x));
+    }
     public static double productOfVector(double[] u){
         return productOf(u, x -> x);
     }
+    public static double productOfSquares(double[] u){
+        return productOf(u, x -> x*x);
+    }
     public static double productOfSines(double[] u){
         return productOf(u, x -> Math.sin(x));
+    }
+    public static double productOfCosines(double[] u){
+        return productOf(u, x -> Math.cos(x));
     }
 
     public static double supNorm(double[] u){

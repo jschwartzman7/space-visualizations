@@ -1,17 +1,17 @@
-package spacevisuals.spaces.axislabelers;
+package spacevisuals.spaces.axisintervals;
 
 import spacevisuals.spaces.Euclidean2D;
 
-public class AxisLabeler2D extends AxisLabeler{
+public class AxisIntervals2D extends IntervalsRange{
 
     Euclidean2D space;
 
-    public AxisLabeler2D(Euclidean2D space){
+    public AxisIntervals2D(Euclidean2D space){
         super(2);
         this.space = space;
     }
 
-    public AxisLabeler2D(Euclidean2D space, double[] labelIntervals, double[][] rangeIntervalRatios){
+    public AxisIntervals2D(Euclidean2D space, double[] labelIntervals, double[][] rangeIntervalRatios){
         super(labelIntervals, rangeIntervalRatios);
         this.space = space;
     }
