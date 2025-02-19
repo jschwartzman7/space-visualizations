@@ -1,8 +1,6 @@
 package spacevisuals.spaces;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-
 import spacevisuals.colors.ColorScheme;
 import spacevisuals.functions.Matrix3D;
 import spacevisuals.helpers.*;
@@ -23,14 +21,21 @@ public class Euclidean3D extends AbstractSpace{
     public double zAxisMax;
     public Matrix3D matrixUtils;
     public Camera3DSpace camera;
-    //public double[][] currentPosition;
 
-    public Euclidean3D(boolean viewSpaceInfo){
+    public static final boolean DEFAULT_VIEW_SPACE_INFO = true;
+    private static Euclidean3D instance;
+
+    private Euclidean3D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
+        this.xAxisMin = -DEFAULT_CLIP_SCALE;
+        this.xAxisMax = DEFAULT_CLIP_SCALE;
+        this.yAxisMin = -DEFAULT_CLIP_SCALE;
+        this.yAxisMax = DEFAULT_CLIP_SCALE;
+        this.zAxisMin = -DEFAULT_CLIP_SCALE;
+        this.zAxisMax = DEFAULT_CLIP_SCALE;
         this.camera = new Camera3DSpace();
     }
-
-    public Euclidean3D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
+    private Euclidean3D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         super(defaultScale, moveSensitivity, viewSpaceInfo);
         this.xAxisMin = -defaultScale;
         this.xAxisMax = defaultScale;
@@ -39,6 +44,16 @@ public class Euclidean3D extends AbstractSpace{
         this.zAxisMin = -defaultScale;
         this.zAxisMax = defaultScale;
         this.camera = new Camera3DSpace();
+    }
+    public static Euclidean3D Euclidean3DGet(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
+        instance = new Euclidean3D(defaultScale, moveSensitivity, viewSpaceInfo);
+        return instance;
+    }
+    public static Euclidean3D Euclidean3DGet(){
+        if(instance == null){
+            instance = new Euclidean3D(DEFAULT_VIEW_SPACE_INFO);
+        }
+        return instance;
     }
     public void initializeMover(){
         this.mover = new DefaultSpaceMover3D(this);

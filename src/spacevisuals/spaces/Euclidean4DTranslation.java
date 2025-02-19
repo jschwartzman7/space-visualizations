@@ -10,7 +10,7 @@ import spacevisuals.functions.Matrix3D;
 import spacevisuals.functions.Matrix4D;
 import spacevisuals.spaces.Euclidean3D;
 
-public class Euclidean4DTranslation extends Euclidean3D {
+public class Euclidean4DTranslation extends AbstractSpace {
 
     // w -> 3D(x,y,x)
     public HashMap<Double, Euclidean3D> wAxis;
@@ -18,6 +18,7 @@ public class Euclidean4DTranslation extends Euclidean3D {
     public double wViewRadius;
     public double wResolution;
     public double[][] rotation4d;
+    Euclidean3D space3D = Euclidean3D.Euclidean3DGet();
 
     public Euclidean4DTranslation(boolean viewSpaceInfo){
         super(viewSpaceInfo);
@@ -44,25 +45,25 @@ public class Euclidean4DTranslation extends Euclidean3D {
     @Override
     public void updateSpace(){
         if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XY2x4(ROTATION_RATE), rotation4d);
+            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XY2x4(space3D.ROTATION_RATE), rotation4d);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XY2x4(-ROTATION_RATE), rotation4d);
+            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XY2x4(-space3D.ROTATION_RATE), rotation4d);
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XZ2x4(ROTATION_RATE), rotation4d);
+            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XZ2x4(space3D.ROTATION_RATE), rotation4d);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XZ2x4(-ROTATION_RATE), rotation4d);
+            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.XZ2x4(-space3D.ROTATION_RATE), rotation4d);
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.YZ2x4(ROTATION_RATE), rotation4d);
+            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.YZ2x4(space3D.ROTATION_RATE), rotation4d);
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.YZ2x4(-ROTATION_RATE), rotation4d);
+            rotation4d = Matrix3D.matrixMatrixRmxnRnxp_Rmxp(Matrix4D.YZ2x4(-space3D.ROTATION_RATE), rotation4d);
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_F)){
-            camera.focalLength *= (1.05);
+            space3D.camera.focalLength *= (1.05);
         }
     };
     private void drawAxis(double[][] axis){
@@ -72,9 +73,9 @@ public class Euclidean4DTranslation extends Euclidean3D {
     }
     @Override
     public void drawAxes() {
-        drawAxis(new double[][]{{xAxisMin, 0, 0, 0}, {xAxisMax, 0, 0, 0}});
-        drawAxis(new double[][]{{0, yAxisMin, 0, 0}, {0, yAxisMax, 0, 0}});
-        drawAxis(new double[][]{{0, 0, zAxisMin, 0}, {0, 0, zAxisMax, 0}});
+        drawAxis(new double[][]{{space3D.xAxisMin, 0, 0, 0}, {space3D.xAxisMax, 0, 0, 0}});
+        drawAxis(new double[][]{{0, space3D.yAxisMin, 0, 0}, {0, space3D.yAxisMax, 0, 0}});
+        drawAxis(new double[][]{{0, 0, space3D.zAxisMin, 0}, {0, 0, space3D.zAxisMax, 0}});
         drawAxis(new double[][]{{0, 0, 0, w-wViewRadius}, {0, 0, 0, w+wViewRadius}});
     }
     @Override
@@ -84,14 +85,24 @@ public class Euclidean4DTranslation extends Euclidean3D {
     @Override
     public void initializeLabeler() {}
 
-    private void traverseWAxis(Consumer<Euclidean3D> function){
+    public void traverseWAxis(Consumer<Euclidean3D> function){
         for(double wCur = w-wViewRadius; wCur < w+wViewRadius; wCur += wResolution){
             if(!wAxis.containsKey(wCur)){
-                wAxis.put(wCur, new Euclidean3D(false));
+                wAxis.put(wCur, Euclidean3D.Euclidean3DGet());
             }
             Euclidean3D euclidean3D = wAxis.get(wCur);
             function.accept(euclidean3D);
         }
+    }
+
+    @Override
+    public void initializeMover() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void initializeColorScheme() {
+        // TODO Auto-generated method stub
     }
     
 }

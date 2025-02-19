@@ -24,22 +24,19 @@ public abstract class AbstractSpace {
         this.DEFAULT_CLIP_SCALE = 3;
         this.MOVE_SENSITIVITY = 0.01;
         this.VIEW_SPACE_INFO = viewSpaceInfo;
-        this.xClipMin = -DEFAULT_CLIP_SCALE;
-        this.xClipMax = DEFAULT_CLIP_SCALE;
-        this.yClipMin = -DEFAULT_CLIP_SCALE;
-        this.yClipMax = DEFAULT_CLIP_SCALE;
-        initializeMover();
-        initializeLabeler();
-        initializeColorScheme();
+        initializeSpaceVariables();
     }
     public AbstractSpace(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         this.DEFAULT_CLIP_SCALE = defaultScale;
         this.MOVE_SENSITIVITY = moveSensitivity;
         this.VIEW_SPACE_INFO = viewSpaceInfo;
-        this.xClipMin = -defaultScale;
-        this.xClipMax = defaultScale;
-        this.yClipMin = -defaultScale;
-        this.yClipMax = defaultScale;
+        initializeSpaceVariables();
+    }
+    private void initializeSpaceVariables(){
+        this.xClipMin = -DEFAULT_CLIP_SCALE;
+        this.xClipMax = DEFAULT_CLIP_SCALE;
+        this.yClipMin = -DEFAULT_CLIP_SCALE;
+        this.yClipMax = DEFAULT_CLIP_SCALE;
         initializeMover();
         initializeLabeler();
         initializeColorScheme();

@@ -2,22 +2,32 @@ package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.colors.ColorScheme;
-import spacevisuals.helpers.*;
 import spacevisuals.spaces.axisintervals.*;
 import spacevisuals.spaces.spacemovers.DefaultSpaceMover2D;
-import spacevisuals.spaces.spacemovers.*;
-import java.awt.event.KeyEvent;
 
 public class Euclidean2D extends AbstractSpace{
 
     private final double X_LABEL_OFFSET = 0.02;
+    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
+    private static Euclidean2D instance;
 
-    public Euclidean2D(boolean viewSpaceInfo){
+    private Euclidean2D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
     }
-    public Euclidean2D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
+    private Euclidean2D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         super(defaultScale, moveSensitivity, viewSpaceInfo);
     }
+    public static Euclidean2D Euclidean2DGet(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
+        instance = new Euclidean2D(defaultScale, moveSensitivity, viewSpaceInfo);
+        return instance;
+    }
+    public static Euclidean2D Euclidean2DGet(){
+        if(instance == null){
+            instance = new Euclidean2D(DEFAULT_VIEW_SPACE_INFO);
+        }
+        return instance;
+    }
+
     public void initializeMover(){
         this.mover = new DefaultSpaceMover2D(this);
     }
