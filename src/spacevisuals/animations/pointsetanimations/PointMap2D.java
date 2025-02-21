@@ -9,9 +9,10 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.*;
 import spacevisuals.colors.ColorStrategy;
+import spacevisuals.functions.functionhandling.FunctionsEnum;
 
 
-public class PointMap2D extends Animation2DSpace implements PointSetAnimation{
+public class PointMap2D extends SpaceFunction2D implements PointSetAnimation{
 
     private LinkedList<double[]> points;
     private LinkedList<Color> pointColors;
@@ -22,18 +23,8 @@ public class PointMap2D extends Animation2DSpace implements PointSetAnimation{
         this.points = new LinkedList<double[]>();
         this.pointColors = new LinkedList<Color>();
     }
-    @Override
-    public void drawAnimation(){
-        PointSetAnimation.super.drawAnimation();
-    }
-    public void traverseDomain(Consumer<double[]> handlePoint){
-        StdDraw.setPenRadius(pointRadius);
-        for(int i = 0; i < points.size(); i++){
-            StdDraw.setPenColor(pointColors.get(i));
-            handlePoint.accept(points.get(i));
-        }
-    }
 
+    @Override
     public void updateAnimation(){
         if(StdDraw.isMousePressed()){
             double [] newPoint = new double[]{StdDraw.mouseX(), StdDraw.mouseY()};
@@ -44,10 +35,26 @@ public class PointMap2D extends Animation2DSpace implements PointSetAnimation{
             points.clear();
         }
     }
-
+    @Override
+    public void drawAnimation(){
+        PointSetAnimation.super.drawAnimation();
+    }
+    @Override
+    public void traverseDomain(Consumer<double[]> handlePoint){
+        StdDraw.setPenRadius(pointRadius);
+        for(int i = 0; i < points.size(); i++){
+            StdDraw.setPenColor(pointColors.get(i));
+            handlePoint.accept(points.get(i));
+        }
+    }
+    @Override
     public void handlePoint(double[] input){
         double[] output = function.apply(input);
         StdDraw.point(input[0], input[1]);
         StdDraw.point(output[0], output[1]);
+    }
+    @Override
+    public void buildAnimation(String[] parameters) {
+        setFunctionStringArray(parameters);
     }
 }

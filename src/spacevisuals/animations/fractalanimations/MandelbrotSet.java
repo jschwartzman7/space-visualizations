@@ -1,7 +1,5 @@
 package spacevisuals.animations.fractalanimations;
 
-import spacevisuals.spaces.Euclidean2D;
-
 public class MandelbrotSet extends JuliaSet {
 	
 	private static final int DEFAULT_PIXEL_RESOLUTION = 500;

@@ -1,11 +1,6 @@
 package spacevisuals;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
-
-import spacevisuals.spaces.*;
-import spacevisuals.*;
-
 /*
  * Extended interface for an animation that traverses a set and acts on each element
  */

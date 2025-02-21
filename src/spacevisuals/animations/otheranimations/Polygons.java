@@ -2,12 +2,11 @@ package spacevisuals.animations.otheranimations;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.Animation3DSpace;
+import spacevisuals.SpaceFunction3D;
+import spacevisuals.SpaceAnimation;
 
-public class Polygons extends Animation3DSpace{
+public class Polygons extends SpaceFunction3D implements SpaceAnimation{
 
     private List<double[][]> linePointPairs;
     
@@ -70,5 +69,10 @@ public class Polygons extends Animation3DSpace{
             StdDraw.setPenColor();
             StdDraw.line(point2D1[0], point2D1[1], point2D2[0], point2D2[1]);
         }
+    }
+
+    @Override
+    public void buildAnimation(String[] parameters) {
+        return;
     }
 }

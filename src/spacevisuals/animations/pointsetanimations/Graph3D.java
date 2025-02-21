@@ -6,14 +6,16 @@ import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.spacetraversers.*;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.colors.*;
+import spacevisuals.functions.functionhandling.FunctionsEnum;
 import spacevisuals.helpers.TextBox;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-public class Graph3D extends Animation3DSpace implements PointSetAnimation{
+public class Graph3D extends SpaceFunction3D implements PointSetAnimation{
 
-    EuclideanSpaceTraverser<Euclidean3D> traverser;
-    ColorStrategy colorHelper;
-    TextBox textBox;
+    private EuclideanSpaceTraverser<Euclidean3D> traverser;
+    private ColorStrategy colorHelper;
+    private TextBox textBox;
 
     public Graph3D(){
         super();
@@ -21,7 +23,17 @@ public class Graph3D extends Animation3DSpace implements PointSetAnimation{
         this.colorHelper = new DomainColorStrategy();
         this.textBox = new TextBox(space);
     }
+
+    public void buildAnimation(Function<double[], double[]> function) {
+        this.function = function;
+    }
+
+    @Override
+    public void drawAnimation(){
+        PointSetAnimation.super.drawAnimation();
+    }
     
+
     @Override
     public void traverseDomain(Consumer<double[]> handlePoint){
         traverser.traverseDomain(this::handlePoint);
@@ -34,11 +46,6 @@ public class Graph3D extends Animation3DSpace implements PointSetAnimation{
         textBox.addText("z", space.camera.z + "");
         textBox.drawTextBox();
     }
-
-    @Override
-    public void drawAnimation(){
-        PointSetAnimation.super.drawAnimation();
-    }
     @Override
     public void handlePoint(double[] input){
         double[] output = function.apply(input);
@@ -50,5 +57,9 @@ public class Graph3D extends Animation3DSpace implements PointSetAnimation{
             StdDraw.setPenColor(colorHelper.getColor(input));
             StdDraw.point(point[0], point[1]);
         }
+    }
+    @Override
+    public void buildAnimation(String[] parameters) {
+        setFunctionStringArray(parameters);
     }
 }

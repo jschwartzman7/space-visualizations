@@ -14,6 +14,7 @@ import java.util.LinkedList;
 
 public class Main {
     
+    static String[] arguments;
     static Euclidean2D euclidean2d = Euclidean2D.Euclidean2DGet(5, .08, true);
     static Euclidean3D euclidean3d = Euclidean3D.Euclidean3DGet(5, .08, false);
     static Euclidean4DTranslation euclidean4d = new Euclidean4DTranslation(true);
@@ -21,39 +22,15 @@ public class Main {
     static SpaceAnimationRunner animationRunner3d = new SpaceAnimationRunner(euclidean3d, 25);
     static SpaceAnimationRunner animationRunner4d = new SpaceAnimationRunner(euclidean4d, 25);
     static SpaceAnimationRunner runner;
-    static HashMap<String, EnumMap<AnimationHandler, SpaceAnimation>> animations = new HashMap<String, EnumMap<AnimationHandler, SpaceAnimation>>(){
-        {
-        put("2D", new EnumMap<AnimationHandler, SpaceAnimation>(AnimationHandler.class){
-            {
-                put(AnimationHandler.basic2d, new Animation2DSpace());
-                put(AnimationHandler.vectorfield2d, new VectorField2D());
-                put(AnimationHandler.domaincolor, new DomainColor());
-                put(AnimationHandler.pointmap2d, new PointMap2D());
-                put(AnimationHandler.juliaset, new JuliaSet());
-                put(AnimationHandler.mandelbrot, new MandelbrotSet());
-                put(AnimationHandler.gradient, new Gradient());
-                put(AnimationHandler.parametriccurve, new ParametricCurve());
-            }
-        });
-        put("3D", new EnumMap<AnimationHandler, SpaceAnimation>(AnimationHandler.class){
-            {
-                put(AnimationHandler.basic3d, new Animation3DSpace());
-                put(AnimationHandler.vectorfield3d, new VectorField3D());
-                put(AnimationHandler.graph3d, new Graph3D());
-                put(AnimationHandler.polygons, new Polygons());
-                put(AnimationHandler.spheremagnet, new SphereMagnet());
-            }
-        });
-        }
-    };
+    static AnimationHandler[] animations = AnimationHandler.values();
 
-    public static String[] buildAnimationParameters(String[] args, int index){
+    public static String[] buildAnimationParameters(int index){
         LinkedList<String> params = new LinkedList<String>();
-        while(index < args.length){
-            if(args[index].equals(",")){
+        while(index < arguments.length){
+            if(arguments[index].equals(",")){
                 break;
             }
-            params.add(args[index]);
+            params.add(arguments[index]);
             ++index;
         }
         if(params.size() == 0){
@@ -62,37 +39,26 @@ public class Main {
         return params.toArray(new String[params.size()]);
     }
 
-    public static int checkForAnimation(String[] args, int index, String dimensions, SpaceAnimationRunner newRunner){
-        for(AnimationHandler key : animations.get(dimensions).keySet()){
-            if(args[index].equals(key.toString())){
-                runner = newRunner;
-                SpaceAnimation animation = animations.get(dimensions).get(key);
-                String[] params = buildAnimationParameters(args, index+1);
-                    if(params != null){
-                        index = index + params.length;
-                    }
-                    else{
-                        params = new String[1];
-                    }
-                    animation.buildAnimation(params);
-                    runner.animations.add(animations.get(dimensions).get(key));
-                    break;
-            }
-        }
-        return index;
-    }
-
     public static void handleCommandLineArgs(String[] args){
         if(args.length == 0){
             System.out.println("No arguments provided.");
             return;
         }
-        int i = 0;
-        while(i < args.length){
-            i = checkForAnimation(args, i, "2D", animationRunner2d);
-            if(i >= args.length){break;}
-            i = checkForAnimation(args, i, "3D", animationRunner3d);
-            ++i;
+        for(int i = 0; i < args.length; ++i){
+            for(AnimationHandler key : animations){
+                if(arguments[i].equals(key.toString())){
+                    SpaceAnimation animation = key.getAnimation();
+                    String[] params = buildAnimationParameters(i+1);
+
+                    for(String f: params){
+                        System.out.println(f);
+                    }
+                    animation.buildAnimation(params);
+                    runner = key.getDimensions().equals("3d") ? animationRunner3d : animationRunner2d;
+                    runner.animations.add(key.getAnimation());
+                    break;
+                }
+            }
         }
         if(runner == null){
             System.out.println("No valid animation arguments provided.");
@@ -102,6 +68,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        arguments = args;
         handleCommandLineArgs(args);
         //handleCommandLineArgs(new String[]{"domaincolor"});
     }

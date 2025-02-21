@@ -1,9 +1,9 @@
-package spacevisuals.helpers;
+package spacevisuals.functions.functionhandling;
 
 import java.util.function.Function;
 import spacevisuals.functions.*;
 
-public enum FunctionHandler {
+public enum FunctionsEnum {
 
     identity(u -> u),
     zero(u -> new double[]{0}),
@@ -28,7 +28,7 @@ public enum FunctionHandler {
 
     private final Function<double[], double[]> function;
 
-    FunctionHandler(Function<double[], double[]> function) {
+    FunctionsEnum(Function<double[], double[]> function) {
         this.function = function;
     }
 
@@ -36,8 +36,8 @@ public enum FunctionHandler {
         return function;
     }
 
-    public static FunctionHandler from(String text) {
-        FunctionHandler function = FunctionHandler.identity;
+    public static FunctionsEnum from(String text) {
+        FunctionsEnum function = FunctionsEnum.identity;
         try {
             function = valueOf(text);
         }

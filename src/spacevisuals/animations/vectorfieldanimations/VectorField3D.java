@@ -3,16 +3,18 @@ package spacevisuals.animations.vectorfieldanimations;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.axisintervals.IntervalsRange;
 import spacevisuals.spaces.spacetraversers.Euclidean3DSpaceTraverser;
-import spacevisuals.Animation3DSpace;
+import spacevisuals.SpaceFunction3D;
 import spacevisuals.PointSetAnimation;
 import spacevisuals.functions.*;
+import spacevisuals.functions.functionhandling.FunctionsEnum;
+
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class VectorField3D extends Animation3DSpace implements PointSetAnimation {
+public class VectorField3D extends SpaceFunction3D implements PointSetAnimation {
 
-        Matrix3D matrixHelper;
-	    Euclidean3DSpaceTraverser traverser;
+        private Matrix3D matrixHelper;
+	    private Euclidean3DSpaceTraverser traverser;
         private IntervalsRange vectorSizer;
     
         public VectorField3D(){
@@ -30,11 +32,15 @@ public class VectorField3D extends Animation3DSpace implements PointSetAnimation
     
         }
 
+        @Override
         public void updateAnimation(){
             vectorSizer.updateLabelInterval(0, space.xAxisMax-space.xAxisMin);
         }
-
-    
+        @Override
+        public void traverseDomain(Consumer<double[]> handlePoint){
+            traverser.traverseDomain(handlePoint);
+        }
+        @Override
         public void handlePoint(double[] input3D){
             /*
              * Add vector lines to list to send to space to draw
@@ -51,11 +57,11 @@ public class VectorField3D extends Animation3DSpace implements PointSetAnimation
             StdDraw.line(p1[0], p1[1], p2[0], p2[1]);
             //StdDraw.line(input[0], input[1], input[0]+Math.cos(angle)*(0.01*range), input[1]+Math.sin(angle)*(0.01*range));
         }
-
-        public void traverseDomain(Consumer<double[]> handlePoint){
-            traverser.traverseDomain(handlePoint);
+        
+        @Override
+        public void buildAnimation(String[] parameters) {
+            this.function = FunctionsEnum.from(parameters[0]).getFunction();
         }
-
 
 }
     

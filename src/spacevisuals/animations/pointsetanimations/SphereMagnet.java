@@ -3,9 +3,10 @@ package spacevisuals.animations.pointsetanimations;
 import spacevisuals.helpers.*;
 import java.util.function.Consumer;
 import spacevisuals.*;
+import spacevisuals.functions.functionhandling.FunctionsEnum;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class SphereMagnet extends Animation3DSpace implements PointSetAnimation{
+public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
 
     private double maxPointRadius = 70;
     private int numPoints = 25000;
@@ -33,10 +34,28 @@ public class SphereMagnet extends Animation3DSpace implements PointSetAnimation{
     public void updateAnimation(){
         timeInterval.updateT();
     }
+    @Override
+    public void drawAnimation(){
+        PointSetAnimation.super.drawAnimation();
+    }
+    @Override
+    public void traverseDomain(Consumer<double[]> handlePoint) {
+        for(int i = 0; i < points.length; i++){
+            handlePoint.accept(points[i]);
+        }
+    }
+    @Override
+    public void handlePoint(double[] input) {
+        if(Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2)+Math.pow(input[2], 2)) <= Double.MIN_VALUE){
+            double[] point = space.toViewScreenPoint(input);
+            StdDraw.point(point[0], point[1]);
+        }
+        else{
+            double[] point = space.toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
+            StdDraw.point(point[0], point[1]);
+        }
+    }
 
-    /*public static double[] transformPoint(double t, Double[] input){
-        return new double[]{input[0]*(1+t*(1/Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2))-1)), input[1]*(1+t*(1/Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2))-1))};
-    }*/
     public static double[] transformPoint(double[] input){
         double x = input[0];
         double y = input[1];
@@ -48,26 +67,10 @@ public class SphereMagnet extends Animation3DSpace implements PointSetAnimation{
         return new double[]{newR*Math.sin(theta)*Math.cos(phi), newR*Math.sin(theta)*Math.sin(phi), newR*Math.cos(theta)};
 
     }
-
-    public void handlePoint(double[] input) {
-        if(Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2)+Math.pow(input[2], 2)) <= Double.MIN_VALUE){
-            double[] point = space.toViewScreenPoint(input);
-            StdDraw.point(point[0], point[1]);
-        }
-        else{
-            double[] point = space.toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
-            StdDraw.point(point[0], point[1]);
-        }
-    }
     
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
-        for(int i = 0; i < points.length; i++){
-            handlePoint.accept(points[i]);
-        }
+    public void buildAnimation(String[] parameters) {
+        this.function = FunctionsEnum.from(parameters[0]).getFunction();
     }
-    @Override
-    public void drawAnimation(){
-        PointSetAnimation.super.drawAnimation();
-    }
+   
 }

@@ -3,14 +3,14 @@ package spacevisuals.animations.pointsetanimations;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.function.Consumer;
-
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.Animation2DSpace;
+import spacevisuals.SpaceFunction2D;
+import spacevisuals.functions.functionhandling.FunctionsEnum;
 import spacevisuals.PointSetAnimation;
 import spacevisuals.helpers.TimeInterval;
 import spacevisuals.helpers.TimeIntervalLoop;
 
-public class ParametricCurve extends Animation2DSpace implements PointSetAnimation{
+public class ParametricCurve extends SpaceFunction2D implements PointSetAnimation{
 
     private LinkedList<Color> pointColors;
     private double pointRadius = 0.01;
@@ -29,21 +29,6 @@ public class ParametricCurve extends Animation2DSpace implements PointSetAnimati
     }
 
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
-        StdDraw.setPenRadius(pointRadius);
-        for(int i = 0; i < points.length; i++){
-            StdDraw.setPenColor(Color.black);
-            handlePoint.accept(new double[]{points[i]});
-        }
-    }
-    
-
-    @Override
-    public void handlePoint(double[] input) {
-        double[] point = function.apply(input);
-        StdDraw.point(point[0], point[1]);
-    }
-    @Override
     public void updateAnimation(){
         for(int i = 0; i < points.length; i++){
             points[i] += timeInterval.t;
@@ -54,5 +39,21 @@ public class ParametricCurve extends Animation2DSpace implements PointSetAnimati
     public void drawAnimation(){
         PointSetAnimation.super.drawAnimation();
     }
-    
+    @Override
+    public void traverseDomain(Consumer<double[]> handlePoint) {
+        StdDraw.setPenRadius(pointRadius);
+        for(int i = 0; i < points.length; i++){
+            StdDraw.setPenColor(Color.black);
+            handlePoint.accept(new double[]{points[i]});
+        }
+    }
+    @Override
+    public void handlePoint(double[] input) {
+        double[] point = function.apply(input);
+        StdDraw.point(point[0], point[1]);
+    }
+    @Override
+    public void buildAnimation(String[] parameters) {
+        this.function = FunctionsEnum.from(parameters[0]).getFunction();
+    }
 }

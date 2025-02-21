@@ -2,11 +2,9 @@ package spacevisuals.animations.otheranimations;
 
 import spacevisuals.helpers.*;
 import spacevisuals.*;
-import java.awt.Color;
-import spacevisuals.spaces.Euclidean2D;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ArcDeformation extends Animation2DSpace{
+public class ArcDeformation extends SpaceFunction2D{
 
     // draw "continuously" deforming semi-circles starting from upper hemisphere ending at lower hemisphere
     // StdDraw.arc(x, y, radius, angle1, angle2);
@@ -16,8 +14,7 @@ public class ArcDeformation extends Animation2DSpace{
     //LinkedList<Double> shadow;
     //int shadowLength;
     private double circleRadius = 5;
-    TimeInterval T;
-    private Color color = new Color(5, 20, 10);
+    private TimeInterval T;
     private double penWidth = 0.008;
     
     public ArcDeformation(){
@@ -32,7 +29,7 @@ public class ArcDeformation extends Animation2DSpace{
             double rr = (circleRadius/T.t+circleRadius*T.t)/2;
             double y = rr-T.t*circleRadius;
             double angle1 = Math.atan2(-y, -circleRadius*Math.signum(T.t))*180/Math.PI;
-            StdDraw.setPenColor(color);
+            StdDraw.setPenColor();
             StdDraw.setPenRadius(penWidth);
             if(T.t < 0){
                 StdDraw.arc(0, y, Math.abs(rr), angle1, 180-angle1);

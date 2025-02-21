@@ -1,30 +1,27 @@
 package spacevisuals;
 
 import spacevisuals.spaces.AbstractSpace;
-
 import java.util.LinkedList;
-
 import edu.princeton.cs.introcs.StdDraw;
 
 /*
  * Object for running animations in a specific space
  */
-public class SpaceAnimationRunner {
+public class SpaceAnimationRunner extends SpaceUser<AbstractSpace>{
     
     public final int CANVAS_WIDTH = 700;
     public final int CANVAS_HEIGHT = 700;
     public final int FRAMERATE;
-    AbstractSpace space;
     LinkedList<SpaceAnimation> animations;
 
     public SpaceAnimationRunner(AbstractSpace space, int frameRate){
-        this.space = space;
+        super(space);
         this.FRAMERATE = frameRate;
         this.animations = new LinkedList<SpaceAnimation>();
         this.setCanvas();
     }
     public SpaceAnimationRunner(AbstractSpace space, int frameRate, LinkedList<SpaceAnimation> animations){
-        this.space = space;
+        super(space);
         this.FRAMERATE = frameRate;
         this.animations = animations;
         this.setCanvas();

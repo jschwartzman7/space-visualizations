@@ -4,15 +4,13 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.function.Consumer;
-import java.util.function.Function;
-
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.Animation2DSpace;
+import spacevisuals.SpaceFunction2D;
 import spacevisuals.PointSetAnimation;
-import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.animations.vectorfieldanimations.VectorField2D;
+import spacevisuals.functions.functionhandling.FunctionsEnum;
 
-public class Gradient extends Animation2DSpace implements PointSetAnimation{
+public class Gradient extends SpaceFunction2D implements PointSetAnimation{
     
     private LinkedList<double[]> points;
     //private LinkedList<Color> pointColors;
@@ -26,16 +24,6 @@ public class Gradient extends Animation2DSpace implements PointSetAnimation{
         this.vectorField = new VectorField2D();
     }
     @Override
-    public void drawAnimation(){
-        vectorField.drawAnimation();
-        traverseDomain(this::handlePoint);
-    };
-    @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
-        for(double[] point : points){
-            handlePoint.accept(point);
-        }
-    }
     public void updateAnimation(){
         vectorField.updateAnimation();
         if(StdDraw.isMousePressed()){
@@ -47,6 +35,17 @@ public class Gradient extends Animation2DSpace implements PointSetAnimation{
         }
     }
     @Override
+    public void drawAnimation(){
+        vectorField.drawAnimation();
+        traverseDomain(this::handlePoint);
+    };
+    @Override
+    public void traverseDomain(Consumer<double[]> handlePoint) {
+        for(double[] point : points){
+            handlePoint.accept(point);
+        }
+    }
+    @Override
     public void handlePoint(double[] point) {
         StdDraw.setPenColor(Color.BLACK);
         StdDraw.filledCircle(point[0], point[1], pointRadius);
@@ -55,5 +54,9 @@ public class Gradient extends Animation2DSpace implements PointSetAnimation{
         double vectorMagnitude = Math.sqrt(vector[0]*vector[0]+vector[1]*vector[1]);
         point[0] += distanceStep*vector[0]/vectorMagnitude;
         point[1] += distanceStep*vector[1]/vectorMagnitude;
+    }
+    @Override
+    public void buildAnimation(String[] parameters) {
+        this.function = FunctionsEnum.from(parameters[0]).getFunction();
     }
 }
