@@ -3,15 +3,16 @@ package spacevisuals.animations.otheranimations;
 import java.util.LinkedList;
 import java.util.List;
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.SpaceFunction3D;
-import spacevisuals.SpaceAnimation;
+import spacevisuals.animations.SpaceAnimation;
+import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.spaces.SpaceUser;
 
-public class Polygons extends SpaceFunction3D implements SpaceAnimation{
+public class Polygons extends SpaceUser<Euclidean3D> implements SpaceAnimation{
 
     private List<double[][]> linePointPairs;
     
     public Polygons(){
-        super();
+        super(Euclidean3D.Get());
         this.linePointPairs = new LinkedList<double[][]>();
         addCube(3, new double[]{2, 0, 0});
         addTetrahedron(new double[]{1, 1, 2}, 2);

@@ -1,11 +1,11 @@
 package spacevisuals.spaces;
 
 import java.awt.Color;
-import spacevisuals.colors.ColorScheme;
+import spacevisuals.colors.SpaceColorScheme;
 import spacevisuals.functions.Matrix3D;
 import spacevisuals.helpers.*;
-import spacevisuals.spaces.axisintervals.*;
-import spacevisuals.spaces.spacemovers.DefaultSpaceMover3D;
+import spacevisuals.spaces.intervalranges.AxisIntervals3D;
+import spacevisuals.spaces.spacemovers.SpaceMover3D;
 import edu.princeton.cs.introcs.StdDraw;
 /*
  * adjust label interval as distortion changes, not just displayed value
@@ -21,10 +21,17 @@ public class Euclidean3D extends AbstractSpace{
     public double zAxisMax;
     public Matrix3D matrixUtils;
     public Camera3DSpace camera;
-
-    public static final boolean DEFAULT_VIEW_SPACE_INFO = true;
-    private static Euclidean3D instance;
-
+    private static SingletonSpace<Euclidean3D> instance = new SingletonSpace<Euclidean3D>();
+    private Euclidean3D(){
+        super();
+        this.xAxisMin = -DEFAULT_CLIP_SCALE;
+        this.xAxisMax = DEFAULT_CLIP_SCALE;
+        this.yAxisMin = -DEFAULT_CLIP_SCALE;
+        this.yAxisMax = DEFAULT_CLIP_SCALE;
+        this.zAxisMin = -DEFAULT_CLIP_SCALE;
+        this.zAxisMax = DEFAULT_CLIP_SCALE;
+        this.camera = new Camera3DSpace();
+    }
     private Euclidean3D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
         this.xAxisMin = -DEFAULT_CLIP_SCALE;
@@ -45,24 +52,24 @@ public class Euclidean3D extends AbstractSpace{
         this.zAxisMax = defaultScale;
         this.camera = new Camera3DSpace();
     }
-    public static Euclidean3D Euclidean3DGet(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
-        instance = new Euclidean3D(defaultScale, moveSensitivity, viewSpaceInfo);
-        return instance;
+    public static Euclidean3D Get(boolean viewSpaceInfo){
+        return instance.getOrCreateSpace(() -> new Euclidean3D(viewSpaceInfo));
     }
-    public static Euclidean3D Euclidean3DGet(){
-        if(instance == null){
-            instance = new Euclidean3D(DEFAULT_VIEW_SPACE_INFO);
-        }
-        return instance;
+    public static Euclidean3D Get(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
+        return instance.getOrCreateSpace(() -> new Euclidean3D(defaultScale, moveSensitivity, viewSpaceInfo));
     }
+    public static Euclidean3D Get(){
+        return instance.getOrCreateSpace(() -> new Euclidean3D());
+    }
+
     public void initializeMover(){
-        this.mover = new DefaultSpaceMover3D(this);
+        this.mover = new SpaceMover3D(this);
     }
     public void initializeLabeler(){
         this.labeler = new AxisIntervals3D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {2, 5}, {2, 10}});
     }
     public void initializeColorScheme(){
-        this.colorScheme = new ColorScheme("");
+        this.colorScheme = SpaceColorScheme.from("dark");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return camera.toDrawablePoint(numericPoint);
@@ -127,21 +134,21 @@ public class Euclidean3D extends AbstractSpace{
         double numericMin = xAxisMin;
         double numericMax = xAxisMax;
         for(double numericX = numericMin-numericMin%labeler.labelIntervals[0]; numericX <= numericMax; numericX += labeler.labelIntervals[0]){
-            if(Math.abs(numericX) < FLOAT_TOLERANCE){continue;}
+            if(Math.abs(numericX) < ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{numericX, 0, 0});
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericX));
         }
         numericMin = yAxisMin;
         numericMax = yAxisMax;
         for(double numericY = numericMin-numericMin%labeler.labelIntervals[1]; numericY <= numericMax; numericY += labeler.labelIntervals[1]){
-            if(Math.abs(numericY) < FLOAT_TOLERANCE){continue;}
+            if(Math.abs(numericY) < ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{0, numericY, 0});
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericY));
         }
         numericMin = zAxisMin;
         numericMax = zAxisMax;
         for(double numericZ = numericMin-numericMin%labeler.labelIntervals[2]; numericZ <= numericMax; numericZ += labeler.labelIntervals[2]){
-            if(Math.abs(numericZ) < FLOAT_TOLERANCE){continue;}
+            if(Math.abs(numericZ) < ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{0, 0, numericZ});
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericZ));
         }

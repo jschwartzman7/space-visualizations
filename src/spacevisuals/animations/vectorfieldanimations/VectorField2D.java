@@ -1,11 +1,11 @@
 package spacevisuals.animations.vectorfieldanimations;
 
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.axisintervals.IntervalsRange;
+import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.SpaceFunction2D;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
-import spacevisuals.PointSetAnimation;
+import spacevisuals.animations.PointSetAnimation;
 
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
@@ -47,7 +47,7 @@ public class VectorField2D extends SpaceFunction2D implements PointSetAnimation 
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).getFunction();
+        this.function = FunctionsEnum.from(parameters[0]).function;
     }
 }
     

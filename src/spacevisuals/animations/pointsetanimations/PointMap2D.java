@@ -1,6 +1,7 @@
 package spacevisuals.animations.pointsetanimations;
 
 import spacevisuals.spaces.*;
+import spacevisuals.SpaceFunction2D;
 import edu.princeton.cs.introcs.StdDraw;
 import java.util.LinkedList;
 import java.util.function.Consumer;
@@ -8,7 +9,8 @@ import java.util.function.Function;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.*;
-import spacevisuals.colors.ColorStrategy;
+import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
 
 

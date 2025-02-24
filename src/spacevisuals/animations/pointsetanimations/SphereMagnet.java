@@ -1,8 +1,12 @@
 package spacevisuals.animations.pointsetanimations;
 
 import spacevisuals.helpers.*;
+import spacevisuals.helpers.timeintervals.TimeInterval;
+import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
+
 import java.util.function.Consumer;
 import spacevisuals.*;
+import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -70,7 +74,7 @@ public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
     
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).getFunction();
+        this.function = FunctionsEnum.from(parameters[0]).function;
     }
    
 }

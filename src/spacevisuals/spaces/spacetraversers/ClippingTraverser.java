@@ -8,7 +8,7 @@ import spacevisuals.spaces.spacetraversers.steppers.*;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.*;
 
-public class ClippingTraverser extends EuclideanSpaceTraverser<Euclidean2D>{
+public class ClippingTraverser extends SpaceTraverser<Euclidean2D>{
     
     public static final double DEFAULT_PIXEL_RESOLUTION = 100;
 

@@ -1,6 +1,6 @@
 package spacevisuals.functions;
 
-public class statistics {
+public class Statistics {
     public static double mean(double[] data) {
         double sum = 0;
         for (double datum : data) {

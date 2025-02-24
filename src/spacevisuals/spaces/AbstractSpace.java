@@ -1,28 +1,35 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.colors.ColorScheme;
-import spacevisuals.spaces.axisintervals.*;
+import spacevisuals.colors.SpaceColorScheme;
+import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.spaces.spacemovers.SpaceMover;;
 /*
 * Base class for Euclidean space to be rendered
-* Extended by R2 and R3
+* Extended by Euclidean2D, Euclidean3D, Euclidean4D
 */
 public abstract class AbstractSpace {
-    public final double FLOAT_TOLERANCE = 0.000001;
+    static final boolean DEFAULT_VIEW_SPACE_INFO = true;
+    final double ZERO_TOLERANCE = 0.000001;
     public final double DEFAULT_CLIP_SCALE;
     public final double MOVE_SENSITIVITY;
     public final boolean VIEW_SPACE_INFO;
     public SpaceMover mover;
     public IntervalsRange labeler;
-    public ColorScheme colorScheme;
+    public SpaceColorScheme colorScheme;
     public double xClipMin;
     public double xClipMax;
     public double yClipMin;
     public double yClipMax;
+    public AbstractSpace(){
+        this.DEFAULT_CLIP_SCALE = 3;
+        this.MOVE_SENSITIVITY = 0.025;
+        this.VIEW_SPACE_INFO = DEFAULT_VIEW_SPACE_INFO;
+        initializeSpaceVariables();
+    }
     public AbstractSpace(boolean viewSpaceInfo){
         this.DEFAULT_CLIP_SCALE = 3;
-        this.MOVE_SENSITIVITY = 0.01;
+        this.MOVE_SENSITIVITY = 0.025;
         this.VIEW_SPACE_INFO = viewSpaceInfo;
         initializeSpaceVariables();
     }
@@ -87,28 +94,6 @@ public abstract class AbstractSpace {
         this.yClipMin += amount;
         this.yClipMax -= amount;
     }
-    /*protected void adjustPrimaryDistortion(double amount){
-        this.primaryDistortion += amount;
-    }
-    protected void adjustSecondaryDistortion(double amount){
-        this.secondaryDistortion += amount;
-    }*/
-    /*protected void updateLabelIntervals(double primaryRange, double secondaryRange){
-        double primaryIntervalRatio = primaryRange/primaryLabelInterval;
-        if(primaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
-            this.primaryLabelInterval *= 2;
-        }
-        else if(primaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
-            this.primaryLabelInterval /= 2;
-        }
-        double secondaryIntervalRatio = secondaryRange/secondaryLabelInterval;
-        if(secondaryIntervalRatio > RANGE_INTERVAL_RATIO_MAX){
-            this.secondaryLabelInterval *= 2;
-        }
-        else if(secondaryIntervalRatio < RANGE_INTERVAL_RATIO_MIN){
-            this.secondaryLabelInterval /= 2;
-        }
-    }*/
     public void resetClipScale(){
         this.xClipMin = -DEFAULT_CLIP_SCALE;
         this.xClipMax = DEFAULT_CLIP_SCALE;

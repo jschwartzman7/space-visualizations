@@ -6,11 +6,10 @@ import java.util.function.Consumer;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.SpaceFunction3D;
+import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
-import spacevisuals.PointSetAnimation;
-import spacevisuals.SpaceAnimation;
-import spacevisuals.helpers.TimeInterval;
-import spacevisuals.helpers.TimeIntervalLoop;
+import spacevisuals.helpers.timeintervals.TimeInterval;
+import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 
 public class LorenzAttractor extends SpaceFunction3D implements SpaceAnimation{
 
@@ -67,7 +66,7 @@ public class LorenzAttractor extends SpaceFunction3D implements SpaceAnimation{
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).getFunction();
+        this.function = FunctionsEnum.from(parameters[0]).function;
     }
     
 }

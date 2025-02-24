@@ -1,17 +1,37 @@
 package spacevisuals.functions.functionhandling;
 
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Stack;
 
 public class FunctionBuilder {
 
-    public static FunctionBinaryOperationEnum[] binaryOperations =  FunctionBinaryOperationEnum.values();
-    public static FunctionUnaryOperationEnum[] unaryOperations = FunctionUnaryOperationEnum.values();
-    public static FunctionConstantEnum[] constants = FunctionConstantEnum.values();
-    public static FunctionVariableEnum[] variables = FunctionVariableEnum.values();
-    
+    public static HashSet<String> binaryOperations = Arrays.stream(BinaryOperationEnum.values())
+                                                            .map(BinaryOperationEnum::getSymbol)
+                                                            .collect(Collectors.toCollection(HashSet::new));
+    public static HashMap<String, String> binaryOperationMap = new HashMap<String, String>()
+        {{
+            put("+", "add");
+            put("-", "subtract");
+            put("*", "multiply");
+            put("/", "divide");
+            put("^", "power");
+        }}
+    ;
+    public static HashSet<String> unaryOperations = Arrays.stream(UnaryOperationEnum.values())
+                                                            .map(UnaryOperationEnum::toString)
+                                                            .collect(Collectors.toCollection(HashSet::new));
+    public static HashSet<String> constants = Arrays.stream(MathConstantEnum.values())
+                                                            .map(MathConstantEnum::toString)
+                                                            .collect(Collectors.toCollection(HashSet::new));
+    public static HashSet<String> variables = Arrays.stream(FunctionVariableEnum.values())
+                                                            .map(FunctionVariableEnum::toString)
+                                                            .collect(Collectors.toCollection(HashSet::new));
     // tracks order of function variables
     public static ArrayList<String> usedVariables = new ArrayList<String>();
     public static void fillUsedVariables(String[] functionInput){
@@ -71,7 +91,7 @@ public class FunctionBuilder {
             System.out.println("Invalid function input - parseSingleFunction");
             return null;
         }
-        Stack<FunctionBinaryOperationEnum> operations = new Stack<FunctionBinaryOperationEnum>();
+        Stack<BinaryOperationEnum> operations = new Stack<BinaryOperationEnum>();
         Stack<Function<double[], Double>> values = new Stack<Function<double[], Double>>();
         int index = 0;
         while(index < tokenizedFunction.length){
@@ -79,63 +99,54 @@ public class FunctionBuilder {
             //System.out.println("token: "+curToken);
 
             // current is a number
-            
             if(isNumeric(curToken)){
                 Function<double[], Double> value = (double[] input) -> Double.parseDouble(curToken);
                 values.push(value);
                 index++;
                 continue;
             }
-            // check if current is a binary operation
-            for(FunctionBinaryOperationEnum binaryOperation: binaryOperations){
-                if(binaryOperation.getSymbol().equals(curToken)){
-                    while(!operations.isEmpty()){
-                        FunctionBinaryOperationEnum previousOperation = operations.peek();
-                        if(previousOperation.getPrecedence() >= binaryOperation.getPrecedence()){
-                            popAndApply(operations, values);
-                        }
-                        else{
-                            break;
-                        }
+            // current is a binary operation
+            if(binaryOperations.contains(curToken)){
+                while(!operations.isEmpty()){
+                    BinaryOperationEnum previousOperation = operations.peek();
+                    if(previousOperation.precedence >= BinaryOperationEnum.valueOf(binaryOperationMap.get(curToken)).precedence){
+                        popAndApply(operations, values);
                     }
-                    operations.push(binaryOperation);
-                    index++;
-                    break;
+                    else{
+                        break;
+                    }
                 }
+                operations.push(BinaryOperationEnum.valueOf(binaryOperationMap.get(curToken)));
+                index++;
+                continue;
             }
             
-            // check if current is a function variable
-            for(FunctionVariableEnum variable: variables){
-                if(variable.toString().equals(curToken)){
-                    values.push((double[] input) -> input[usedVariables.indexOf(curToken)]);
-                    index++;
-                    break;
-                }
+            // current is a function variable
+            if(variables.contains(curToken)){
+                values.push((double[] input) -> input[usedVariables.indexOf(curToken)]);
+                index++;
+                continue;
             }
             
             // check if current is a constant
-            for(FunctionConstantEnum constant: constants){
-                if(constant.toString().equals(curToken)){
-                    values.push((double[] input) -> constant.getValue());
-                    index++;
-                    continue;
+            if(constants.contains(curToken)){
+                values.push((double[] input) -> MathConstantEnum.valueOf(curToken).value);
+                index++;
+                continue;
+            }
+
+            // current is an unary operation
+            if(unaryOperations.contains(curToken)){
+                ArrayList<String> nextFunction = new ArrayList<String>();
+                for(int i = index + 1; i < tokenizedFunction.length; ++i){
+                    nextFunction.add(tokenizedFunction[i]);
                 }
+                Function<Function<double[], Double>, Function<double[], Double>> unaryOperation = UnaryOperationEnum.valueOf(curToken).function;
+                values.push(unaryOperation.apply(parseSingleFunction(nextFunction.toArray(new String[nextFunction.size()]))));
+                index += toEndingParenthesis(tokenizedFunction, index + 1);
+                continue;
             }
             
-            // check if current is a unary operation
-            /*FunctionUnaryOperationEnum unaryOperation;
-            try{
-                unaryOperation = FunctionUnaryOperationEnum.valueOf(current);
-            }
-            catch(IllegalArgumentException e){
-                unaryOperation = null;
-            }
-            finally{
-                if(unaryOperation != null){
-                    operations.push(current);
-                    //Function<double[], Double> value = (double[] input) -> unaryOperations.get(current).apply((input));
-                }
-            }*/
             if((curToken).equals("(")){
                 ArrayList<String> nextFunction = new ArrayList<String>();
                 for(int i = index + 1; i < tokenizedFunction.length; ++i){
@@ -146,7 +157,7 @@ public class FunctionBuilder {
                 continue;
             }
             if((curToken).equals(")")){
-                System.out.println("ending");
+                System.out.println("ending parenthesis");
                 while(!operations.isEmpty()){
                     popAndApply(operations, values);
                 }
@@ -182,11 +193,11 @@ public class FunctionBuilder {
         return length;
     }
     
-    public static void popAndApply(Stack<FunctionBinaryOperationEnum> operations, Stack<Function<double[], Double>> values){
-        FunctionBinaryOperationEnum operation = operations.pop();
+    public static void popAndApply(Stack<BinaryOperationEnum> operations, Stack<Function<double[], Double>> values){
+        BinaryOperationEnum operation = operations.pop();
         Function<double[], Double> recentValue = values.pop();
         Function<double[], Double> previousValue = values.pop();
-        values.push((double[] input) -> operation.getFunction().apply(previousValue.apply(input), recentValue.apply(input)));
+        values.push((double[] input) -> operation.function.apply(previousValue.apply(input), recentValue.apply(input)));
     }
 
     public static String[] tokenize(String functionString){
@@ -205,53 +216,56 @@ public class FunctionBuilder {
         return tokenizedFunction.toArray(new String[tokenizedFunction.size()]);
     }
 
+    /*
+     * returns key from the above sets that match the current string index
+     */
     public static String getVariable(String[] functionStringArray, int index){
+        // returns "" if no enum matches
         String variableReturn = "";
 
         // x, y, z, w, t, u, v
+        // one char length
         for(FunctionVariableEnum variable: FunctionVariableEnum.values()){
             if(variable.toString().equals(functionStringArray[index])){
                 return functionStringArray[index];
             }
         }
         // +, -, *, /, ^
-        for(FunctionBinaryOperationEnum binaryOperation: FunctionBinaryOperationEnum.values()){
-            if(binaryOperation.getSymbol().equals(functionStringArray[index])){
+        // one char length
+        for(BinaryOperationEnum binaryOperation: BinaryOperationEnum.values()){
+            if(binaryOperation.symbol.equals(functionStringArray[index])){
                 return functionStringArray[index];
             }
         }
+        // parenthesis
+        // one char length
+        if(functionStringArray[index].equals("(") || functionStringArray[index].equals(")")){
+            return functionStringArray[index];
+        }
         // e, pi
-        for(FunctionConstantEnum constant: FunctionConstantEnum.values()){
+        for(MathConstantEnum constant: MathConstantEnum.values()){
             if(constant.toString().startsWith(functionStringArray[index])){
                 return constant.toString();
             }
         }
         // sin, cos, exp
-        for(FunctionUnaryOperationEnum unaryOperation: FunctionUnaryOperationEnum.values()){
+        for(UnaryOperationEnum unaryOperation: UnaryOperationEnum.values()){
             if(unaryOperation.toString().startsWith(functionStringArray[index])){
                 return unaryOperation.toString();
             }
         }
-        // parenthesis
-        if(functionStringArray[index].equals("(") || functionStringArray[index].equals(")")){
-            return functionStringArray[index];
-        }
-        // 0123456789
-        while(functionStringArray[index].matches("[0-9.]")){
+        // 0123456789 or decimal point
+        while(isNumeric(functionStringArray[index]) || functionStringArray[index].equals(".")){
             variableReturn += functionStringArray[index];
-            if(index + 1 < functionStringArray.length){
-                index++;
-            }
-            else{
-                break;
-            }
+            index++;
+            if(index >= functionStringArray.length){break;}
         }
         return variableReturn;
     }
 
     public static void main(String[] args) {
-        String[] function = {"2*x+y/3", "y/2"};
+        String[] function = {"cos(pi/4)", "y/2"};
         Function<double[], double[]> parsedFunction = parseFunction(function);
-        System.out.println(parsedFunction.apply(new double[]{5, 6})[1]);
+        System.out.println(parsedFunction.apply(new double[]{5, 6})[0]);
     }
 }

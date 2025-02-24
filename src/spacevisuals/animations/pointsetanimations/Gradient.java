@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.SpaceFunction2D;
-import spacevisuals.PointSetAnimation;
+import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.vectorfieldanimations.VectorField2D;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
 
@@ -57,6 +57,6 @@ public class Gradient extends SpaceFunction2D implements PointSetAnimation{
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).getFunction();
+        this.function = FunctionsEnum.from(parameters[0]).function;
     }
 }

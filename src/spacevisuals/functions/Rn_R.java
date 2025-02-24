@@ -8,10 +8,6 @@ public class Rn_R{
         return 0;
     }
 
-    public static double hyperbolicParabaloid(double[] input, double p1, double p2){
-        return p1*input[0]*input[0]-p2*input[1]*input[1];
-    }
-
     public static double dotProduct(double[] u, double[] v){
         double result = 0;
         for(int i = 0; i < u.length; i++){
@@ -51,6 +47,7 @@ public class Rn_R{
     public static double sumOfCosines(double[] u){
         return sumOf(u, x -> Math.cos(x));
     }
+
     public static double productOfVector(double[] u){
         return productOf(u, x -> x);
     }
@@ -81,4 +78,13 @@ public class Rn_R{
         }
         return Math.pow(sum, 1/p);
     }
+
+    public static double projectOntoAxis(double[] u, int axis){
+        return u[axis];
+    }
+
+    public static double hyperbolicParabaloid(double[] input, double s1, double s2){
+        return s1*input[0]*input[0]-s2*input[1]*input[1];
+    }
+
 }

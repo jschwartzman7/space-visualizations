@@ -1,10 +1,11 @@
 package spacevisuals.animations.vectorfieldanimations;
 
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.spaces.axisintervals.IntervalsRange;
-import spacevisuals.spaces.spacetraversers.Euclidean3DSpaceTraverser;
+import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.SpaceFunction3D;
-import spacevisuals.PointSetAnimation;
+import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
+import spacevisuals.spaces.spacetraversers.SpaceTraverser;
+import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.functions.*;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
 
@@ -14,20 +15,20 @@ import edu.princeton.cs.introcs.StdDraw;
 public class VectorField3D extends SpaceFunction3D implements PointSetAnimation {
 
         private Matrix3D matrixHelper;
-	    private Euclidean3DSpaceTraverser traverser;
+	    private SpaceTraverser<Euclidean3D> traverser;
         private IntervalsRange vectorSizer;
     
         public VectorField3D(){
             super();
             this.matrixHelper = space.matrixUtils;
-            this.traverser = new Euclidean3DSpaceTraverser(space, 5);
+            this.traverser = new PrismTraverser3D(space, 5);
             this.vectorSizer = new IntervalsRange(new double[]{5}, new double[][]{new double[]{6, 15}});
     
         }
         public VectorField3D(Function<double[], double[]> function){
             super(function);
             this.matrixHelper = space.matrixUtils;
-            this.traverser = new Euclidean3DSpaceTraverser(space, 5);
+            this.traverser = new PrismTraverser3D(space, 5);
             this.vectorSizer = new IntervalsRange(new double[]{5}, new double[][]{new double[]{6, 15}});
     
         }
@@ -60,7 +61,7 @@ public class VectorField3D extends SpaceFunction3D implements PointSetAnimation 
         
         @Override
         public void buildAnimation(String[] parameters) {
-            this.function = FunctionsEnum.from(parameters[0]).getFunction();
+            this.function = FunctionsEnum.from(parameters[0]).function;
         }
 
 }

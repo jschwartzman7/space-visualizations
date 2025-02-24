@@ -5,6 +5,7 @@ import java.util.function.Function;
 import spacevisuals.functions.functionhandling.FunctionBuilder;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
 import spacevisuals.spaces.AbstractSpace;
+import spacevisuals.spaces.SpaceUser;
 
 public class SpaceFunction<T extends AbstractSpace> extends SpaceUser<T>{
 
@@ -15,17 +16,10 @@ public class SpaceFunction<T extends AbstractSpace> extends SpaceUser<T>{
     public SpaceFunction(Function<double[], double[]> function){
         this.function = function;
     }
-    public SpaceFunction(T space){
-        super(space);
-    }
-    public SpaceFunction(T space, Function<double[], double[]> function){
-        super(space);
-        this.function = function;
-    }
 
     public void setFunctionStringArray(String[] functionStringArray){
         if(functionStringArray == null){
-            this.function = FunctionsEnum.identity.getFunction();
+            this.function = FunctionsEnum.identity.function;
             return;
         }
         if(functionStringArray[0].startsWith("<")){
@@ -35,11 +29,11 @@ public class SpaceFunction<T extends AbstractSpace> extends SpaceUser<T>{
         }
         for(FunctionsEnum function: FunctionsEnum.values()){
             if(functionStringArray[0].equals(function.toString())){
-                this.function = function.getFunction();
+                this.function = function.function;
                 return;
             }
         }
-        this.function = FunctionsEnum.identity.getFunction();
+        this.function = FunctionsEnum.identity.function;
     }
 
     public void setFunction(Function<double[], double[]> function){

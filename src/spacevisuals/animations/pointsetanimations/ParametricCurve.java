@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.SpaceFunction2D;
+import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.functions.functionhandling.FunctionsEnum;
-import spacevisuals.PointSetAnimation;
-import spacevisuals.helpers.TimeInterval;
-import spacevisuals.helpers.TimeIntervalLoop;
+import spacevisuals.helpers.timeintervals.TimeInterval;
+import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 
 public class ParametricCurve extends SpaceFunction2D implements PointSetAnimation{
 
@@ -54,6 +54,6 @@ public class ParametricCurve extends SpaceFunction2D implements PointSetAnimatio
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).getFunction();
+        this.function = FunctionsEnum.from(parameters[0]).function;
     }
 }

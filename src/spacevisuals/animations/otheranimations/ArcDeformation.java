@@ -1,10 +1,13 @@
 package spacevisuals.animations.otheranimations;
 
-import spacevisuals.helpers.*;
-import spacevisuals.*;
+import spacevisuals.animations.SpaceAnimation;
+import spacevisuals.helpers.timeintervals.TimeInterval;
+import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
+import spacevisuals.spaces.Euclidean2D;
+import spacevisuals.spaces.SpaceUser;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ArcDeformation extends SpaceFunction2D{
+public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnimation{
 
     // draw "continuously" deforming semi-circles starting from upper hemisphere ending at lower hemisphere
     // StdDraw.arc(x, y, radius, angle1, angle2);
@@ -61,5 +64,11 @@ public class ArcDeformation extends SpaceFunction2D{
 
     public void updateAnimation(){
         T.updateT();
+    }
+
+    @Override
+    public void buildAnimation(String[] parameters) {
+        // TODO Auto-generated method stub
+        
     }
 }
