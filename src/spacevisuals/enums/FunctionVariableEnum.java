@@ -1,4 +1,4 @@
-package spacevisuals.functions.functionhandling;
+package spacevisuals.enums;
 
 public enum FunctionVariableEnum {
     x(0), y(1), z(2), w(3), t(4), u(5), v(6);
@@ -7,9 +7,5 @@ public enum FunctionVariableEnum {
     
     FunctionVariableEnum(int precedence){
         this.precedence = precedence;
-    }
-
-    public int getPrecedence() {
-        return precedence;
     }
 }

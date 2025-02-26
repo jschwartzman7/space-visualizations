@@ -5,6 +5,7 @@ import spacevisuals.spaces.AbstractSpace;
 
 public class Camera3DSpace {
 
+    public static final double FOCAL_LENGTH_SENSITIVITY = 1.05;
     private final double DEFAULT_PITCH;
     public double pitch;
     public final double DEFAULT_ROLL;
@@ -55,7 +56,7 @@ public class Camera3DSpace {
         this.focalLength = focalLength;
     }
 
-    public void drawInfoTextBox(AbstractSpace space){
+    /*public void drawInfoTextBox(AbstractSpace space){
         TextBox textBox = new TextBox(space);
         textBox.addText("pitch", String.valueOf(pitch));
         textBox.addText("roll", String.valueOf(roll));
@@ -65,7 +66,7 @@ public class Camera3DSpace {
         textBox.addText("z", String.valueOf(z));
         textBox.addText("focal length", String.valueOf(focalLength));
         textBox.drawTextBox();
-    }
+    }*/
 
     public double[] toDrawablePoint(double[] worldPoint){
         double[] cameraViewOrientedPoint = toCameraPosition(worldPoint);

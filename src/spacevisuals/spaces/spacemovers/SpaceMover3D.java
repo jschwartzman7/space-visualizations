@@ -3,6 +3,7 @@ package spacevisuals.spaces.spacemovers;
 import java.awt.event.KeyEvent;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.helpers.Camera3DSpace;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.SpaceUser;
 
@@ -50,7 +51,7 @@ public class SpaceMover3D extends SpaceUser<Euclidean3D> implements SpaceMover{
                 space.camera.z -= secondaryZoomAmount;
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_F)){
-                space.camera.focalLength *= (1.05);
+                space.camera.focalLength *= Camera3DSpace.FOCAL_LENGTH_SENSITIVITY;
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_UP)){
                 space.zoomXClipOut();
@@ -81,7 +82,7 @@ public class SpaceMover3D extends SpaceUser<Euclidean3D> implements SpaceMover{
                 space.camera.yaw -= space.ROTATION_RATE;
             }
             if(StdDraw.isKeyPressed(KeyEvent.VK_F)){
-                space.camera.focalLength *= (0.95);
+                space.camera.focalLength /= Camera3DSpace.FOCAL_LENGTH_SENSITIVITY;
             }
             
             

@@ -1,7 +1,8 @@
 package spacevisuals.spaces;
 
 import java.awt.Color;
-import spacevisuals.colors.SpaceColorScheme;
+
+import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.functions.Matrix3D;
 import spacevisuals.helpers.*;
 import spacevisuals.spaces.intervalranges.AxisIntervals3D;
@@ -69,7 +70,7 @@ public class Euclidean3D extends AbstractSpace{
         this.labeler = new AxisIntervals3D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {2, 5}, {2, 10}});
     }
     public void initializeColorScheme(){
-        this.colorScheme = SpaceColorScheme.from("dark");
+        this.colorScheme = SpaceColorScheme.from("red");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return camera.toDrawablePoint(numericPoint);
@@ -126,7 +127,6 @@ public class Euclidean3D extends AbstractSpace{
         drawAxis(new double[][]{{xAxisMin, 0, 0}, {xAxisMax, 0, 0}}, colorScheme.xAxisColor, "x");
         drawAxis(new double[][]{{0, yAxisMin, 0}, {0, yAxisMax, 0}}, colorScheme.yAxisColor, "y");
         drawAxis(new double[][]{{0, 0, zAxisMin}, {0, 0, zAxisMax}}, colorScheme.zAxisColor, "z");
-        camera.drawInfoTextBox(this);
     }
 
     public void drawLabels(){

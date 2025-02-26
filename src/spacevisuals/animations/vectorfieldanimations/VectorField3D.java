@@ -1,13 +1,14 @@
 package spacevisuals.animations.vectorfieldanimations;
 
+import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.intervalranges.IntervalsRange;
-import spacevisuals.SpaceFunction3D;
 import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.functionhandling.SpaceFunction3D;
 import spacevisuals.functions.*;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
 
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
@@ -22,14 +23,13 @@ public class VectorField3D extends SpaceFunction3D implements PointSetAnimation 
             super();
             this.matrixHelper = space.matrixUtils;
             this.traverser = new PrismTraverser3D(space, 5);
-            this.vectorSizer = new IntervalsRange(new double[]{5}, new double[][]{new double[]{6, 15}});
-    
+            this.vectorSizer = new IntervalsRange<Euclidean3D>(space, new double[]{0.5}, new double[][]{new double[]{10, 30}});
         }
         public VectorField3D(Function<double[], double[]> function){
             super(function);
             this.matrixHelper = space.matrixUtils;
             this.traverser = new PrismTraverser3D(space, 5);
-            this.vectorSizer = new IntervalsRange(new double[]{5}, new double[][]{new double[]{6, 15}});
+            this.vectorSizer = new IntervalsRange<Euclidean3D>(space, new double[]{0.5}, new double[][]{new double[]{10, 30}});
     
         }
 

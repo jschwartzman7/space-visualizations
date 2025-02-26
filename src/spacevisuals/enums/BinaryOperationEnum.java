@@ -1,4 +1,4 @@
-package spacevisuals.functions.functionhandling;
+package spacevisuals.enums;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,7 +21,12 @@ public enum BinaryOperationEnum {
         this.function = function;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public static BinaryOperationEnum from(String text){
+        for(BinaryOperationEnum operation : BinaryOperationEnum.values()){
+            if(operation.symbol.equals(text)){
+                return operation;
+            }
+        }
+        return null;
     }
 }

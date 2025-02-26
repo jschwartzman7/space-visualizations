@@ -1,7 +1,7 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.colors.SpaceColorScheme;
+import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.spaces.spacemovers.SpaceMover;;
 /*
@@ -10,17 +10,17 @@ import spacevisuals.spaces.spacemovers.SpaceMover;;
 */
 public abstract class AbstractSpace {
     static final boolean DEFAULT_VIEW_SPACE_INFO = true;
-    final double ZERO_TOLERANCE = 0.000001;
+    public final double ZERO_TOLERANCE = 0.000001;
     public final double DEFAULT_CLIP_SCALE;
     public final double MOVE_SENSITIVITY;
     public final boolean VIEW_SPACE_INFO;
-    public SpaceMover mover;
-    public IntervalsRange labeler;
-    public SpaceColorScheme colorScheme;
     public double xClipMin;
     public double xClipMax;
     public double yClipMin;
     public double yClipMax;
+    public SpaceMover mover;
+    public IntervalsRange labeler;
+    public SpaceColorScheme colorScheme;
     public AbstractSpace(){
         this.DEFAULT_CLIP_SCALE = 3;
         this.MOVE_SENSITIVITY = 0.025;

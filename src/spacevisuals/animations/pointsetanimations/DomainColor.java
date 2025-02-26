@@ -1,31 +1,33 @@
 package spacevisuals.animations.pointsetanimations;
 
-import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.colors.colorstrategies.*;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
-
+import spacevisuals.colorstrategies.*;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.functionhandling.SpaceFunction2D;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
 
-import spacevisuals.SpaceFunction2D;
 import spacevisuals.spaces.spacetraversers.ClippingTraverser;
 
 public class DomainColor extends SpaceFunction2D implements PointSetAnimation{
 
+    public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.sin.function;
+    public static final double DEFAULT_PIXEL_RESOLUTION = 250;
     private ClippingTraverser traverser;
     private ColorStrategy colorHelper;
 
     public DomainColor(){
         super();
-        this.traverser = new ClippingTraverser (space);
+        this.traverser = new ClippingTraverser(space, DEFAULT_PIXEL_RESOLUTION);
         this.colorHelper = new DomainColorStrategy();
+        setFunction(DEFAULT_FUNCTION);
     }
     public DomainColor(Function<double[], double[]> function){
         super(function);
-        this.traverser = new ClippingTraverser (space);
+        this.traverser = new ClippingTraverser(space, DEFAULT_PIXEL_RESOLUTION);
         this.colorHelper = new DomainColorStrategy();
+        setFunction(DEFAULT_FUNCTION);
     }
     @Override
 	public void drawAnimation() {

@@ -1,4 +1,4 @@
-package spacevisuals;
+package spacevisuals.functionhandling;
 
 import java.util.function.Function;
 import spacevisuals.spaces.Euclidean3D;

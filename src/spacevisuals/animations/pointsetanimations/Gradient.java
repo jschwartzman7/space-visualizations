@@ -2,26 +2,30 @@ package spacevisuals.animations.pointsetanimations;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.SpaceFunction2D;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.vectorfieldanimations.VectorField2D;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
+import spacevisuals.colorstrategies.PointMapColorStrategy;
+import spacevisuals.functionhandling.SpaceFunction2D;
 
 public class Gradient extends SpaceFunction2D implements PointSetAnimation{
     
     private LinkedList<double[]> points;
-    //private LinkedList<Color> pointColors;
-    private double distanceStep = 0.01;
-    private double pointRadius = 0.02;
+    private ArrayList<Color> pointColors;
+    private double distanceStep = 0.1;
+    private double pointScale = 0.02;
     private VectorField2D vectorField;
+    private PointMapColorStrategy colorHelper;
 
     public Gradient(){
         super();
         this.points = new LinkedList<double[]>();
+        this.pointColors = new ArrayList<Color>();
         this.vectorField = new VectorField2D();
+        this.colorHelper = new PointMapColorStrategy();
     }
     @Override
     public void updateAnimation(){
@@ -29,6 +33,7 @@ public class Gradient extends SpaceFunction2D implements PointSetAnimation{
         if(StdDraw.isMousePressed()){
             double [] newPoint = new double[]{StdDraw.mouseX(), StdDraw.mouseY()};
             points.add(newPoint);
+            pointColors.add(colorHelper.getColor(newPoint));
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_R)){
             points.clear();
@@ -40,23 +45,25 @@ public class Gradient extends SpaceFunction2D implements PointSetAnimation{
         traverseDomain(this::handlePoint);
     };
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
-        for(double[] point : points){
-            handlePoint.accept(point);
+    public void traverseDomain(Consumer<double[]> handlePoint){
+        StdDraw.setPenRadius(pointScale);
+        for(int i = 0; i < points.size(); i++){
+            StdDraw.setPenColor(pointColors.get(i));
+            handlePoint.accept(points.get(i));
         }
     }
     @Override
     public void handlePoint(double[] point) {
-        StdDraw.setPenColor(Color.BLACK);
-        StdDraw.filledCircle(point[0], point[1], pointRadius);
+        StdDraw.filledCircle(point[0], point[1], pointScale);
         double[] output = function.apply(point);
-        double[] vector = new double[]{output[0]-point[0], output[1]-point[1]};
-        double vectorMagnitude = Math.sqrt(vector[0]*vector[0]+vector[1]*vector[1]);
-        point[0] += distanceStep*vector[0]/vectorMagnitude;
-        point[1] += distanceStep*vector[1]/vectorMagnitude;
+        output[0] *= distanceStep;
+        output[1] *= distanceStep;
+        point[0] += output[0];
+        point[1] += output[1];
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).function;
+        vectorField.buildAnimation(parameters);
+        setFunctionStringArray(parameters);
     }
 }

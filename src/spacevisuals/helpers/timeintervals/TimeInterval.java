@@ -1,5 +1,10 @@
 package spacevisuals.helpers.timeintervals;
 
+import java.awt.event.KeyEvent;
+import java.security.Key;
+
+import edu.princeton.cs.introcs.StdDraw;
+
 public abstract class TimeInterval{
 
     public double t;
@@ -14,5 +19,13 @@ public abstract class TimeInterval{
         this.tStep = tStep;
     }
 
-    public abstract void updateT();
+    public void updateT(){
+        if(!StdDraw.isKeyPressed(KeyEvent.VK_SPACE)){
+            concreteUpdateT();
+        }
+    };
+
+    public abstract void concreteUpdateT();
+
+    public abstract double update(double t);
 }

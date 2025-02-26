@@ -1,7 +1,7 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.colors.SpaceColorScheme;
+import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.spaces.intervalranges.AxisIntervals2D;
 import spacevisuals.spaces.spacemovers.SpaceMover2D;
 
@@ -35,7 +35,7 @@ public class Euclidean2D extends AbstractSpace{
         this.labeler = new AxisIntervals2D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
     }
     public void initializeColorScheme(){
-        this.colorScheme = SpaceColorScheme.from("dark");
+        this.colorScheme = SpaceColorScheme.from("red");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};

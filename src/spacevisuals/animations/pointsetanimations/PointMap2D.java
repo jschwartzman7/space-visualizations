@@ -1,29 +1,30 @@
 package spacevisuals.animations.pointsetanimations;
 
-import spacevisuals.spaces.*;
-import spacevisuals.SpaceFunction2D;
 import edu.princeton.cs.introcs.StdDraw;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.colors.colorstrategies.ColorStrategy;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
+import spacevisuals.colorstrategies.ColorStrategy;
+import spacevisuals.colorstrategies.PointMapColorStrategy;
+import spacevisuals.functionhandling.SpaceFunction2D;
 
 
 public class PointMap2D extends SpaceFunction2D implements PointSetAnimation{
 
-    private LinkedList<double[]> points;
-    private LinkedList<Color> pointColors;
+    private ArrayList<double[]> points;
+    private ArrayList<Color> pointColors;
     private double pointRadius = 0.01;
+    private ColorStrategy colorHelper;
   
     public PointMap2D(){
         super();
-        this.points = new LinkedList<double[]>();
-        this.pointColors = new LinkedList<Color>();
+        this.points = new ArrayList<double[]>();
+        this.pointColors = new ArrayList<Color>();
+        this.colorHelper = new PointMapColorStrategy();
     }
 
     @Override
@@ -31,7 +32,7 @@ public class PointMap2D extends SpaceFunction2D implements PointSetAnimation{
         if(StdDraw.isMousePressed()){
             double [] newPoint = new double[]{StdDraw.mouseX(), StdDraw.mouseY()};
             points.add(newPoint);
-            pointColors.add(ColorStrategy.getRandomColor());
+            pointColors.add(colorHelper.getColor(newPoint));
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_R)){
             points.clear();

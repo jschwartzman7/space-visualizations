@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.SpaceFunction3D;
 import spacevisuals.animations.SpaceAnimation;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.functionhandling.SpaceFunction3D;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 

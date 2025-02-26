@@ -1,4 +1,4 @@
-package spacevisuals.functions.functionhandling;
+package spacevisuals.enums;
 
 public enum MathConstantEnum {
     pi(Math.PI),

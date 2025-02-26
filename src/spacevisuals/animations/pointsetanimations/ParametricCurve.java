@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.SpaceFunction2D;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.functionhandling.SpaceFunction2D;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 

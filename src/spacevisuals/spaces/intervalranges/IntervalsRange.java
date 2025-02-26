@@ -11,30 +11,35 @@ public class IntervalsRange<T extends AbstractSpace> extends SpaceUser<T>{
     public double[] labelIntervals;
     public double[][] rangeIntervalRatios;
 
-
-    public IntervalsRange(int numAxes){
-        this.labelIntervals = new double[numAxes];
-        this.rangeIntervalRatios = new double[numAxes][2];
-        for(int i = 0; i < numAxes; i++){
-            labelIntervals[i] = DEFAULT_LABEL_INTERVAL;
-            rangeIntervalRatios[i][0] = DEFAULT_RANGE_INTERVAL_MIN;
-            rangeIntervalRatios[i][1] = DEFAULT_RANGE_INTERVAL_MAX;
-        }
+    public IntervalsRange(T space){
+        super(space);
     }
-    public IntervalsRange(double[] labelIntervals, double[][] rangeIntervalRatios){
+    public IntervalsRange(T space, double[] labelIntervals, double[][] rangeIntervalRatios){
+        super(space);
         this.labelIntervals = labelIntervals;
         this.rangeIntervalRatios = rangeIntervalRatios;
     }
 
-    public void updateLabelInterval(int index, double range){
-        double intervalRatio = range/labelIntervals[index];
-        if(intervalRatio < rangeIntervalRatios[index][0]){
-            this.labelIntervals[index] /= 2;
+    public double updateLabelInterval(double range, double interval){
+        double intervalRatio = range/interval;
+        if(intervalRatio < DEFAULT_RANGE_INTERVAL_MIN){
+            interval /= 2;
         }
-        else if(intervalRatio > rangeIntervalRatios[index][1]){
-            this.labelIntervals[index] *= 2;
+        else if(intervalRatio > DEFAULT_RANGE_INTERVAL_MAX){
+            interval *= 2;
         }
+        return interval;
     }
-    // override with ranges to pass to updateLabelInterval
+    public double updateLabelInterval(double range, double interval, double intervalMin, double intervalMax){
+        double intervalRatio = range/interval;
+        if(intervalRatio < intervalMin){
+            interval /= 2;
+        }
+        else if(intervalRatio > intervalMax){
+            interval *= 2;
+        }
+        return interval;
+    }
+
     public void updateLabelIntervals(){};
 }

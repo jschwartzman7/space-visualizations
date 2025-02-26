@@ -1,7 +1,6 @@
 package spacevisuals.animations.otheranimations;
 
 import spacevisuals.animations.SpaceAnimation;
-import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.SpaceUser;
 

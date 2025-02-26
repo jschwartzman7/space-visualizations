@@ -7,12 +7,22 @@ public class TimeIntervalBounce extends TimeInterval{
     }
 
     @Override
-    public void updateT() {
+    public void concreteUpdateT() {
         double tNext = t + tStep;
         if(tNext > tMax || tNext < tMin){
             tStep = -tStep;
         }
         t += tStep;
+    }
+
+    @Override
+    public double update(double t) {
+        double tNext = t + tStep;
+        if(tNext > tMax || tNext < tMin){
+            tStep = -tStep;
+        }
+        t += tStep;
+        return t;
     }
     
 }

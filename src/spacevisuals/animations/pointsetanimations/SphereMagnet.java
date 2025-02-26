@@ -7,19 +7,20 @@ import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
 import java.util.function.Consumer;
 import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.functionhandling.SpaceFunction3D;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
 
-    private double maxPointRadius = 70;
-    private int numPoints = 25000;
+    private double maxPointRadius = 25;
+    private int numPoints = 10000;
     private double[][] points;
     private TimeInterval timeInterval;
 
     public SphereMagnet(){
         super();
-        this.timeInterval = new TimeIntervalBounce(.5, 1, 0.004);
+        this.timeInterval = new TimeIntervalBounce(.8, 1, 0.001);
         this.points = new double[numPoints][3];
         for(int i = 0; i < points.length; i++){
             double x = Math.random()-0.5;
@@ -74,7 +75,7 @@ public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
     
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).function;
+        return;
     }
    
 }

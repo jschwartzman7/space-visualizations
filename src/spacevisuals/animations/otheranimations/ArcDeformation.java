@@ -15,7 +15,7 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
     // t ranges from -1 to 1
 
     //LinkedList<Double> shadow;
-    //int shadowLength;
+    int shadowLength  = 10;
     private double circleRadius = 5;
     private TimeInterval T;
     private double penWidth = 0.008;
@@ -27,11 +27,20 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
         this.T = new TimeIntervalBounce(-1, 1, 0.03);
     }
 
+    @Override
     public void drawAnimation(){
-        if(Math.abs(T.t) > T.tStep){
-            double rr = (circleRadius/T.t+circleRadius*T.t)/2;
-            double y = rr-T.t*circleRadius;
-            double angle1 = Math.atan2(-y, -circleRadius*Math.signum(T.t))*180/Math.PI;
+        double shadowT = T.t;
+        for(int i = 0; i < shadowLength; i++){
+            drawArc(shadowT);
+            shadowT = T.update(shadowT);
+        }
+    }
+
+    public void drawArc(double t){
+        if(Math.abs(t) > T.tStep){
+            double rr = (circleRadius/t+circleRadius*t)/2;
+            double y = rr-t*circleRadius;
+            double angle1 = Math.atan2(-y, -circleRadius*Math.signum(t))*180/Math.PI;
             StdDraw.setPenColor();
             StdDraw.setPenRadius(penWidth);
             if(T.t < 0){
@@ -40,6 +49,8 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
             else{
                 StdDraw.arc(0, y, Math.abs(rr), angle1, -180-angle1);
             }
+            StdDraw.setPenRadius();
+            StdDraw.circle(0, y, Math.abs(rr));
             
         }
 
@@ -68,7 +79,12 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
 
     @Override
     public void buildAnimation(String[] parameters) {
-        // TODO Auto-generated method stub
-        
+        try{
+            double startingRadius = Double.parseDouble(parameters[0]);
+            this.circleRadius = Math.abs(startingRadius);
+        }
+        catch(Exception e){
+            System.out.println("Invalid parameters for ArcDeformation");
+        }
     }
 }

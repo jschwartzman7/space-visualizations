@@ -5,9 +5,10 @@ import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.Euclidean4D;
 import spacevisuals.spaces.SpaceUser;
-import spacevisuals.animations.AnimationsEnum;
 import spacevisuals.animations.SpaceAnimation;
+import spacevisuals.enums.AnimationsEnum;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -21,13 +22,13 @@ public class SpaceAnimationRunner{
     public final int CANVAS_HEIGHT = 700;
     public final int CANVAS_WIDTH = 700;
     public final int FRAME_RATE;
-    public HashSet<AnimationsEnum> multiDimensionalAnimations;
+    public EnumMap<AnimationsEnum, SpaceAnimation> multiDimensionalAnimations;
     public static HashMap<Integer, AbstractSpace> spaceKeys;
     public int currentSpaceDimension = 2;
 
     public SpaceAnimationRunner(int frameRate){
         this.FRAME_RATE = frameRate;
-        this.multiDimensionalAnimations = new HashSet<AnimationsEnum>();
+        this.multiDimensionalAnimations = new EnumMap<AnimationsEnum, SpaceAnimation>(AnimationsEnum.class);
         spaceKeys = new HashMap<Integer, AbstractSpace>(){{
             put(2, Euclidean2D.Get());
             put(3, Euclidean3D.Get());
@@ -36,25 +37,24 @@ public class SpaceAnimationRunner{
         this.setCanvas();
     }
     
-    public AnimationsEnum addAnimation(String animationKey){
+    private void setCanvas(){
+        StdDraw.setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
+        StdDraw.enableDoubleBuffering();
+    }
+
+    public SpaceAnimation addAnimation(String animationKey){
         try{
             AnimationsEnum animationEnum = AnimationsEnum.valueOf(animationKey);
-            multiDimensionalAnimations.add(animationEnum);
-            currentSpaceDimension = animationEnum.dimensions;
-            return animationEnum;
+            multiDimensionalAnimations.put(animationEnum, animationEnum.animation);
+            return animationEnum.animation;
         }
         catch(Exception e){
             return null;
         }
     }
 
-    private void setCanvas(){
-        StdDraw.setCanvasSize(CANVAS_WIDTH, CANVAS_HEIGHT);
-        StdDraw.enableDoubleBuffering();
-    }
-
     public void updateAnimation(){
-        for(AnimationsEnum animation : multiDimensionalAnimations){
+        for(AnimationsEnum animation : multiDimensionalAnimations.keySet()){
             if(animation.dimensions == currentSpaceDimension){
                 animation.animation.updateAnimation();
             }
@@ -62,7 +62,7 @@ public class SpaceAnimationRunner{
     };
 
     public void drawAnimation(){
-        for(AnimationsEnum animation : multiDimensionalAnimations){
+        for(AnimationsEnum animation : multiDimensionalAnimations.keySet()){
             if(animation.dimensions == currentSpaceDimension){
                 animation.animation.drawAnimation();
             }
@@ -70,6 +70,11 @@ public class SpaceAnimationRunner{
     };
 
     public void run(){
+        if(multiDimensionalAnimations.size() == 0){
+            System.out.println("No animations provided.");
+            return;
+        }
+        currentSpaceDimension = multiDimensionalAnimations.keySet().iterator().next().dimensions;
         AbstractSpace currentSpace = spaceKeys.get(currentSpaceDimension);
         while(true){
             StdDraw.clear(currentSpace.colorScheme.backgroundColor);

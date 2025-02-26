@@ -2,7 +2,6 @@ package spacevisuals.spaces.spacetraversers;
 
 import java.awt.Color;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import spacevisuals.spaces.spacetraversers.steppers.*;
 
 import edu.princeton.cs.introcs.StdDraw;

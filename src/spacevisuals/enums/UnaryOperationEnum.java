@@ -1,4 +1,4 @@
-package spacevisuals.functions.functionhandling;
+package spacevisuals.enums;
 
 import java.util.function.Function;
 
@@ -6,7 +6,7 @@ public enum UnaryOperationEnum {
 
     sin((Function<double[], Double> f) -> f.andThen(Math::sin)), 
     cos((Function<double[], Double> f) -> f.andThen(Math::cos)),
-    exp((Function<double[], Double> f) -> f.andThen(Math::exp)),;
+    tan((Function<double[], Double> f) -> f.andThen(Math::tan)),;
     
     public final Function<Function<double[], Double>, Function<double[], Double>> function;
     

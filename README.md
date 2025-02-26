@@ -13,7 +13,7 @@ Start the program with arguments[i=0], --functionhandle optional
 
 ### Help:
 #### animation options:
-vectorfield2d
+vectorfield2d '<f(x)' 'f(y)' 'f(z)>'
 
 domaincolor
 

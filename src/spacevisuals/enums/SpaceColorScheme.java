@@ -1,10 +1,11 @@
-package spacevisuals.colors;
+package spacevisuals.enums;
 
 import java.awt.Color;
 
 public enum SpaceColorScheme {
 
     DARK(Color.blue, Color.green, Color.red, new Color(23, 46, 93), Color.white),
+    RED(Color.blue, new Color(0, 211, 56), new Color(223, 0, 243), new Color(155, 3, 29), Color.white),
     DEFAULT(Color.blue, Color.green, Color.red, Color.white, Color.black);
 
     public final Color xAxisColor;
@@ -25,6 +26,8 @@ public enum SpaceColorScheme {
         switch(colorScheme.toLowerCase()) {
             case "dark":
                 return SpaceColorScheme.DARK;
+            case "red":
+                return SpaceColorScheme.RED;
             default:
                 return SpaceColorScheme.DEFAULT;
         }

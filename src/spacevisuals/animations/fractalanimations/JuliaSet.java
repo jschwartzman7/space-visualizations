@@ -1,11 +1,9 @@
 package spacevisuals.animations.fractalanimations;
 
 import java.util.function.Consumer;
-import spacevisuals.functions.C_C;
-import spacevisuals.functions.Rn_R;
-import spacevisuals.colors.colorstrategies.*;
-import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.SpaceUser;
+import spacevisuals.functions.*;
+import spacevisuals.colorstrategies.*;
+import spacevisuals.spaces.*;
 import spacevisuals.spaces.spacetraversers.*;
 import java.awt.Color;
 import spacevisuals.animations.PointSetAnimation;

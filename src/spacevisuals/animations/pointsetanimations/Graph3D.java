@@ -1,16 +1,12 @@
 package spacevisuals.animations.pointsetanimations;
 
 
-import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceFunction3D;
 import spacevisuals.spaces.spacetraversers.*;
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.colors.*;
-import spacevisuals.colors.colorstrategies.ColorStrategy;
-import spacevisuals.colors.colorstrategies.DomainColorStrategy;
-import spacevisuals.functions.functionhandling.FunctionsEnum;
+import spacevisuals.colorstrategies.*;
+import spacevisuals.functionhandling.SpaceFunction3D;
 import spacevisuals.helpers.TextBox;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -23,7 +19,7 @@ public class Graph3D extends SpaceFunction3D implements PointSetAnimation{
 
     public Graph3D(){
         super();
-        this.traverser = new DiskTraverser3D(space);
+        this.traverser = new RectangleTraverser3D(space);
         this.colorHelper = new DomainColorStrategy();
         this.textBox = new TextBox(space);
     }
