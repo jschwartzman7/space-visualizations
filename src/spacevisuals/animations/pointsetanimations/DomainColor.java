@@ -7,7 +7,6 @@ import spacevisuals.functionhandling.SpaceFunction2D;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
-
 import spacevisuals.spaces.spacetraversers.ClippingTraverser;
 
 public class DomainColor extends SpaceFunction2D implements PointSetAnimation{

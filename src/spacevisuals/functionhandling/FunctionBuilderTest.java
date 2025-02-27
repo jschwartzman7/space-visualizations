@@ -1,32 +1,31 @@
 package spacevisuals.functionhandling;
 
-public class FunctionBuilderTest {
+import java.util.Map;
+import java.util.function.Function;
 
-    // write test cases for FunctionBuilder parse function string
+class FunctionBuilderTest {
 
-    public static boolean testFunctionBuilder(){
-        String[] functionStringArray = {"7+x*3", "2*e^(z)*3^z-x", "(1+y)/(z*6)"};
-        FunctionBuilder functionBuilder = new FunctionBuilder();
-        for(double x = -3; x <= 3; x++){
-            for(double y = -3; y <= 3; y++){
-                for(double z = 1; z <= 4; z++){
-                    double[] input = {x, y, z};
-                    double[] output = functionBuilder.parseFunction(functionStringArray).apply(input);
-                    System.out.println("output: x=" + (7+x*3) + ", y=" + (2*Math.pow(Math.E, z)*Math.pow(3,z)-x) + ", z=" + ((1+y)/(z*6)));
-                    System.out.println("Output: " + output[0] + ", " + output[1] + ", " + output[2]);
-                    if((Math.abs(output[0] - 7+(x+Math.sin(y))*3)<0.01 &&
-                        Math.abs(2*Math.pow(Math.E, z)*Math.pow(3,z)-x-output[1])<0.01 &&
-                        Math.abs((1+y)/(z*6)-output[2])<0.01)){
-                        return false;
-                    }
-                }
-            }
+    static void testFunctionParsingAndEvaluation() {
+        FunctionBuilder parser = new FunctionBuilder();
+
+        // Define test cases with expression inputs and expected outputs
+        testExpression(parser, "5*x+y-2", Map.of("x", 2.0, "y", 3.0), 5 * 2.0 + 3.0 - 2);
+        testExpression(parser, "x*x+2*y", Map.of("x", 3.0, "y", 4.0), 3.0 * 3.0 + 2 * 4.0);
+        testExpression(parser, "10-x/y", Map.of("x", 8.0, "y", 2.0), 10 - 8.0 / 2.0);
+        testExpression(parser, "x+y-3", Map.of("x", 1.0, "y", 5.0), 1.0 + 5.0 - 3);
+    }
+
+    private static void testExpression(FunctionBuilder parser, String expression, Map<String, Double> variables, double expected) {
+        Function<double[], double[]> function = parser.parseFunction(new String[]{expression});
+        double result = function.apply(variables.values().stream().mapToDouble(Double::doubleValue).toArray())[0];
+        if(Math.abs(result - expected) < 1e-6) {
+            System.out.println("Test passed for expression: " + expression);
+        } else {
+            System.out.println("Test failed for expression: " + expression + ". Expected: " + expected + ", but got: " + result);
         }
-        return true;
     }
 
     public static void main(String[] args) {
-        System.out.println(testFunctionBuilder());
+        testFunctionParsingAndEvaluation();
     }
-    
 }

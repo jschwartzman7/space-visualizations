@@ -46,5 +46,4 @@ public enum FunctionsEnum {
         }
         return function;
     }
-
 }

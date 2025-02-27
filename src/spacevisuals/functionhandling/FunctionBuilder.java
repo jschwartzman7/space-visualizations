@@ -7,11 +7,9 @@ import spacevisuals.enums.BinaryOperationEnum;
 import spacevisuals.enums.FunctionVariableEnum;
 import spacevisuals.enums.MathConstantEnum;
 import spacevisuals.enums.UnaryOperationEnum;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -202,7 +200,7 @@ public class FunctionBuilder {
         int index = 0;
         while(index < functionStringArray.length){
             String current = getVariable(functionStringArray, index);
-            if(current == ""){
+            if(current == null){
                 System.out.println("Invalid function input - tokenize");
                 return null;
             }
@@ -216,22 +214,15 @@ public class FunctionBuilder {
      * returns key from the above sets that match the current string index
      */
     public static String getVariable(String[] functionStringArray, int index){
-        // returns "" if no enum matches
-        String variableReturn = "";
-
         // x, y, z, w, t, u, v
         // one char length
-        for(FunctionVariableEnum variable: FunctionVariableEnum.values()){
-            if(variable.toString().equals(functionStringArray[index])){
-                return functionStringArray[index];
-            }
+        if(variables.contains(functionStringArray[index])){
+            return functionStringArray[index];
         }
         // +, -, *, /, ^
         // one char length
-        for(BinaryOperationEnum binaryOperation: BinaryOperationEnum.values()){
-            if(binaryOperation.symbol.equals(functionStringArray[index])){
-                return functionStringArray[index];
-            }
+        if(binaryOperations.contains(functionStringArray[index])){
+            return functionStringArray[index];
         }
         // parenthesis
         // one char length
@@ -239,24 +230,26 @@ public class FunctionBuilder {
             return functionStringArray[index];
         }
         // e, pi
-        for(MathConstantEnum constant: MathConstantEnum.values()){
-            if(constant.toString().startsWith(functionStringArray[index])){
-                return constant.toString();
-            }
+        if(constants.contains(functionStringArray[index])){
+            return functionStringArray[index];
         }
-        // sin, cos, exp
-        for(UnaryOperationEnum unaryOperation: UnaryOperationEnum.values()){
+        // sin, cos
+        for(String unaryOperation: unaryOperations){
             if(unaryOperation.toString().startsWith(functionStringArray[index])){
                 return unaryOperation.toString();
             }
         }
         // 0123456789 or decimal point
+        String variableReturn = "";
         while(isNumeric(functionStringArray[index]) || functionStringArray[index].equals(".")){
             variableReturn += functionStringArray[index];
             index++;
             if(index >= functionStringArray.length){break;}
         }
-        return variableReturn;
+        if(variableReturn.length() > 0){
+            return variableReturn;
+        }
+        return null;
     }
 
     public static void main(String[] args) {

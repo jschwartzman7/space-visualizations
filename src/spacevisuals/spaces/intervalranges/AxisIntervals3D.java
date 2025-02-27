@@ -7,7 +7,7 @@ public class AxisIntervals3D extends IntervalsRange<Euclidean3D>{
 
     public AxisIntervals3D(Euclidean3D space){
         super(space);
-        this.labelIntervals = new double[]{DEFAULT_LABEL_INTERVAL, DEFAULT_LABEL_INTERVAL, DEFAULT_LABEL_INTERVAL};
+        this.labelIntervals = new double[]{DEFAULT_INTERVAL, DEFAULT_INTERVAL, DEFAULT_INTERVAL};
         this.rangeIntervalRatios = new double[][]{{DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}, {DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}, {DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}};
     }
 

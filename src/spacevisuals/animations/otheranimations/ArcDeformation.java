@@ -79,12 +79,10 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
 
     @Override
     public void buildAnimation(String[] parameters) {
-        try{
-            double startingRadius = Double.parseDouble(parameters[0]);
-            this.circleRadius = Math.abs(startingRadius);
+        if(parameters == null){
+            return;
         }
-        catch(Exception e){
-            System.out.println("Invalid parameters for ArcDeformation");
-        }
+        double startingRadius = Double.parseDouble(parameters[0]);
+        this.circleRadius = Math.abs(startingRadius);
     }
 }

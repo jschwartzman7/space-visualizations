@@ -7,7 +7,7 @@ public class AxisIntervals2D extends IntervalsRange<Euclidean2D>{
 
     public AxisIntervals2D(Euclidean2D space){
         super(space);
-        this.labelIntervals = new double[]{DEFAULT_LABEL_INTERVAL, DEFAULT_LABEL_INTERVAL};
+        this.labelIntervals = new double[]{DEFAULT_INTERVAL, DEFAULT_INTERVAL};
         this.rangeIntervalRatios = new double[][]{{DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}, {DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}};
     }
 
@@ -20,8 +20,8 @@ public class AxisIntervals2D extends IntervalsRange<Euclidean2D>{
     @Override
     public void updateLabelIntervals(){
         double xClipRange = space.xClipMax-space.xClipMin;
-        updateLabelInterval(xClipRange, labelIntervals[0]);
+        labelIntervals[0] = updateLabelInterval(xClipRange, labelIntervals[0]);
         double yClipRange = space.yClipMax-space.yClipMin;
-        updateLabelInterval(yClipRange, labelIntervals[1]);
+        labelIntervals[1] = updateLabelInterval(yClipRange, labelIntervals[1]);
     }
 }

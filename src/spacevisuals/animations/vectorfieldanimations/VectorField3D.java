@@ -61,7 +61,7 @@ public class VectorField3D extends SpaceFunction3D implements PointSetAnimation 
         
         @Override
         public void buildAnimation(String[] parameters) {
-            this.function = FunctionsEnum.from(parameters[0]).function;
+            setFunctionStringArray(parameters);
         }
 
 }

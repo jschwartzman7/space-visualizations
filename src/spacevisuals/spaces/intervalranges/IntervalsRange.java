@@ -5,7 +5,7 @@ import spacevisuals.spaces.SpaceUser;
 
 public class IntervalsRange<T extends AbstractSpace> extends SpaceUser<T>{
 
-    public static final double DEFAULT_LABEL_INTERVAL = 1;
+    public static final double DEFAULT_INTERVAL = 1;
     public static final double DEFAULT_RANGE_INTERVAL_MIN = 5;
     public static final double DEFAULT_RANGE_INTERVAL_MAX = 12;
     public double[] labelIntervals;

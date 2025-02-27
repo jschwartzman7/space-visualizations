@@ -74,6 +74,5 @@ public class Polygons extends SpaceUser<Euclidean3D> implements SpaceAnimation{
 
     @Override
     public void buildAnimation(String[] parameters) {
-        return;
     }
 }

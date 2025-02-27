@@ -42,10 +42,10 @@ public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimatio
 		}
 		if(parameters.length < 2) {
 			this.c = juliaSetConstants[juliaSetConstants.length-1];
+			return;
 		}
-		else{
-			this.c = new double[]{Double.parseDouble(parameters[0]), Double.parseDouble(parameters[1])};
-		}
+		this.c = new double[]{Double.parseDouble(parameters[0]), Double.parseDouble(parameters[1])};
+		
     }
 
 	public int juliaSetStatusHelper(double[] z, double[] c, int iterationNum) {

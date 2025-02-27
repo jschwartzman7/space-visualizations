@@ -12,9 +12,9 @@ public class Main {
     static final char animationSeparator = ',';
     static String[] arguments;
     static Euclidean2D euclidean2d = Euclidean2D.Get();
-    static Euclidean3D euclidean3d = Euclidean3D.Get();
+    static Euclidean3D euclidean3d = Euclidean3D.Get(30, 0.01, true);
     static Euclidean4D euclidean4d = Euclidean4D.Get();
-    static SpaceAnimationRunner runner = new SpaceAnimationRunner(25);
+    static SpaceAnimationRunner runner = new SpaceAnimationRunner(20);
     static AnimationsEnum[] animationSelections = AnimationsEnum.values();
 
     public static String[] getAnimationArguments(int index){

@@ -12,7 +12,6 @@ import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 
 public class ParametricCurve extends SpaceFunction2D implements PointSetAnimation{
 
-    private LinkedList<Color> pointColors;
     private double pointRadius = 0.01;
     private int numPoints = 100;
     private double[] points;
@@ -31,9 +30,8 @@ public class ParametricCurve extends SpaceFunction2D implements PointSetAnimatio
     @Override
     public void updateAnimation(){
         for(int i = 0; i < points.length; i++){
-            points[i] += timeInterval.t;
+            points[i] = timeInterval.update(points[i]);
         }
-        timeInterval.updateT();
     }
     @Override
     public void drawAnimation(){
@@ -54,6 +52,6 @@ public class ParametricCurve extends SpaceFunction2D implements PointSetAnimatio
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        this.function = FunctionsEnum.from(parameters[0]).function;
+        setFunctionStringArray(parameters);
     }
 }
