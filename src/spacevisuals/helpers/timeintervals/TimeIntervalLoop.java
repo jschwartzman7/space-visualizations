@@ -8,25 +8,17 @@ public class TimeIntervalLoop extends TimeInterval{
 
     @Override
     public void concreteUpdateT() {
-        double tNext = t + tStep;
-        if(tNext > tMax){
-            t = tMin;
+        double tNext = this.t + this.tStep;
+        if(tNext > this.tMax){
+            this.t = this.tMin;
         }
         else{
-            t += tStep;
+            this.t += this.tStep;
         }
     }
 
     @Override
     public double update(double t) {
-        double tNext = t + tStep;
-        if(tNext > tMax){
-            t = tMin;
-        }
-        else{
-            t += tStep;
-        }
-        return t;
+        return t + this.tStep;
     }
-    
 }

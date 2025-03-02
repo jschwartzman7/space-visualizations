@@ -2,15 +2,14 @@ package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
-import spacevisuals.spaces.intervalranges.IntervalsRange;
-import spacevisuals.spaces.spacemovers.SpaceMover;;
 /*
 * Base class for Euclidean space to be rendered
 * Extended by Euclidean2D, Euclidean3D, Euclidean4D
 */
 public abstract class AbstractSpace {
-    static final boolean DEFAULT_VIEW_SPACE_INFO = true;
-    public final double ZERO_TOLERANCE = 0.000001;
+
+    protected static final boolean DEFAULT_VIEW_SPACE_INFO = true;
+    protected final double ZERO_TOLERANCE = 0.000001;
     public final double DEFAULT_CLIP_SCALE;
     public final double MOVE_SENSITIVITY;
     public final boolean VIEW_SPACE_INFO;
@@ -18,9 +17,9 @@ public abstract class AbstractSpace {
     public double xClipMax;
     public double yClipMin;
     public double yClipMax;
-    public SpaceMover mover;
-    public IntervalsRange labeler;
     public SpaceColorScheme colorScheme;
+    public int dimensions;
+
     public AbstractSpace(){
         this.DEFAULT_CLIP_SCALE = 3;
         this.MOVE_SENSITIVITY = 0.025;
@@ -39,13 +38,12 @@ public abstract class AbstractSpace {
         this.VIEW_SPACE_INFO = viewSpaceInfo;
         initializeSpaceVariables();
     }
+
     private void initializeSpaceVariables(){
         this.xClipMin = -DEFAULT_CLIP_SCALE;
         this.xClipMax = DEFAULT_CLIP_SCALE;
         this.yClipMin = -DEFAULT_CLIP_SCALE;
         this.yClipMax = DEFAULT_CLIP_SCALE;
-        initializeMover();
-        initializeLabeler();
         initializeColorScheme();
     }
     public double getXRange(){
@@ -108,18 +106,19 @@ public abstract class AbstractSpace {
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
     public void updateSpace(){
-        mover.updateView();
+        updateView();
         setSpaceScale();
-        if(VIEW_SPACE_INFO){labeler.updateLabelIntervals();}
+        if(VIEW_SPACE_INFO){updateLabelIntervals();}
     };
     public void drawSpace(){
         drawAxes();
         if(VIEW_SPACE_INFO){drawLabels();}
     };
-    public abstract void initializeMover();
-    public abstract void initializeLabeler();
     public abstract void initializeColorScheme();
     public abstract double[] toViewScreenPoint(double[] worldPoint);
+    public abstract void updateView();
+    public abstract void updateLabelIntervals();
     public abstract void drawAxes();
     public abstract void drawLabels();
+
 }

@@ -3,15 +3,18 @@ package spacevisuals.animations.pointsetanimations;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.function.Consumer;
+import java.util.function.Function;
+
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.functionhandling.SpaceFunction2D;
+import spacevisuals.spaces.SpaceFunction2D;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 
 public class ParametricCurve extends SpaceFunction2D implements PointSetAnimation{
 
+    public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.parametric.function;
     private double pointRadius = 0.01;
     private int numPoints = 100;
     private double[] points;
@@ -52,6 +55,8 @@ public class ParametricCurve extends SpaceFunction2D implements PointSetAnimatio
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        setFunctionStringArray(parameters);
+        if(!setCustomFunctionStringArray(parameters)){
+            setFunction(DEFAULT_FUNCTION);
+        };
     }
 }

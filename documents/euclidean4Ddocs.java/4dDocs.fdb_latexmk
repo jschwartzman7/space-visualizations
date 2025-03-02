@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1740220966.41746 "/Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/euclidean4Ddocs.java/4dDocs.tex" "4dDocs.pdf" "4dDocs" 1740220967.45995 0
-  "/Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/euclidean4Ddocs.java/4dDocs.tex" 1740220966.11758 3286 022cc13a8e5afedbae779804998f44ff ""
+["pdflatex"] 1740783178.01693 "/Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/euclidean4Ddocs.java/4dDocs.tex" "4dDocs.pdf" "4dDocs" 1740783179.05527 0
+  "/Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/euclidean4Ddocs.java/4dDocs.tex" 1740783177.70505 3625 3a68240582e7d558580d786186e47e6f ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -58,8 +58,8 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1738567585.65193 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1738567468 8221445 f8a34f0ac7c8e36a9fc94522a1451324 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "4dDocs.aux" 1740220967.37055 461 1206e4f779f15a090f257dc57b8af941 "pdflatex"
-  "4dDocs.tex" 1740220966.11758 3286 022cc13a8e5afedbae779804998f44ff ""
+  "4dDocs.aux" 1740783178.96128 461 1206e4f779f15a090f257dc57b8af941 "pdflatex"
+  "4dDocs.tex" 1740783177.70505 3625 3a68240582e7d558580d786186e47e6f ""
   "4dProjection.png" 1740217031.26305 166627 75ed58116d39a249e7d7f748b930f5e7 ""
   (generated)
   "4dDocs.aux"

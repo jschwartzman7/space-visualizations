@@ -1,4 +1,4 @@
-package spacevisuals.functionhandling;
+package spacevisuals;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -39,12 +39,13 @@ public class FunctionBuilder {
         for(String singleFunction : functionInput){
             String[] singleFunctionStringArray = tokenize(singleFunction);
             if(singleFunctionStringArray == null){
-                return;
+                continue;
             }
             for(String token: singleFunctionStringArray){
-                for(FunctionVariableEnum var: FunctionVariableEnum.values()){
-                    if(var.toString().equals(token) && !usedVariables.contains(var)){
-                        usedVariables.add(var);
+                if(variables.contains(token)){
+                    FunctionVariableEnum variable = FunctionVariableEnum.valueOf(token);
+                    if(!usedVariables.contains(variable)){
+                        usedVariables.add(variable);
                     }
                 }
             }
@@ -89,15 +90,14 @@ public class FunctionBuilder {
         }
         Stack<BinaryOperationEnum> operations = new Stack<BinaryOperationEnum>();
         Stack<Function<double[], Double>> values = new Stack<Function<double[], Double>>();
-        int index = 0;
-        while(index < tokenizedFunction.length){
-            String curToken = tokenizedFunction[index];
-
+        int tokenIdx = 0;
+        while(tokenIdx < tokenizedFunction.length){
+            String curToken = tokenizedFunction[tokenIdx];
             // current is a number
             if(isNumeric(curToken)){
                 Function<double[], Double> value = (double[] input) -> Double.parseDouble(curToken);
                 values.push(value);
-                index++;
+                tokenIdx++;
                 continue;
             }
             // current is a binary operation
@@ -112,43 +112,32 @@ public class FunctionBuilder {
                     }
                 }
                 operations.push(BinaryOperationEnum.from(curToken));
-                index++;
+                tokenIdx++;
                 continue;
             }
-            
             // current is a function variable
             if(variables.contains(curToken)){
                 values.push((double[] input) -> input[usedVariables.indexOf(FunctionVariableEnum.valueOf(curToken))]);
-                index++;
+                tokenIdx++;
                 continue;
             }
-            
             // check if current is a constant
             if(constants.contains(curToken)){
                 values.push((double[] input) -> MathConstantEnum.valueOf(curToken).value);
-                index++;
+                tokenIdx++;
                 continue;
             }
-
             // current is an unary operation
             if(unaryOperations.contains(curToken)){
-                ArrayList<String> nextFunction = new ArrayList<String>();
-                for(int i = index + 1; i < tokenizedFunction.length; ++i){
-                    nextFunction.add(tokenizedFunction[i]);
-                }
-                Function<Function<double[], Double>, Function<double[], Double>> unaryOperation = UnaryOperationEnum.valueOf(curToken).function;
-                values.push(unaryOperation.apply(parseSingleFunctionRecursive(nextFunction.toArray(new String[nextFunction.size()]))));
-                index += toEndingParenthesis(tokenizedFunction, index + 1);
+                String[] nextFunction = toEndingParenthesis(tokenizedFunction, tokenIdx + 2);
+                values.push(UnaryOperationEnum.valueOf(curToken).function.apply(parseSingleFunctionRecursive(nextFunction)));
+                tokenIdx += nextFunction.length + 3;
                 continue;
             }
-            
-            if((curToken).equals("(")){
-                ArrayList<String> nextFunction = new ArrayList<String>();
-                for(int i = index + 1; i < tokenizedFunction.length; ++i){
-                    nextFunction.add(tokenizedFunction[i]);
-                }
-                values.push(parseSingleFunctionRecursive(nextFunction.toArray(new String[nextFunction.size()])));
-                index += toEndingParenthesis(tokenizedFunction, index + 1);
+            if(curToken.equals("(")){
+                String[] nextFunction = toEndingParenthesis(tokenizedFunction, tokenIdx + 1);
+                values.push(parseSingleFunctionRecursive(nextFunction));
+                tokenIdx += nextFunction.length + 2;
                 continue;
             }
             if((curToken).equals(")")){
@@ -164,27 +153,29 @@ public class FunctionBuilder {
         return values.pop();
     }
 
-    public static int toEndingParenthesis(String[] functionString, int indexAfterOpening){
+    public static String[] toEndingParenthesis(String[] functionString, int indexAfterOpening){
+        ArrayList<String> parenthesizedFunction = new ArrayList<String>();
         int parenthesesStatus = 1;
-        int length = 1;
-        for(int i = indexAfterOpening; i < functionString.length; ++i){
-            String value = functionString[i];
-            switch (value) {
+        int i = indexAfterOpening;
+        while(i < functionString.length && parenthesesStatus > 0){
+            switch (functionString[i]) {
                 case "(":
                     parenthesesStatus++;
+                    parenthesizedFunction.add("(");
                     break;
                 case ")":
                     parenthesesStatus--;
+                    if(parenthesesStatus > 0){
+                        parenthesizedFunction.add(")");
+                    }
                     break;
                 default:
+                    parenthesizedFunction.add(functionString[i]);
                     break;
             }
-            length++;
-            if(parenthesesStatus == 0){
-                break;
-            }
+            i++;
         }
-        return length;
+        return parenthesizedFunction.toArray(new String[parenthesizedFunction.size()]);
     }
     
     public static void popAndApply(Stack<BinaryOperationEnum> operations, Stack<Function<double[], Double>> values){
@@ -199,13 +190,17 @@ public class FunctionBuilder {
         ArrayList<String> tokenizedFunction = new ArrayList<String>();
         int index = 0;
         while(index < functionStringArray.length){
-            String current = getVariable(functionStringArray, index);
-            if(current == null){
-                System.out.println("Invalid function input - tokenize");
+            String token = getVariable(functionStringArray, index);
+            if(token == null){
+                System.out.println("Invalid function input");
                 return null;
             }
-            tokenizedFunction.add(current);
-            index += current.length();
+            if(token.length() == 0){
+                index++;
+                continue;
+            }
+            tokenizedFunction.add(token);
+            index += token.length();
         }
         return tokenizedFunction.toArray(new String[tokenizedFunction.size()]);
     }
@@ -214,6 +209,9 @@ public class FunctionBuilder {
      * returns key from the above sets that match the current string index
      */
     public static String getVariable(String[] functionStringArray, int index){
+        if(functionStringArray[index].equals(" ")){
+            return "";
+        }
         // x, y, z, w, t, u, v
         // one char length
         if(variables.contains(functionStringArray[index])){
@@ -230,13 +228,15 @@ public class FunctionBuilder {
             return functionStringArray[index];
         }
         // e, pi
-        if(constants.contains(functionStringArray[index])){
-            return functionStringArray[index];
+        for(String constant: constants){
+            if(constant.startsWith(functionStringArray[index])){
+                return constant;
+            }
         }
         // sin, cos
         for(String unaryOperation: unaryOperations){
-            if(unaryOperation.toString().startsWith(functionStringArray[index])){
-                return unaryOperation.toString();
+            if(unaryOperation.startsWith(functionStringArray[index])){
+                return unaryOperation;
             }
         }
         // 0123456789 or decimal point
@@ -253,8 +253,8 @@ public class FunctionBuilder {
     }
 
     public static void main(String[] args) {
-        String[] function = {"(1+y)/(x*6)", ""};
+        String[] function = {"5+7", "cos(y)"};
         Function<double[], double[]> parsedFunction = new FunctionBuilder().parseFunction(function);
-        System.out.println(parsedFunction.apply(new double[]{5, 3})[0]);
+        System.out.println(parsedFunction.apply(new double[]{Math.PI, 3})[0]);
     }
 }

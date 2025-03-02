@@ -3,12 +3,13 @@ package spacevisuals.animations.pointsetanimations;
 import spacevisuals.helpers.*;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
+import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 
 import java.util.function.Consumer;
 import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.functionhandling.SpaceFunction3D;
+import spacevisuals.spaces.SpaceFunction3D;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
@@ -20,7 +21,7 @@ public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
 
     public SphereMagnet(){
         super();
-        this.timeInterval = new TimeIntervalBounce(.8, 1, 0.001);
+        this.timeInterval = new TimeIntervalBounce(.8, 1, 0.005);
         this.points = new double[numPoints][3];
         for(int i = 0; i < points.length; i++){
             double x = Math.random()-0.5;
@@ -72,10 +73,4 @@ public class SphereMagnet extends SpaceFunction3D implements PointSetAnimation{
         return new double[]{newR*Math.sin(theta)*Math.cos(phi), newR*Math.sin(theta)*Math.sin(phi), newR*Math.cos(theta)};
 
     }
-    
-    @Override
-    public void buildAnimation(String[] parameters) {
-        return;
-    }
-   
 }

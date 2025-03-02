@@ -1,7 +1,6 @@
-package spacevisuals.functionhandling;
+package spacevisuals.spaces;
 
 import java.util.function.Function;
-import spacevisuals.spaces.Euclidean2D;
 
 public class SpaceFunction2D extends SpaceFunction<Euclidean2D>{
 

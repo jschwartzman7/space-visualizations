@@ -4,7 +4,8 @@ import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.functionhandling.SpaceFunction2D;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.spaces.SpaceFunction2D;
 import spacevisuals.functions.Rn_R;
 
 import java.util.function.*;
@@ -19,17 +20,17 @@ public class VectorField2D extends SpaceFunction2D implements PointSetAnimation 
     public VectorField2D(){
         super();
         this.traverser = new ClippingTraverser(space, 30);
-        this.vectorSizer = new IntervalsRange<Euclidean2D>(space, new double[]{0.5}, new double[][]{new double[]{18, 40}});
+        this.vectorSizer = new IntervalsRange(1, .5, 45, 100);
     }
     public VectorField2D(Function<double[], double[]> function){
         super(function);
         this.traverser = new ClippingTraverser(space, 30);
-        this.vectorSizer = new IntervalsRange<Euclidean2D>(space, new double[]{0.5}, new double[][]{new double[]{18, 40}});
+        this.vectorSizer = new IntervalsRange(1, .5, 45, 100);
     }
     
     @Override
     public void updateAnimation(){
-        vectorSizer.updateLabelInterval(0, Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin));
+        vectorSizer.updateLabelInterval(Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin), 0);
     }
     @Override
     public void traverseDomain(Consumer<double[]> handlePoint){
@@ -47,7 +48,9 @@ public class VectorField2D extends SpaceFunction2D implements PointSetAnimation 
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        setFunctionStringArray(parameters);
+        if(!setCustomFunctionStringArray(parameters)){
+            setFunction(FunctionsEnum.from(parameters[0]).function);
+        };
     }
 }
     

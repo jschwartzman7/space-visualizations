@@ -3,7 +3,7 @@ package spacevisuals.animations.pointsetanimations;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.colorstrategies.*;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.functionhandling.SpaceFunction2D;
+import spacevisuals.spaces.SpaceFunction2D;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
@@ -50,6 +50,8 @@ public class DomainColor extends SpaceFunction2D implements PointSetAnimation{
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        setFunctionStringArray(parameters);
+        if(!setCustomFunctionStringArray(parameters)){
+            setFunction(DEFAULT_FUNCTION);
+        };
     }
 }

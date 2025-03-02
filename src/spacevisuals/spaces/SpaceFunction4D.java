@@ -1,7 +1,6 @@
-package spacevisuals.functionhandling;
+package spacevisuals.spaces;
 
 import java.util.function.Function;
-import spacevisuals.spaces.Euclidean4D;
 
 public class SpaceFunction4D extends SpaceFunction<Euclidean4D>{
 

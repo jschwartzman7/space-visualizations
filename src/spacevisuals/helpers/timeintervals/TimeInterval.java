@@ -1,7 +1,6 @@
 package spacevisuals.helpers.timeintervals;
 
 import java.awt.event.KeyEvent;
-import java.security.Key;
 
 import edu.princeton.cs.introcs.StdDraw;
 

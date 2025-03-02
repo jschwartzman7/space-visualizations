@@ -1,6 +1,8 @@
 package spacevisuals.enums;
 
 import spacevisuals.animations.pointsetanimations.*;
+import spacevisuals.animations.polygonanimations.Polygons3D;
+import spacevisuals.animations.polygonanimations.Polygons4D;
 import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.animations.fractalanimations.*;
 import spacevisuals.animations.vectorfieldanimations.*;
@@ -21,11 +23,12 @@ public enum AnimationsEnum {
     basic3d(3, new Basic3D()),
     vectorfield3d(3, new VectorField3D()),
     graph3d(3, new Graph3D()),
-    polygons(3, new Polygons()),
+    polygons3d(3, new Polygons3D()),
     spheremagnet(3, new SphereMagnet()),
     lorenzattractor(3, new LorenzAttractor()),
     // 4d
-    basic4d(4, new Basic4D());
+    basic4d(4, new Basic4D()),
+    polygons4d(4, new Polygons4D());
     
     public final int dimensions;  
     public final SpaceAnimation animation;

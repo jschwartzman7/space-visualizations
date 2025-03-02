@@ -10,7 +10,8 @@ import java.awt.event.KeyEvent;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.colorstrategies.ColorStrategy;
 import spacevisuals.colorstrategies.PointMapColorStrategy;
-import spacevisuals.functionhandling.SpaceFunction2D;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.spaces.SpaceFunction2D;
 
 
 public class PointMap2D extends SpaceFunction2D implements PointSetAnimation{
@@ -58,6 +59,8 @@ public class PointMap2D extends SpaceFunction2D implements PointSetAnimation{
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        setFunctionStringArray(parameters);
+        if(!setCustomFunctionStringArray(parameters)){
+            setFunction(FunctionsEnum.from(parameters[0]).function);
+        };
     }
 }

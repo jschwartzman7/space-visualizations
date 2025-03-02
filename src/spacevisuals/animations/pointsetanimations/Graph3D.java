@@ -6,7 +6,8 @@ import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.spacetraversers.*;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.colorstrategies.*;
-import spacevisuals.functionhandling.SpaceFunction3D;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.spaces.SpaceFunction3D;
 import spacevisuals.helpers.TextBox;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -60,6 +61,8 @@ public class Graph3D extends SpaceFunction3D implements PointSetAnimation{
     }
     @Override
     public void buildAnimation(String[] parameters) {
-        setFunctionStringArray(parameters);
+        if(!setCustomFunctionStringArray(parameters)){
+            setFunction(FunctionsEnum.from(parameters[0]).function);
+        };
     }
 }

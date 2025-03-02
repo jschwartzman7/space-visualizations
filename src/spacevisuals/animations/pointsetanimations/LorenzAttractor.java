@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.colorstrategies.PointMapColorStrategy;
-import spacevisuals.functionhandling.SpaceFunction3D;
+import spacevisuals.spaces.SpaceFunction3D;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 

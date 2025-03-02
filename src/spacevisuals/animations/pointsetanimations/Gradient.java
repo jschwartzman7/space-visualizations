@@ -9,14 +9,15 @@ import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.vectorfieldanimations.VectorField2D;
 import spacevisuals.colorstrategies.PointMapColorStrategy;
-import spacevisuals.functionhandling.SpaceFunction2D;
+import spacevisuals.enums.FunctionsEnum;
+import spacevisuals.spaces.SpaceFunction2D;
 
 public class Gradient extends SpaceFunction2D implements PointSetAnimation{
     
     private LinkedList<double[]> points;
     private ArrayList<Color> pointColors;
     private double distanceStep = 0.1;
-    private double pointScale = 0.02;
+    private double pointScale = 0.005;
     private VectorField2D vectorField;
     private PointMapColorStrategy colorHelper;
 
@@ -54,7 +55,7 @@ public class Gradient extends SpaceFunction2D implements PointSetAnimation{
     }
     @Override
     public void handlePoint(double[] point) {
-        StdDraw.filledCircle(point[0], point[1], pointScale);
+        StdDraw.filledCircle(point[0], point[1], Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin)*pointScale);
         double[] output = function.apply(point);
         output[0] *= distanceStep;
         output[1] *= distanceStep;
@@ -64,6 +65,8 @@ public class Gradient extends SpaceFunction2D implements PointSetAnimation{
     @Override
     public void buildAnimation(String[] parameters) {
         vectorField.buildAnimation(parameters);
-        setFunctionStringArray(parameters);
+        if(!setCustomFunctionStringArray(parameters)){
+            setFunction(FunctionsEnum.from(parameters[0]).function);
+        };
     }
 }

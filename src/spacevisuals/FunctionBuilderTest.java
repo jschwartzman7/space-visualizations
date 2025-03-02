@@ -1,4 +1,4 @@
-package spacevisuals.functionhandling;
+package spacevisuals;
 
 import java.util.Map;
 import java.util.function.Function;

@@ -14,9 +14,5 @@ public class Basic2D extends SpaceUser<Euclidean2D> implements SpaceAnimation{
     public void drawAnimation() {
         space.drawSpace();
     }
-
-    @Override
-    public void buildAnimation(String[] parameters) {
-    }
     
 }

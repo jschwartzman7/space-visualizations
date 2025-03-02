@@ -3,25 +3,24 @@ package spacevisuals.spaces.intervalranges;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.SpaceUser;
 
-public class AxisIntervals2D extends IntervalsRange<Euclidean2D>{
+public class AxisIntervals2D extends SpaceUser<Euclidean2D>{
+
+    public IntervalsRange labeler;
 
     public AxisIntervals2D(Euclidean2D space){
         super(space);
-        this.labelIntervals = new double[]{DEFAULT_INTERVAL, DEFAULT_INTERVAL};
-        this.rangeIntervalRatios = new double[][]{{DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}, {DEFAULT_RANGE_INTERVAL_MIN, DEFAULT_RANGE_INTERVAL_MAX}};
+        this.labeler = new IntervalsRange(2);
     }
 
-    public AxisIntervals2D(Euclidean2D space, double[] labelIntervals, double[][] rangeIntervalRatios){
+    public AxisIntervals2D(Euclidean2D space, double defaultInterval, double rangeIntervalMin, double rangeIntervalMax){
         super(space);
-        this.labelIntervals = labelIntervals;
-        this.rangeIntervalRatios = rangeIntervalRatios;
+        this.labeler = new IntervalsRange(2, defaultInterval, rangeIntervalMin, rangeIntervalMax);
     }
 
-    @Override
     public void updateLabelIntervals(){
         double xClipRange = space.xClipMax-space.xClipMin;
-        labelIntervals[0] = updateLabelInterval(xClipRange, labelIntervals[0]);
+        labeler.updateLabelInterval(xClipRange, 0);
         double yClipRange = space.yClipMax-space.yClipMin;
-        labelIntervals[1] = updateLabelInterval(yClipRange, labelIntervals[1]);
+        labeler.updateLabelInterval(yClipRange, 1);
     }
 }

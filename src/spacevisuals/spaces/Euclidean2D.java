@@ -3,20 +3,32 @@ package spacevisuals.spaces;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.spaces.intervalranges.AxisIntervals2D;
+import spacevisuals.spaces.spacemovers.SpaceMover;
 import spacevisuals.spaces.spacemovers.SpaceMover2D;
 
 public class Euclidean2D extends AbstractSpace{
 
     private final double X_LABEL_OFFSET = 0.02;
+    public SpaceMover mover;
+    public AxisIntervals2D labeler;
     private static SingletonSpace<Euclidean2D> spaceSingleton = new SingletonSpace<Euclidean2D>();
     private Euclidean2D(){
         super();
+        this.dimensions = 2;
+        initializeMover();
+        initializeLabeler();
     }
     private Euclidean2D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
+        this.dimensions = 2;
+        initializeMover();
+        initializeLabeler();
     }
     private Euclidean2D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         super(defaultScale, moveSensitivity, viewSpaceInfo);
+        this.dimensions = 2;
+        initializeMover();
+        initializeLabeler();
     }
     public static Euclidean2D Get(boolean viewSpaceInfo){
         return spaceSingleton.getOrCreateSpace(() -> new Euclidean2D(viewSpaceInfo));
@@ -32,10 +44,10 @@ public class Euclidean2D extends AbstractSpace{
         this.mover = new SpaceMover2D(this);
     }
     public void initializeLabeler(){
-        this.labeler = new AxisIntervals2D(this, new double[]{DEFAULT_CLIP_SCALE, DEFAULT_CLIP_SCALE}, new double[][]{{3, 8}, {3, 8}});
+        this.labeler = new AxisIntervals2D(this, DEFAULT_CLIP_SCALE, 3, 8);
     }
     public void initializeColorScheme(){
-        this.colorScheme = SpaceColorScheme.from("red");
+        this.colorScheme = SpaceColorScheme.from("default");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};
@@ -74,7 +86,7 @@ public class Euclidean2D extends AbstractSpace{
         StdDraw.setPenRadius(0.001);
         double numericMin = xClipMin;
         double numericMax = xClipMax;
-        for(double numericX = numericMin-numericMin%labeler.labelIntervals[0]; numericX <= numericMax; numericX += labeler.labelIntervals[0]){
+        for(double numericX = numericMin-numericMin%labeler.labeler.labelIntervals[0]; numericX <= numericMax; numericX += labeler.labeler.labelIntervals[0]){
             if(Math.abs(numericX) < ZERO_TOLERANCE){continue;}
             double x = numericX;
             StdDraw.line(x, yClipMin, x, yClipMax);
@@ -82,12 +94,20 @@ public class Euclidean2D extends AbstractSpace{
         }
         numericMin = yClipMin;
         numericMax = yClipMax;
-        for(double numericY = numericMin-numericMin%labeler.labelIntervals[1]; numericY <= numericMax; numericY += labeler.labelIntervals[1]){
+        for(double numericY = numericMin-numericMin%labeler.labeler.labelIntervals[1]; numericY <= numericMax; numericY += labeler.labeler.labelIntervals[1]){
             if(Math.abs(numericY) < ZERO_TOLERANCE){continue;}
             double y = numericY;
             StdDraw.line(xClipMin, y, xClipMax, y);
             StdDraw.text(0, y, toLabel(numericY));
         }
+    }
+    @Override
+    public void updateView() {
+        mover.updateView();
+    }
+    @Override
+    public void updateLabelIntervals() {
+        labeler.updateLabelIntervals();
     }
 }
 

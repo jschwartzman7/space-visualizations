@@ -2,7 +2,8 @@ package spacevisuals;
 import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.enums.AnimationsEnum;
 import spacevisuals.spaces.*;
-import java.util.LinkedList;
+
+import java.util.ArrayList;
 
 /*
  * Parses comma separated animation function arguments and runs a built SpaceAnimationRunner
@@ -17,13 +18,12 @@ public class Main {
     static SpaceAnimationRunner runner = new SpaceAnimationRunner(20);
     static AnimationsEnum[] animationSelections = AnimationsEnum.values();
 
-    public static String[] getAnimationArguments(int index){
-        LinkedList<String> params = new LinkedList<String>();
+    public static String[] getUntilSeparator(int index){
+        ArrayList<String> params = new ArrayList<String>();
         while(index < arguments.length){
             if(arguments[index].charAt(0) == animationSeparator){break;}
             params.add(arguments[index++]);
         }
-        if(params.size() == 0){return null;}
         return params.toArray(new String[params.size()]);
     }
 
@@ -36,11 +36,9 @@ public class Main {
         while(i < argumentArray.length){
             SpaceAnimation result = runner.addAnimation(argumentArray[i]);
             if(result != null){
-                String[] params = getAnimationArguments(i+1);
-                if(params != null){
-                    result.buildAnimation(params);
-                    i += params.length;
-                }
+                String[] params = getUntilSeparator(i+1);
+                result.buildAnimation(params);
+                i += params.length;
             }
             i++;
         }

@@ -1,4 +1,4 @@
-package spacevisuals.animations.otheranimations;
+package spacevisuals.animations.polygonanimations;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,18 +7,17 @@ import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.SpaceUser;
 
-public class Polygons extends SpaceUser<Euclidean3D> implements SpaceAnimation{
+public class Polygons3D extends Polygons<Euclidean3D>{
 
     private List<double[][]> linePointPairs;
     
-    public Polygons(){
-        super(Euclidean3D.Get());
-        this.linePointPairs = new LinkedList<double[][]>();
-        addCube(3, new double[]{2, 0, 0});
-        addTetrahedron(new double[]{1, 1, 2}, 2);
+    public Polygons3D(){
+        setSpace(Euclidean3D.Get());
+        addCube(new double[]{2, 0, 0}, 3);
+        addSimplex(new double[]{1, 1, 2}, 2);
     }
 
-    private void addCube(double radius, double[] center){
+    /*private void addCube(double radius, double[] center){
         double[][] cube = new double[8][3];
         cube[0] = new double[]{center[0]-radius, center[1]-radius, center[2]-radius};
         cube[1] = new double[]{center[0]+radius, center[1]-radius, center[2]-radius};
@@ -60,19 +59,6 @@ public class Polygons extends SpaceUser<Euclidean3D> implements SpaceAnimation{
         linePointPairs.add(new double[][]{tetrahedron[2], tetrahedron[3]});
         linePointPairs.add(new double[][]{tetrahedron[3], tetrahedron[1]});
 
-    }
+    }*/
 
-    @Override
-    public void drawAnimation(){
-        for(double[][] linePointPair: linePointPairs){
-            double[] point2D1 = space.toViewScreenPoint(linePointPair[0]);
-            double[] point2D2 = space.toViewScreenPoint(linePointPair[1]);
-            StdDraw.setPenColor();
-            StdDraw.line(point2D1[0], point2D1[1], point2D2[0], point2D2[1]);
-        }
-    }
-
-    @Override
-    public void buildAnimation(String[] parameters) {
-    }
 }

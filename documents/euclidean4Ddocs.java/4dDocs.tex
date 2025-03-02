@@ -80,32 +80,50 @@ with these matrices, $\mathbb{R}^{2}\to\mathbb{R}^2$ or $\mathbb{R}^{4}\to\mathb
 \newline There are now 6 planes to rotate between
 \newline $\theta, \alpha, \beta, \gamma, \phi, \psi$
 \newline Imagine
-\[\frac{1}{6}(\begin{pmatrix}
+\[T(\frac{1}{6}(\begin{pmatrix}
     \cos(\theta) & -\sin(\theta) & 0 & 0 \\
-    \sin(\theta) & \cos(\theta) & 0 & 0
+    \sin(\theta) & \cos(\theta) & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1
+
 \end{pmatrix}+
 \begin{pmatrix}
     \cos(\alpha) & 0 & -\sin(\alpha) & 0 \\
-    \sin(\alpha) & 0 & \cos(\alpha) & 0
+    0 & 1 & 0 & 0 \\
+    \sin(\alpha) & 0 & \cos(\alpha) & 0 \\
+    0 & 0 & 0 & 1
 \end{pmatrix}+
 \begin{pmatrix}
     \cos(\beta) & 0 & 0 & -\sin(\beta)\\
+    0 & 1 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
     \sin(\beta) & 0 & 0 & \cos(\beta)
 \end{pmatrix}+\]
 \newline
 \[\begin{pmatrix}
+    1 & 0 & 0 & 0 \\
     0 & \cos(\gamma) & -\sin(\gamma) & 0 \\
-    0 & \sin(\gamma) & \cos(\gamma) & 0
+    0 & \sin(\gamma) & \cos(\gamma) & 0 \\
+    0 & 0 & 0 & 1
 \end{pmatrix}+
 \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
     0 & \cos(\phi) & 0 & -\sin(\phi) \\
+    0 & 0 & 1 & 0 \\
     0 & \sin(\phi) & 0 & \cos(\phi)
 \end{pmatrix}+
 \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 \\
     0 & 0 & \cos(\psi) & -\sin(\psi) \\
     0 & 0 & \sin(\psi) & \cos(\psi)
 \end{pmatrix}
-)\]
+))\]
+with $T$
+\[=\begin{pmatrix}
+    1 & 1 & 1 & 1 \\
+    1 & 1 & 1 & 1
+\end{pmatrix}\]
 
 
 \end{document}

@@ -34,19 +34,6 @@ public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimatio
         this.c = juliaSetConstants[juliaSetConstants.length-1];
     }
 
-	@Override
-    public void buildAnimation(String[] parameters) {
-		if(parameters == null){
-			this.c = juliaSetConstants[juliaSetConstants.length-1];
-			return;
-		}
-		if(parameters.length < 2) {
-			this.c = juliaSetConstants[juliaSetConstants.length-1];
-			return;
-		}
-		this.c = new double[]{Double.parseDouble(parameters[0]), Double.parseDouble(parameters[1])};
-		
-    }
 
 	public int juliaSetStatusHelper(double[] z, double[] c, int iterationNum) {
 		if(Rn_R.magnitude(z) > magnitudeThreshold || iterationNum > maxIterations) { // point crossed radius threshold: NOT in julia set
@@ -78,6 +65,19 @@ public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimatio
 			traverser.drawPointRectangle(z, colorHelper.getColor(new double[]{iterationsToEscape}));
 		}
 	}
+
+	@Override
+    public void buildAnimation(String[] parameters) {
+		if(parameters == null){
+			this.c = juliaSetConstants[juliaSetConstants.length-1];
+			return;
+		}
+		if(parameters.length < 2) {
+			this.c = juliaSetConstants[juliaSetConstants.length-1];
+			return;
+		}
+		this.c = new double[]{Double.parseDouble(parameters[0]), Double.parseDouble(parameters[1])};
+    }
 }
 
     

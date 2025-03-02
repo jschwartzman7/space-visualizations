@@ -14,9 +14,4 @@ public class Basic3D extends SpaceUser<Euclidean3D> implements SpaceAnimation{
     public void drawAnimation() {
         space.drawSpace();
     }
-
-    @Override
-    public void buildAnimation(String[] parameters) {
-    }
-    
 }

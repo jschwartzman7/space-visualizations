@@ -1,13 +1,12 @@
 package spacevisuals.animations.vectorfieldanimations;
 
-import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.functionhandling.SpaceFunction3D;
+import spacevisuals.spaces.SpaceFunction3D;
 import spacevisuals.functions.*;
 
 import java.util.function.*;
@@ -23,19 +22,19 @@ public class VectorField3D extends SpaceFunction3D implements PointSetAnimation 
             super();
             this.matrixHelper = space.matrixUtils;
             this.traverser = new PrismTraverser3D(space, 5);
-            this.vectorSizer = new IntervalsRange<Euclidean3D>(space, new double[]{0.5}, new double[][]{new double[]{10, 30}});
+            this.vectorSizer = new IntervalsRange(1, .5, 10, 30);
         }
         public VectorField3D(Function<double[], double[]> function){
             super(function);
             this.matrixHelper = space.matrixUtils;
             this.traverser = new PrismTraverser3D(space, 5);
-            this.vectorSizer = new IntervalsRange<Euclidean3D>(space, new double[]{0.5}, new double[][]{new double[]{10, 30}});
+            this.vectorSizer = new IntervalsRange(1, .5, 10, 30);
     
         }
 
         @Override
         public void updateAnimation(){
-            vectorSizer.updateLabelInterval(0, space.xAxisMax-space.xAxisMin);
+            vectorSizer.updateLabelInterval(space.xAxisMax-space.xAxisMin);
         }
         @Override
         public void traverseDomain(Consumer<double[]> handlePoint){
@@ -61,7 +60,9 @@ public class VectorField3D extends SpaceFunction3D implements PointSetAnimation 
         
         @Override
         public void buildAnimation(String[] parameters) {
-            setFunctionStringArray(parameters);
+            if(!setCustomFunctionStringArray(parameters)){
+            setFunction(FunctionsEnum.from(parameters[0]).function);
+        };
         }
 
 }

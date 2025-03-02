@@ -82,7 +82,10 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
         if(parameters == null){
             return;
         }
-        double startingRadius = Double.parseDouble(parameters[0]);
-        this.circleRadius = Math.abs(startingRadius);
+        try{
+            this.circleRadius = Math.abs(Double.parseDouble(parameters[0]));
+        }
+        catch(Exception e){
+        }
     }
 }

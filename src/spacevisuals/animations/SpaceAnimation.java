@@ -5,5 +5,5 @@ package spacevisuals.animations;
 public interface SpaceAnimation {
     public default void updateAnimation(){};
     public void drawAnimation();
-    public void buildAnimation(String[] parameters);
+    public default void buildAnimation(String[] parameters){};
 }

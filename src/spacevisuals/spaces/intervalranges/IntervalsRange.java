@@ -1,45 +1,59 @@
 package spacevisuals.spaces.intervalranges;
 
-import spacevisuals.spaces.AbstractSpace;
-import spacevisuals.spaces.SpaceUser;
-
-public class IntervalsRange<T extends AbstractSpace> extends SpaceUser<T>{
+public class IntervalsRange{
 
     public static final double DEFAULT_INTERVAL = 1;
-    public static final double DEFAULT_RANGE_INTERVAL_MIN = 5;
-    public static final double DEFAULT_RANGE_INTERVAL_MAX = 12;
+    public static final double DEFAULT_RANGE_INTERVAL_MIN = 8;
+    public static final double DEFAULT_RANGE_INTERVAL_MAX = 20;
     public double[] labelIntervals;
     public double[][] rangeIntervalRatios;
+    public int dimensions;
 
-    public IntervalsRange(T space){
-        super(space);
+    public IntervalsRange(){
+        this.dimensions = 1;
+        this.labelIntervals = new double[dimensions];
+        this.rangeIntervalRatios = new double[dimensions][2];
+        for(int i = 0; i < dimensions; i++){
+            this.labelIntervals[i] = DEFAULT_INTERVAL;
+            this.rangeIntervalRatios[i][0] = DEFAULT_RANGE_INTERVAL_MIN;
+            this.rangeIntervalRatios[i][1] = DEFAULT_RANGE_INTERVAL_MAX;
+        }
     }
-    public IntervalsRange(T space, double[] labelIntervals, double[][] rangeIntervalRatios){
-        super(space);
-        this.labelIntervals = labelIntervals;
-        this.rangeIntervalRatios = rangeIntervalRatios;
+    public IntervalsRange(int dimensions){
+        this.labelIntervals = new double[dimensions];
+        this.rangeIntervalRatios = new double[dimensions][2];
+        for(int i = 0; i < dimensions; i++){
+            this.labelIntervals[i] = DEFAULT_INTERVAL;
+            this.rangeIntervalRatios[i][0] = DEFAULT_RANGE_INTERVAL_MIN;
+            this.rangeIntervalRatios[i][1] = DEFAULT_RANGE_INTERVAL_MAX;
+        }
     }
-
-    public double updateLabelInterval(double range, double interval){
-        double intervalRatio = range/interval;
+    public IntervalsRange(int dimensions, double defaultInterval, double rangeIntervalMin, double rangeIntervalMax){
+        this.labelIntervals = new double[dimensions];
+        this.rangeIntervalRatios = new double[dimensions][2];
+        for(int i = 0; i < dimensions; i++){
+            this.labelIntervals[i] = defaultInterval;
+            this.rangeIntervalRatios[i][0] = rangeIntervalMin;
+            this.rangeIntervalRatios[i][1] = rangeIntervalMax;
+        }
+    }
+    public void updateLabelInterval(double range){
+        double intervalRatio = range/labelIntervals[0];
         if(intervalRatio < DEFAULT_RANGE_INTERVAL_MIN){
-            interval /= 2;
+            labelIntervals[0] /= 2;
         }
         else if(intervalRatio > DEFAULT_RANGE_INTERVAL_MAX){
-            interval *= 2;
+            labelIntervals[0] *= 2;
         }
-        return interval;
     }
-    public double updateLabelInterval(double range, double interval, double intervalMin, double intervalMax){
-        double intervalRatio = range/interval;
-        if(intervalRatio < intervalMin){
-            interval /= 2;
+    public void updateLabelInterval(double range, int index){
+        double intervalRatio = range/labelIntervals[index];
+        if(intervalRatio < DEFAULT_RANGE_INTERVAL_MIN){
+            labelIntervals[index] /= 2;
         }
-        else if(intervalRatio > intervalMax){
-            interval *= 2;
+        else if(intervalRatio > DEFAULT_RANGE_INTERVAL_MAX){
+            labelIntervals[index] *= 2;
         }
-        return interval;
     }
-
-    public void updateLabelIntervals(){};
+    
 }

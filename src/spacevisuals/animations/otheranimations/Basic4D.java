@@ -13,10 +13,5 @@ public class Basic4D extends SpaceUser<Euclidean4D> implements SpaceAnimation{
     @Override
     public void drawAnimation() {
         space.drawSpace();
-    }
-
-    @Override
-    public void buildAnimation(String[] parameters) {
-    }
-    
+    }    
 }
