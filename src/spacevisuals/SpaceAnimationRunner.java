@@ -4,14 +4,9 @@ import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.Euclidean4D;
-import spacevisuals.spaces.SpaceUser;
 import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.enums.AnimationsEnum;
-
-import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import edu.princeton.cs.introcs.StdDraw;
 
 /*
@@ -22,13 +17,13 @@ public class SpaceAnimationRunner{
     public final int CANVAS_HEIGHT = 700;
     public final int CANVAS_WIDTH = 700;
     public final int FRAME_RATE;
-    public EnumMap<AnimationsEnum, SpaceAnimation> multiDimensionalAnimations;
+    public HashMap<SpaceAnimation, Integer> multiDimensionalAnimations;
     public static HashMap<Integer, AbstractSpace> spaceKeys;
     public int currentSpaceDimension = 2;
 
     public SpaceAnimationRunner(int frameRate){
         this.FRAME_RATE = frameRate;
-        this.multiDimensionalAnimations = new EnumMap<AnimationsEnum, SpaceAnimation>(AnimationsEnum.class);
+        this.multiDimensionalAnimations = new HashMap<SpaceAnimation, Integer>();
         spaceKeys = new HashMap<Integer, AbstractSpace>(){{
             put(2, Euclidean2D.Get());
             put(3, Euclidean3D.Get());
@@ -45,8 +40,9 @@ public class SpaceAnimationRunner{
     public SpaceAnimation addAnimation(String animationKey){
         try{
             AnimationsEnum animationEnum = AnimationsEnum.valueOf(animationKey);
-            multiDimensionalAnimations.put(animationEnum, animationEnum.animation);
-            return animationEnum.animation;
+            SpaceAnimation animation = animationEnum.animationConstructor.get();
+            multiDimensionalAnimations.put(animation, animationEnum.dimensions);
+            return animation;
         }
         catch(Exception e){
             return null;
@@ -54,17 +50,17 @@ public class SpaceAnimationRunner{
     }
 
     public void updateAnimation(){
-        for(AnimationsEnum animation : multiDimensionalAnimations.keySet()){
-            if(animation.dimensions == currentSpaceDimension){
-                animation.animation.updateAnimation();
+        for(SpaceAnimation animation : multiDimensionalAnimations.keySet()){
+            if(multiDimensionalAnimations.get(animation) == currentSpaceDimension){
+                animation.updateAnimation();
             }
         }
     };
 
     public void drawAnimation(){
-        for(AnimationsEnum animation : multiDimensionalAnimations.keySet()){
-            if(animation.dimensions == currentSpaceDimension){
-                animation.animation.drawAnimation();
+        for(SpaceAnimation animation : multiDimensionalAnimations.keySet()){
+            if(multiDimensionalAnimations.get(animation) == currentSpaceDimension){
+                animation.drawAnimation();
             }
         }
     };
@@ -74,7 +70,7 @@ public class SpaceAnimationRunner{
             System.out.println("No animations provided.");
             return;
         }
-        currentSpaceDimension = multiDimensionalAnimations.keySet().iterator().next().dimensions;
+        currentSpaceDimension = multiDimensionalAnimations.get(multiDimensionalAnimations.keySet().iterator().next());
         AbstractSpace currentSpace = spaceKeys.get(currentSpaceDimension);
         while(true){
             StdDraw.clear(currentSpace.colorScheme.backgroundColor);

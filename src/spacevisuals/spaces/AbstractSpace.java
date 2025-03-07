@@ -2,6 +2,7 @@ package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
+import spacevisuals.enums.VariableEnum;
 /*
 * Base class for Euclidean space to be rendered
 * Extended by Euclidean2D, Euclidean3D, Euclidean4D
@@ -21,14 +22,14 @@ public abstract class AbstractSpace {
     public int dimensions;
 
     public AbstractSpace(){
-        this.DEFAULT_CLIP_SCALE = 3;
-        this.MOVE_SENSITIVITY = 0.025;
+        this.DEFAULT_CLIP_SCALE = 10;
+        this.MOVE_SENSITIVITY = 0.02;
         this.VIEW_SPACE_INFO = DEFAULT_VIEW_SPACE_INFO;
         initializeSpaceVariables();
     }
     public AbstractSpace(boolean viewSpaceInfo){
-        this.DEFAULT_CLIP_SCALE = 3;
-        this.MOVE_SENSITIVITY = 0.025;
+        this.DEFAULT_CLIP_SCALE = 10;
+        this.MOVE_SENSITIVITY = 0.02;
         this.VIEW_SPACE_INFO = viewSpaceInfo;
         initializeSpaceVariables();
     }
@@ -105,6 +106,21 @@ public abstract class AbstractSpace {
     public String toLabel(double number){
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
+    protected double[][][] partitionAxis(double[][] axis, int axisIndex){
+        int numPartitions = 50;
+        double[][][] partitionedAxis = new double[numPartitions][2][axis[0].length];
+        double partitionLength = (axis[1][axisIndex]-axis[0][axisIndex])/numPartitions;
+        for(int i = 0; i < numPartitions; i++){
+            partitionedAxis[i][0][axisIndex] = axis[0][axisIndex]+i*partitionLength;
+            partitionedAxis[i][1][axisIndex] = axis[0][axisIndex]+(i+1)*partitionLength;
+        }
+        return partitionedAxis;
+    }
+    public void drawAxes(){
+        for(int i = 0 ; i < dimensions; i++){
+            drawAxis(VariableEnum.fromPrecedence(i).toString());
+        }
+    };
     public void updateSpace(){
         updateView();
         setSpaceScale();
@@ -118,7 +134,6 @@ public abstract class AbstractSpace {
     public abstract double[] toViewScreenPoint(double[] worldPoint);
     public abstract void updateView();
     public abstract void updateLabelIntervals();
-    public abstract void drawAxes();
+    public abstract void drawAxis(String label);
     public abstract void drawLabels();
-
 }

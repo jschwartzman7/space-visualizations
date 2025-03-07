@@ -11,34 +11,35 @@ import java.util.ArrayList;
 public class Main {
     
     static final char animationSeparator = ',';
-    static String[] arguments;
     static Euclidean2D euclidean2d = Euclidean2D.Get();
-    static Euclidean3D euclidean3d = Euclidean3D.Get(30, 0.01, true);
+    static Euclidean3D euclidean3d = Euclidean3D.Get(5, 0.01, true);
     static Euclidean4D euclidean4d = Euclidean4D.Get();
     static SpaceAnimationRunner runner = new SpaceAnimationRunner(20);
     static AnimationsEnum[] animationSelections = AnimationsEnum.values();
 
-    public static String[] getUntilSeparator(int index){
-        ArrayList<String> params = new ArrayList<String>();
-        while(index < arguments.length){
-            if(arguments[index].charAt(0) == animationSeparator){break;}
-            params.add(arguments[index++]);
+    public static String[] getUntilSeparator(String[] args, int index){
+        ArrayList<String> animationParams = new ArrayList<String>();
+        while(index < args.length){
+            if(args[index].charAt(0) == animationSeparator){break;}
+            animationParams.add(args[index++]);
         }
-        return params.toArray(new String[params.size()]);
+        return animationParams.toArray(new String[animationParams.size()]);
     }
 
-    public static void handleCommandLineArgs(String[] argumentArray){
-        if(argumentArray.length == 0){
-            System.out.println("No arguments provided.");
+    public static void handleCommandLineArgs(String[] args){
+        if(args.length == 0){
+            System.out.println("No animations provided");
             return;
         }
         int i = 0;
-        while(i < argumentArray.length){
-            SpaceAnimation result = runner.addAnimation(argumentArray[i]);
-            if(result != null){
-                String[] params = getUntilSeparator(i+1);
-                result.buildAnimation(params);
-                i += params.length;
+        while(i < args.length){
+            SpaceAnimation isAnimation = runner.addAnimation(args[i]);
+            if(isAnimation != null){
+                String[] animationBuildParams = getUntilSeparator(args, i+1);
+                if(animationBuildParams.length > 0){
+                    isAnimation.configureAnimation(animationBuildParams);
+                    i += animationBuildParams.length;
+                }
             }
             i++;
         }
@@ -46,8 +47,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        arguments = args;
-        handleCommandLineArgs(arguments);
+        handleCommandLineArgs(args);
         //handleCommandLineArgs(new String[]{"domaincolor"});
     }
 }

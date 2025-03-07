@@ -1,5 +1,7 @@
 package spacevisuals.spaces;
 
+import java.awt.Color;
+
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.spaces.intervalranges.AxisIntervals2D;
@@ -47,38 +49,40 @@ public class Euclidean2D extends AbstractSpace{
         this.labeler = new AxisIntervals2D(this, DEFAULT_CLIP_SCALE, 3, 8);
     }
     public void initializeColorScheme(){
-        this.colorScheme = SpaceColorScheme.from("default");
+        this.colorScheme = SpaceColorScheme.from("dark");
     }
     public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};
     }
 
-    public void drawAxes(){
+    @Override
+    public void drawAxis(String label) {
         StdDraw.setPenRadius();
-        StdDraw.setPenColor(colorScheme.xAxisColor);
-        double yCord;
-        if(yClipMax < 0){
-            yCord = yClipMax;
+        double cord = 0;
+        switch (label) {
+            case "x":
+                if(yClipMax < 0){
+                    cord = yClipMax;
+                }
+                else if (yClipMin > 0){
+                    cord = yClipMin;
+                }
+                StdDraw.setPenColor(colorScheme.xAxisColor);
+                StdDraw.line(xClipMin, cord, xClipMax, cord);
+                break;
+            case "y":
+                if(xClipMax < 0){
+                    cord = xClipMax;
+                }
+                else if (xClipMin > 0){
+                    cord = xClipMin;
+                }
+                StdDraw.setPenColor(colorScheme.yAxisColor);
+                StdDraw.line(cord, yClipMin, cord, yClipMax);
+                break;
+            default:
+                break;
         }
-        else if (yClipMin > 0){
-            yCord = yClipMin;
-        }
-        else{
-            yCord = 0;
-        }
-        StdDraw.line(xClipMin, yCord, xClipMax, yCord);
-        StdDraw.setPenColor(colorScheme.yAxisColor);
-        double xCord;
-        if(xClipMax < 0){
-            xCord = xClipMax;
-        }
-        else if (xClipMin > 0){
-            xCord = xClipMin;
-        }
-        else{
-            xCord = 0;
-        }
-        StdDraw.line(xCord, yClipMin, xCord, yClipMax);
     }
 
     public void drawLabels(){

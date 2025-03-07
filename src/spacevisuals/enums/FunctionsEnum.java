@@ -9,7 +9,8 @@ import spacevisuals.functions.*;
 public enum FunctionsEnum {
 
     identity(u -> u),
-    zero(u -> new double[]{0}),
+    zero(u -> new double[u.length]),
+    
     hyperbolicparabaloid(u -> new double[]{Rn_R.hyperbolicParabaloid(u, 0.3, 0.3)}),
     dotproduct(u -> new double[]{Rn_R.dotProduct(u, new double[]{1, 1})}),
     sumsquares(u -> new double[]{Rn_R.sumOfSquares(u)}),

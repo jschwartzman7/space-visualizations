@@ -18,9 +18,10 @@ public class AxisIntervals3D extends SpaceUser<Euclidean3D>{
     }
 
     public void updateLabelIntervals(){
-        double clipRange = Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin);
-        labeler.updateLabelInterval(clipRange, 0);
-        labeler.updateLabelInterval(clipRange, 1);
-        labeler.updateLabelInterval(clipRange, 2);
+        double focalLengthDistortion = space.mover.DEFAULT_FOCAL_LENGTH/space.mover.focalLength;
+        double primaryAxesRange = focalLengthDistortion*Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin);
+        labeler.updateLabelInterval(primaryAxesRange, 0);
+        labeler.updateLabelInterval(primaryAxesRange, 1);
+        labeler.updateLabelInterval(primaryAxesRange, 2);
     }
 }

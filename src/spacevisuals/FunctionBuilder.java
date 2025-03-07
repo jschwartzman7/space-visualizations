@@ -4,7 +4,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import spacevisuals.enums.BinaryOperationEnum;
-import spacevisuals.enums.FunctionVariableEnum;
+import spacevisuals.enums.VariableEnum;
 import spacevisuals.enums.MathConstantEnum;
 import spacevisuals.enums.UnaryOperationEnum;
 import java.util.ArrayList;
@@ -28,11 +28,11 @@ public class FunctionBuilder {
                                                             .map(MathConstantEnum::toString)
                                                             .collect(Collectors.toCollection(HashSet::new));
     // x, y, z, w, t, u, v
-    public static HashSet<String> variables = Arrays.stream(FunctionVariableEnum.values())
-                                                            .map(FunctionVariableEnum::toString)
+    public static HashSet<String> variables = Arrays.stream(VariableEnum.values())
+                                                            .map(VariableEnum::toString)
                                                             .collect(Collectors.toCollection(HashSet::new));
 
-    public ArrayList<FunctionVariableEnum> usedVariables = new ArrayList<FunctionVariableEnum>();
+    public ArrayList<VariableEnum> usedVariables = new ArrayList<VariableEnum>();
     
     public void fillUsedVariables(String[] functionInput){
         usedVariables.clear();
@@ -43,7 +43,7 @@ public class FunctionBuilder {
             }
             for(String token: singleFunctionStringArray){
                 if(variables.contains(token)){
-                    FunctionVariableEnum variable = FunctionVariableEnum.valueOf(token);
+                    VariableEnum variable = VariableEnum.valueOf(token);
                     if(!usedVariables.contains(variable)){
                         usedVariables.add(variable);
                     }
@@ -117,7 +117,7 @@ public class FunctionBuilder {
             }
             // current is a function variable
             if(variables.contains(curToken)){
-                values.push((double[] input) -> input[usedVariables.indexOf(FunctionVariableEnum.valueOf(curToken))]);
+                values.push((double[] input) -> input[usedVariables.indexOf(VariableEnum.valueOf(curToken))]);
                 tokenIdx++;
                 continue;
             }

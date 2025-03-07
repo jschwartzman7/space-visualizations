@@ -1,6 +1,5 @@
 package spacevisuals.helpers;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -42,7 +41,7 @@ public class TextBox {
                 width = size;
             }
         }
-        StdDraw.line(xLeft, space.yClipMin+yClipRange*marginBottomProportion-textHeight/2, xLeft, height-textHeight/2);
+        StdDraw.line(space.xClipMin, space.yClipMin+yClipRange*marginBottomProportion-textHeight/2, space.xClipMin, height-textHeight/2);
     }
     
 }

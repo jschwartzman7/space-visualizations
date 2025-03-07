@@ -8,6 +8,7 @@ import spacevisuals.spaces.SpaceUser;
 
 public class SpaceMover4D extends SpaceUser<Euclidean4D> implements SpaceMover{
 
+    public static final double MOVE_SENSITIVITY = 0.1;
     public double x = 0;
     public double y = 0;
     public double z = 0;
@@ -49,65 +50,65 @@ public class SpaceMover4D extends SpaceUser<Euclidean4D> implements SpaceMover{
             space.zoomYClipIn();
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_Q)) {
-            this.xy += space.ROTATION_RATE;
+            this.xy += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_A)) {
-            this.xy -= space.ROTATION_RATE;
+            this.xy -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_W)) {
-            this.xz += space.ROTATION_RATE;
+            this.xz += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_S)) {
-            this.xz -= space.ROTATION_RATE;
+            this.xz -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_E)) {
-            this.xw += space.ROTATION_RATE;
+            this.xw += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_D)) {
-            this.xw -= space.ROTATION_RATE;
+            this.xw -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_R)) {
-            this.yz += space.ROTATION_RATE;
+            this.yz += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_F)) {
-            this.yz -= space.ROTATION_RATE;
+            this.yz -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_T)) {
-            this.yw += space.ROTATION_RATE;
+            this.yw += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_G)) {
-            this.yw -= space.ROTATION_RATE;
+            this.yw -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_Y)) {
-            this.zw += space.ROTATION_RATE;
+            this.zw += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_H)) {
-            this.zw -= space.ROTATION_RATE;
+            this.zw -= MOVE_SENSITIVITY;
         }
 
         if(StdDraw.isKeyPressed(KeyEvent.VK_1)){
-            this.x -= space.ROTATION_RATE;
+            this.x -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_2)){
-            this.x += space.ROTATION_RATE;
+            this.x += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_3)){
-            this.y -= space.ROTATION_RATE;
+            this.y -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_4)){
-            this.y += space.ROTATION_RATE;
+            this.y += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_5)){
-            this.z -= space.ROTATION_RATE;
+            this.z -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_6)){
-            this.z += space.ROTATION_RATE;
+            this.z += MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_7)){
-            this.w -= space.ROTATION_RATE;
+            this.w -= MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(KeyEvent.VK_8)){
-            this.w += space.ROTATION_RATE;
+            this.w += MOVE_SENSITIVITY;
         }
         resetView();
     }

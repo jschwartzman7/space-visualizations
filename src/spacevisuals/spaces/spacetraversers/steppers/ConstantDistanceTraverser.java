@@ -1,7 +1,5 @@
 package spacevisuals.spaces.spacetraversers.steppers;
 
-import spacevisuals.spaces.AbstractSpace;
-
 public class ConstantDistanceTraverser implements Stepper{
     
     public final double DEFAULT_DISTANCE = 0.5;

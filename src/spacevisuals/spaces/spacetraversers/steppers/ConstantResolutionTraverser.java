@@ -1,7 +1,5 @@
 package spacevisuals.spaces.spacetraversers.steppers;
 
-import spacevisuals.spaces.AbstractSpace;
-
 public class ConstantResolutionTraverser implements Stepper{
     
     public ConstantResolutionTraverser(){}
