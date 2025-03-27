@@ -1,10 +1,12 @@
-package spacevisuals.spaces.intervalranges;
+package spacevisuals.helpers;
+
+import spacevisuals.Constants;
 
 public class IntervalsRange{
 
-    public static final double DEFAULT_INTERVAL = 1;
-    public static final double DEFAULT_RANGE_INTERVAL_MIN = 8;
-    public static final double DEFAULT_RANGE_INTERVAL_MAX = 20;
+    public static final double DEFAULT_INTERVAL = Constants.DEFAULT_LABEL_INTERVAL;
+    public static final double DEFAULT_RANGE_INTERVAL_MIN = Constants.LABEL_INTERVAL_RANGE_MIN;
+    public static final double DEFAULT_RANGE_INTERVAL_MAX = Constants.LABEL_INTERVAL_RANGE_MAX;
     public double[] labelIntervals;
     public double[][] rangeIntervalRatios;
     public int dimensions;
@@ -32,10 +34,10 @@ public class IntervalsRange{
     public void updateLabelInterval(double range, int index){
         double intervalRatio = range/labelIntervals[index];
         if(intervalRatio < rangeIntervalRatios[index][0]){
-            labelIntervals[index] /= 2;
+            labelIntervals[index] /= Constants.LABEL_INTERVAL_SCALE_FACTOR;
         }
         else if(intervalRatio > rangeIntervalRatios[index][1]){
-            labelIntervals[index] *= 2;
+            labelIntervals[index] *= Constants.LABEL_INTERVAL_SCALE_FACTOR;
         }
     }
     

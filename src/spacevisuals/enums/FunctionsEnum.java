@@ -30,7 +30,8 @@ public enum FunctionsEnum {
     squareroot(u -> Rn_Rn.power(u, 0.5)),
     cossin(u -> new double[]{Math.sin(u[0])+Math.cos(u[1]), Math.cos(u[1])+Math.sin(u[0])}),
     parametriccircle(u -> new double[]{Math.sin(u[0]), Math.cos(u[0])}),
-    parametric(u -> new double[]{Math.sin(6*u[0]), Math.cos(5*u[0])});
+    parametric(u -> new double[]{Math.sin(6*u[0]), Math.cos(5*u[0])}),
+    logmulti(u -> C_C.logMultivalue(u, 3));
 
     public final Function<double[], double[]> function;
 

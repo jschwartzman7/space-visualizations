@@ -1,40 +1,37 @@
 package spacevisuals.spaces;
 
-import java.awt.Color;
-
+import spacevisuals.Constants;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.enums.VariableEnum;
-import spacevisuals.functions.Matrix3D;
-import spacevisuals.helpers.*;
-import spacevisuals.spaces.intervalranges.AxisIntervals3D;
-import spacevisuals.spaces.spacemovers.SpaceMover;
-import spacevisuals.spaces.spacemovers.SpaceMover3DCamera;
+import spacevisuals.helpers.Camera3D;
+import spacevisuals.spaces.axesintervals.AxisIntervals3D;
+import spacevisuals.spaces.spacemovers.SpaceMover3D;
 import edu.princeton.cs.introcs.StdDraw;
 /*
  * adjust label interval as distortion changes, not just displayed value
  */
 public class Euclidean3D extends AbstractSpace{
 
-    public static final double DEFAULT_AXES_SCALE = 20;
+
+    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
+    public static final double DEFAULT_AXES_SCALE = Constants.DEFAULT_AXIS_RADIUS;
     public double xAxisMin;
     public double xAxisMax;
     public double yAxisMin;
     public double yAxisMax;
     public double zAxisMin;
     public double zAxisMax;
-    public SpaceMover3DCamera mover;
-    public AxisIntervals3D labeler;
+    public Camera3D camera;
     private static SingletonSpace<Euclidean3D> spaceSingleton = new SingletonSpace<Euclidean3D>();
-    private Euclidean3D(){
-        super();
-        initializeVariables(DEFAULT_AXES_SCALE);
-    }
+    
     private Euclidean3D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
+        this.dimensions = 3;
         initializeVariables(DEFAULT_AXES_SCALE);
     }
     private Euclidean3D(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
         super(defaultScale, moveSensitivity, viewSpaceInfo);
+        this.dimensions = 3;
         initializeVariables(DEFAULT_AXES_SCALE);
     }
     public static Euclidean3D Get(boolean viewSpaceInfo){
@@ -44,7 +41,7 @@ public class Euclidean3D extends AbstractSpace{
         return spaceSingleton.getOrCreateSpace(() -> new Euclidean3D(defaultScale, moveSensitivity, viewSpaceInfo));
     }
     public static Euclidean3D Get(){
-        return spaceSingleton.getOrCreateSpace(() -> new Euclidean3D());
+        return spaceSingleton.getOrCreateSpace(() -> new Euclidean3D(DEFAULT_VIEW_SPACE_INFO));
     }
 
     public void initializeVariables(double scale){
@@ -54,27 +51,38 @@ public class Euclidean3D extends AbstractSpace{
         this.yAxisMax = scale;
         this.zAxisMin = -scale;
         this.zAxisMax = scale;
+        this.camera = new Camera3D();
+        initializeColorScheme();
         initializeMover();
         initializeLabeler();
-        initializeColorScheme();
         this.dimensions = 3;
     }
 
     public void initializeMover(){
-        this.mover = new SpaceMover3DCamera(this);
+        this.mover = new SpaceMover3D(this);
     }
     public void initializeLabeler(){
         this.labeler = new AxisIntervals3D(this, DEFAULT_CLIP_SCALE, 3, 8);
     }
+
+    @Override
     public void initializeColorScheme(){
         this.colorScheme = SpaceColorScheme.from("dark");
     }
+    @Override
     public double[] toViewScreenPoint(double[] numericPoint){
-        return mover.toDrawablePoint(numericPoint);
+        return camera.toDrawablePoint(numericPoint);
         /*double[] rotatedPoint = matrixUtils.matrixVectorRmxnRn_Rm(c, new double[]{numericPoint[0], numericPoint[1], numericPoint[2]});
         return new double[] {Math.sqrt(3)/2*(rotatedPoint[1]-rotatedPoint[0]), rotatedPoint[2] - .5*(rotatedPoint[1]+rotatedPoint[0])};*/
     }
-
+    @Override
+    public void updateView() {
+        mover.updateView();
+    }
+    @Override
+    public void updateLabelIntervals() {
+        labeler.updateLabelIntervals();
+    }
     @Override
     public void drawAxis(String label){
         double axis [][] = new double[2][3];
@@ -105,7 +113,7 @@ public class Euclidean3D extends AbstractSpace{
         StdDraw.setPenColor(colorScheme.labelColor);
         StdDraw.text(axisP22D[0], axisP22D[1], label);
     }
-
+    @Override
     public void drawLabels(){
         StdDraw.setPenColor(colorScheme.labelColor);
         double numericMin = xAxisMin;
@@ -132,14 +140,6 @@ public class Euclidean3D extends AbstractSpace{
             if(labelLocation == null){continue;}
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericZ));
         }
-    }
-    @Override
-    public void updateView() {
-        mover.updateView();
-    }
-    @Override
-    public void updateLabelIntervals() {
-        labeler.updateLabelIntervals();
     }
 }
 

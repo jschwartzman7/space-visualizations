@@ -1,8 +1,6 @@
-package spacevisuals.colorstrategies;
+package spacevisuals.colors.colorstrategies;
 
 import java.awt.Color;
-
-import spacevisuals.functions.Rn_R;
 
 public class PointMapColorStrategy implements ColorStrategy {
 

@@ -6,18 +6,18 @@ import spacevisuals.spaces.Euclidean3D;
 
 public class RectangleTraverser3D extends SpaceTraverser<Euclidean3D>{
 
-    public static final double DEFAULT_PIXEL_RESOLUTION = 100;
-
-    public RectangleTraverser3D(Euclidean3D space){
-        super(space, DEFAULT_PIXEL_RESOLUTION);
-        this.stepper = new ConstantResolutionTraverser();
+    public RectangleTraverser3D(Euclidean3D space, Stepper stepper){
+        super(space, stepper);
+    }
+    public RectangleTraverser3D(Euclidean3D space, Stepper stepper, double defaultResolution){
+        super(space, stepper, defaultResolution);
     }
 
     public void traverseDomain(Consumer<double[]> handlePoint){
-        double xStep = stepper.getStep(space.xAxisMax-space.xAxisMin, primaryPixelResolution);
-        double yStep = stepper.getStep(space.yAxisMax-space.yAxisMin, secondaryPixelResolution);
-        for(double x = space.xAxisMin; x <= space.xAxisMax; x += xStep){
-            for(double y = space.yAxisMin; y <= space.yAxisMax; y += yStep){
+        double xStep = stepper.getStep(getSpace().xAxisMax-getSpace().xAxisMin, primaryResolution);
+        double yStep = stepper.getStep(getSpace().yAxisMax-getSpace().yAxisMin, secondaryResolution);
+        for(double x = getSpace().xAxisMin; x <= getSpace().xAxisMax; x += xStep){
+            for(double y = getSpace().yAxisMin; y <= getSpace().yAxisMax; y += yStep){
                 handlePoint.accept(new double[]{x, y});
             }
         }

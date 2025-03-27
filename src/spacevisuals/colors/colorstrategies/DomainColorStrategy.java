@@ -1,4 +1,4 @@
-package spacevisuals.colorstrategies;
+package spacevisuals.colors.colorstrategies;
 
 
 import java.awt.Color;

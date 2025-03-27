@@ -2,11 +2,12 @@ package spacevisuals.animations.spacefunctions.vectorfields;
 
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.SpaceFunction;
-import spacevisuals.spaces.intervalranges.IntervalsRange;
 import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.functions.*;
+import spacevisuals.helpers.IntervalsRange;
 
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
@@ -18,19 +19,19 @@ public class VectorField3D extends SpaceFunction<Euclidean3D> implements PointSe
     
         public VectorField3D(){
             super(Euclidean3D.Get());
-            this.traverser = new PrismTraverser3D(space, 5);
+            this.traverser = new PrismTraverser3D(getSpace(), new ConstantResolutionTraverser());
             this.vectorSizer = new IntervalsRange(1, .5, 10, 30);
         }
         public VectorField3D(Function<double[], double[]> function){
             super(Euclidean3D.Get(), function);
-            this.traverser = new PrismTraverser3D(space, 5);
+            this.traverser = new PrismTraverser3D(getSpace(), new ConstantResolutionTraverser());
             this.vectorSizer = new IntervalsRange(1, .5, 10, 30);
     
         }
 
         @Override
         public void updateAnimation(){
-            vectorSizer.updateLabelInterval(Math.min(space.xAxisMax-space.xAxisMin, space.zAxisMax-space.zAxisMin), 0);
+            vectorSizer.updateLabelInterval(Math.min(getSpace().xAxisMax-getSpace().xAxisMin, getSpace().zAxisMax-getSpace().zAxisMin), 0);
         }
         @Override
         public void traverseDomain(Consumer<double[]> handlePoint){
@@ -48,8 +49,8 @@ public class VectorField3D extends SpaceFunction<Euclidean3D> implements PointSe
             }
             double[] unitVector = new double[]{vectorSizer.labelIntervals[0]*output[0]/vectorMagnitude, vectorSizer.labelIntervals[0]*output[1]/vectorMagnitude, vectorSizer.labelIntervals[0]*output[2]/vectorMagnitude};
             StdDraw.setPenColor();
-            double[] p1 = space.toViewScreenPoint(new double[] {input3D[0], input3D[1], input3D[2]});
-            double[] p2 = space.toViewScreenPoint(new double[]{input3D[0]+unitVector[0], input3D[1]+unitVector[1], input3D[2]+unitVector[2]});
+            double[] p1 = getSpace().toViewScreenPoint(new double[] {input3D[0], input3D[1], input3D[2]});
+            double[] p2 = getSpace().toViewScreenPoint(new double[]{input3D[0]+unitVector[0], input3D[1]+unitVector[1], input3D[2]+unitVector[2]});
             if(p1 == null || p2 == null){
                 return;
             }

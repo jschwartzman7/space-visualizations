@@ -3,6 +3,7 @@ package spacevisuals.animations.spacefunctions.vectorfields;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.SpaceFunction;
 import spacevisuals.spaces.spacetraversers.*;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.functions.Rn_R;
@@ -19,11 +20,11 @@ public class VectorField2D extends SpaceFunction<Euclidean2D> implements PointSe
     public VectorField2D(){
         super(Euclidean2D.Get());
         this.defaultFunction = FunctionsEnum.sin.function;
-        this.traverser = new ClippingTraverser(space, 30);
+        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
     }
     public VectorField2D(Function<double[], double[]> function){
         super(Euclidean2D.Get(), function);
-        this.traverser = new ClippingTraverser(space, 30);
+        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
     }
     
     @Override
@@ -34,11 +35,11 @@ public class VectorField2D extends SpaceFunction<Euclidean2D> implements PointSe
     public void handlePoint(double[] input){
         double[] outputVector = function.apply(input);
         double angle = Math.atan2(outputVector[1], outputVector[0]);
-        StdDraw.filledCircle(input[0], input[1], Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin)*pointRadius);
+        StdDraw.filledCircle(input[0], input[1], Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*pointRadius);
         StdDraw.setPenColor();
         StdDraw.setPenRadius();
         
-        double vectorLength = (Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin)*vectorLengthProportion)/(1+Math.exp(-Rn_R.magnitude(outputVector)));
+        double vectorLength = (Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*vectorLengthProportion)/(1+Math.exp(-Rn_R.magnitude(outputVector)));
         StdDraw.line(input[0], input[1], input[0]+Math.cos(angle)*vectorLength, input[1]+Math.sin(angle)*vectorLength);
     }
     @Override

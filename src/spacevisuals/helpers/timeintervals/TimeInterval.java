@@ -1,17 +1,13 @@
 package spacevisuals.helpers.timeintervals;
 
-import java.awt.event.KeyEvent;
-
-import edu.princeton.cs.introcs.StdDraw;
-
-public abstract class TimeInterval{
+public class TimeInterval{
 
     public double t;
     public double tMin;
     public double tMax;
     public double tStep;
 
-    public  TimeInterval(double tMin, double tMax, double tStep){
+    public TimeInterval(double tMin, double tMax, double tStep){
         this.t = tMin;
         this.tMin = tMin;
         this.tMax = tMax;
@@ -19,12 +15,13 @@ public abstract class TimeInterval{
     }
 
     public void updateT(){
-        if(!StdDraw.isKeyPressed(KeyEvent.VK_SPACE)){
-            concreteUpdateT();
+        double tNext = this.t + this.tStep;
+        if(tNext < this.tMax){
+            this.t = tNext;
         }
     };
 
-    public abstract void concreteUpdateT();
-
-    public abstract double update(double t);
+    public double incrementValue(double t){
+        return t + this.tStep;
+    };
 }

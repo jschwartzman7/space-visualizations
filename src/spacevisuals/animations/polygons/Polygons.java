@@ -2,19 +2,24 @@ package spacevisuals.animations.polygons;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.SpaceAnimation;
+import spacevisuals.animations.polygons.solids.Line;
+import spacevisuals.animations.polygons.solids.Simplex;
+import spacevisuals.animations.polygons.solids.Triangle;
 import spacevisuals.spaces.AbstractSpace;
-import spacevisuals.spaces.SpaceUser;
+import spacevisuals.SpaceUser;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Polygons extends SpaceUser<AbstractSpace> implements SpaceAnimation{
+public abstract class Polygons<T extends AbstractSpace> extends SpaceUser<T> implements SpaceAnimation{
 
-    private List<double[][]> lineSegments;
+    private List<Triangle> triangles;
+    private List<Line> lines;
 
-    public Polygons(AbstractSpace space){
+    public Polygons(T space){
         super(space);
-        this.lineSegments = new LinkedList<double[][]>();
+        this.triangles = new LinkedList<Triangle>();
+        this.lines = new LinkedList<Line>();
     }
     
     private static double[][] cube(double[] center, double halfRadius){
@@ -49,9 +54,12 @@ public abstract class Polygons extends SpaceUser<AbstractSpace> implements Space
         double[][] cube = cube(center, halfRadius);
         for(int i = 0; i < cube.length; i++){
             double[] point1 = cube[i];
-            for(double[] adjacentVertex : adjacentVertices(cube, point1)){
-                lineSegments.add(new double[][]{point1, adjacentVertex});
+            HashSet<double[]> adjacentVertices = adjacentVertices(cube, point1);
+            for(int j = 0; j < adjacentVertices.size(); j++){
+                triangles.add(new Triangle(new double[][]{point1, (double[])adjacentVertices.toArray()[j], (double[])adjacentVertices.toArray()[(j+1)%adjacentVertices.size()]}));
+                lines.add(new Line(new double[][]{point1, (double[])adjacentVertices.toArray()[j]}));
             }
+            
         }
     }
 
@@ -70,31 +78,24 @@ public abstract class Polygons extends SpaceUser<AbstractSpace> implements Space
         double[][] simplex = simplex(base, width);
         for(int i = 0; i < simplex.length; i++){
             double[] point1 = simplex[i];
-            for(int j = 0; j < simplex.length; j++){
-                lineSegments.add(new double[][]{point1, simplex[j]});
-            }
+            double[] point2 = simplex[(i+1)%simplex.length];
+            double[] point3 = simplex[(i+2)%simplex.length];
+            triangles.add(new Triangle(new double[][]{point1, point2, point3}));
+            lines.add(new Line(new double[][]{point1, point2}));
         }
     }
 
     @Override
     public void drawAnimation() {
-        for(double[][] linePointPair: lineSegments){
-            double[] point2D1 = space.toViewScreenPoint(linePointPair[0]);
-            double[] point2D2 = space.toViewScreenPoint(linePointPair[1]);
-            StdDraw.setPenColor(space.colorScheme.labelColor);
+        for(Simplex triangle: triangles){
+            StdDraw.setPenColor(getSpace().colorScheme.labelColor);
             StdDraw.setPenRadius();
-            if(point2D1 == null & point2D2 == null){
-                continue;
-            }
-            else if(point2D1 == null){
-                StdDraw.line(Double.MAX_VALUE, Double.MAX_VALUE, point2D2[0], point2D2[1]);
-                continue;
-            }
-            else if(point2D2 == null){
-                StdDraw.line(point2D1[0], point2D1[1], Double.MAX_VALUE, Double.MAX_VALUE);
-                continue;
-            }
-            StdDraw.line(point2D1[0], point2D1[1], point2D2[0], point2D2[1]);
+            triangle.draw(getSpace());
+        }
+        for(Simplex line : lines){
+            StdDraw.setPenColor(getSpace().colorScheme.backgroundColor);
+            StdDraw.setPenRadius();
+            line.draw(getSpace());
         }
     }
 }

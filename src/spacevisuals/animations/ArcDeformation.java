@@ -1,10 +1,9 @@
 package spacevisuals.animations;
 
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.SpaceUser;
+import spacevisuals.SpaceUser;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnimation{
@@ -32,7 +31,7 @@ public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnima
         double shadowT = T.t;
         for(int i = 0; i < shadowLength; i++){
             drawArc(shadowT);
-            shadowT = T.update(shadowT);
+            shadowT = T.incrementValue(shadowT);
         }
     }
 

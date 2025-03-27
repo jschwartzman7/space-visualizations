@@ -1,25 +1,18 @@
 package spacevisuals.spaces;
 
-import java.awt.Color;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
-import spacevisuals.spaces.intervalranges.AxisIntervals2D;
+import spacevisuals.spaces.axesintervals.AxisIntervals2D;
 import spacevisuals.spaces.spacemovers.SpaceMover;
 import spacevisuals.spaces.spacemovers.SpaceMover2D;
 
 public class Euclidean2D extends AbstractSpace{
 
+    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
     private final double X_LABEL_OFFSET = 0.02;
-    public SpaceMover mover;
-    public AxisIntervals2D labeler;
     private static SingletonSpace<Euclidean2D> spaceSingleton = new SingletonSpace<Euclidean2D>();
-    private Euclidean2D(){
-        super();
-        this.dimensions = 2;
-        initializeMover();
-        initializeLabeler();
-    }
+    
     private Euclidean2D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
         this.dimensions = 2;
@@ -39,7 +32,7 @@ public class Euclidean2D extends AbstractSpace{
         return spaceSingleton.getOrCreateSpace(() -> new Euclidean2D(defaultScale, moveSensitivity, viewSpaceInfo));
     }
     public static Euclidean2D Get(){
-        return spaceSingleton.getOrCreateSpace(Euclidean2D::new);
+        return spaceSingleton.getOrCreateSpace(() -> new Euclidean2D(DEFAULT_VIEW_SPACE_INFO));
     }
 
     public void initializeMover(){
@@ -48,13 +41,23 @@ public class Euclidean2D extends AbstractSpace{
     public void initializeLabeler(){
         this.labeler = new AxisIntervals2D(this, DEFAULT_CLIP_SCALE, 3, 8);
     }
+
+    @Override
     public void initializeColorScheme(){
         this.colorScheme = SpaceColorScheme.from("dark");
     }
+    @Override
     public double[] toViewScreenPoint(double[] numericPoint){
         return new double[]{numericPoint[0], numericPoint[1]};
     }
-
+    @Override
+    public void updateView() {
+        mover.updateView();
+    }
+    @Override
+    public void updateLabelIntervals() {
+        labeler.updateLabelIntervals();
+    }
     @Override
     public void drawAxis(String label) {
         StdDraw.setPenRadius();
@@ -84,7 +87,7 @@ public class Euclidean2D extends AbstractSpace{
                 break;
         }
     }
-
+    @Override
     public void drawLabels(){
         StdDraw.setPenColor(colorScheme.labelColor);
         StdDraw.setPenRadius(0.001);
@@ -105,13 +108,6 @@ public class Euclidean2D extends AbstractSpace{
             StdDraw.text(0, y, toLabel(numericY));
         }
     }
-    @Override
-    public void updateView() {
-        mover.updateView();
-    }
-    @Override
-    public void updateLabelIntervals() {
-        labeler.updateLabelIntervals();
-    }
+   
 }
 

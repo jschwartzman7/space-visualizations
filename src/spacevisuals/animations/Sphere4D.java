@@ -1,9 +1,8 @@
 package spacevisuals.animations;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.spaces.Euclidean4D;
-import spacevisuals.spaces.SpaceUser;
+import spacevisuals.SpaceUser;
 
 public class Sphere4D extends SpaceUser<Euclidean4D> implements SpaceAnimation{
 
@@ -34,7 +33,7 @@ public class Sphere4D extends SpaceUser<Euclidean4D> implements SpaceAnimation{
     public void drawAnimation() {
         for(int i = 0; i < numPoints; i++){
             double[] point = points[i];
-            double[] screenPoint = space.toViewScreenPoint(point);
+            double[] screenPoint = getSpace().toViewScreenPoint(point);
             StdDraw.point(screenPoint[0], screenPoint[1]);
         }
     }

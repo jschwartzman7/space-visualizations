@@ -8,10 +8,12 @@ import spacevisuals.enums.VariableEnum;
 import spacevisuals.functions.Matrix;
 import spacevisuals.functions.Matrix3D;
 import spacevisuals.functions.Matrix4D;
+import spacevisuals.helpers.Camera4D;
 import spacevisuals.spaces.spacemovers.SpaceMover4D;
 
 public class Euclidean4D extends AbstractSpace {
 
+    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
     public double xAxisMin;
     public double xAxisMax;
     public double yAxisMin;
@@ -22,11 +24,12 @@ public class Euclidean4D extends AbstractSpace {
     public double wAxisMax;
     //public double[][] rotation4d;
     //public double[][] projectionR4_R2;
+    public Camera4D camera;
     public SpaceMover4D mover;
     private static SingletonSpace<Euclidean4D> spaceSingleton = new SingletonSpace<Euclidean4D>();
 
-    private Euclidean4D(){
-        super();
+    private Euclidean4D(boolean viewSpaceInfo){
+        super(DEFAULT_VIEW_SPACE_INFO);
         this.xAxisMin = -DEFAULT_CLIP_SCALE;
         this.xAxisMax = DEFAULT_CLIP_SCALE;
         this.yAxisMin = -DEFAULT_CLIP_SCALE;
@@ -40,17 +43,29 @@ public class Euclidean4D extends AbstractSpace {
                                               {.25, .25, .25, .25}};*/
         //this.projectionR4_R2 = new double[][]{{1, 0, 0, 0},
         //{0, 1, 0, 0}};
-        this.mover = new SpaceMover4D(this);
+        this.camera = new Camera4D();
+        initializeMover();
         this.dimensions = 4;
     }
 
     public static Euclidean4D Get(){
-        return spaceSingleton.getOrCreateSpace(() -> new Euclidean4D());
+        return spaceSingleton.getOrCreateSpace(() -> new Euclidean4D(DEFAULT_VIEW_SPACE_INFO));
+    }
+    @Override
+    public void initializeColorScheme() {
+        this.colorScheme = SpaceColorScheme.from("dark");
+    }
+    @Override
+    public void initializeMover() {
+        this.mover = new SpaceMover4D(this);
     }
 
-
+    @Override
+    public void initializeLabeler() {
+    }    
     @Override
     public double[] toViewScreenPoint(double[] worldPoint) {
+        return camera.toDrawablePoint(worldPoint);
         /*double wDistance = worldPoint[3] - w;
         if(!wAxis.containsKey(wDistance)){
             wAxis.put(wDistance, new Euclidean3D(false));
@@ -58,13 +73,15 @@ public class Euclidean4D extends AbstractSpace {
         double[] point2d = wAxis.get(wDistance).toViewScreenPoint(rotated4dPoint);
         point2d[0] = point2d[0] + wDistance;
         point2d[1] = point2d[1] + wDistance;*/
-        double[][] currentPosition4d = Matrix.scalarMultiply(Matrix.add(Matrix4D.ZW2x4(mover.zw), Matrix.add(Matrix4D.YW2x4(mover.yw),Matrix.add(Matrix4D.YZ2x4(mover.yz), Matrix.add(Matrix4D.XW2x4(mover.xw), Matrix.add(Matrix4D.XZ2x4(mover.xz), Matrix4D.XY2x4(mover.xy)))))), 1.0/6);
-        //double [][] projected4d = Matrix.matrixMatrixRmxnRnxp_Rmxp(projection, currentPosition4d);
-        double[] translatedPoint = new double[]{worldPoint[0] - mover.x, worldPoint[1] - mover.y, worldPoint[2] - mover.z, worldPoint[3] - mover.w};
-        double[] point2d = Matrix3D.matrixVectorRmxnRn_Rm(currentPosition4d, translatedPoint);
-        return point2d;
+        
     }
-
+    @Override
+    public void updateView() {
+       mover.updateView();
+    }
+    @Override
+    public void updateLabelIntervals() {
+    }
     @Override
     public void drawAxis(String label){
         double[][] axis = new double[2][4];
@@ -95,7 +112,7 @@ public class Euclidean4D extends AbstractSpace {
         StdDraw.setPenRadius();
         for(double[][] partition : partitionedAxis){
             if(label.equals("w")){
-                double distance = Math.abs(partition[0][3] - mover.w);
+                double distance = Math.abs(partition[0][3] - camera.w);
                 double currentWidth = StdDraw.getPenRadius();
                 StdDraw.setPenRadius(currentWidth/(distance+1));
             }
@@ -114,29 +131,5 @@ public class Euclidean4D extends AbstractSpace {
     public void drawLabels(){
     }
 
-    /*public void traverseWAxis(Consumer<Euclidean3D> function){
-        for(double wCur = w-wViewRadius; wCur < w+wViewRadius; wCur += wResolution){
-            if(!wAxis.containsKey(wCur)){
-                wAxis.put(wCur, Euclidean3D.Get());
-            }
-            Euclidean3D euclidean3D = wAxis.get(wCur);
-            function.accept(euclidean3D);
-        }
-    }*/
-
-    @Override
-    public void initializeColorScheme() {
-        this.colorScheme = SpaceColorScheme.from("dark");
-    }
-
-    @Override
-    public void updateView() {
-       mover.updateView();
-    }
-
-    @Override
-    public void updateLabelIntervals() {
-        
-    }
     
 }

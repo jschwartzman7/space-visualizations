@@ -9,7 +9,6 @@ import spacevisuals.enums.MathConstantEnum;
 import spacevisuals.enums.UnaryOperationEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -32,27 +31,7 @@ public class FunctionBuilder {
                                                             .map(VariableEnum::toString)
                                                             .collect(Collectors.toCollection(HashSet::new));
 
-    public ArrayList<VariableEnum> usedVariables = new ArrayList<VariableEnum>();
     
-    public void fillUsedVariables(String[] functionInput){
-        usedVariables.clear();
-        for(String singleFunction : functionInput){
-            String[] singleFunctionStringArray = tokenize(singleFunction);
-            if(singleFunctionStringArray == null){
-                continue;
-            }
-            for(String token: singleFunctionStringArray){
-                if(variables.contains(token)){
-                    VariableEnum variable = VariableEnum.valueOf(token);
-                    if(!usedVariables.contains(variable)){
-                        usedVariables.add(variable);
-                    }
-                }
-            }
-        }
-        usedVariables.sort(Comparator.comparing(x->x.precedence));
-    }
-
     public static boolean isNumeric(String str) {
         if (str == null || str.isEmpty()) {
             return false;
@@ -68,12 +47,11 @@ public class FunctionBuilder {
      * Parses a multivalued, multivariable function string into a Function<double[], double[]>
      * ex: String[]"5*x", "(79*(cos(x)+1))/3"} -> Function<double[], double[]> = f(x, y) = <5x, (79(cos(x)+1))/3>
      */
-    public Function<double[], double[]> parseFunction(String[] functionInput){
-        fillUsedVariables(functionInput);
+    public static Function<double[], double[]> parseFunction(String[] functionInput, ArrayList<VariableEnum> usedVariables){
         Function<double[], double[]> parsedFunction = (double[] input) -> {
             double[] output = new double[functionInput.length];
             for(int i = 0; i < functionInput.length; ++i){
-                output[i] = parseSingleFunctionRecursive(tokenize(functionInput[i])).apply(input);
+                output[i] = parseSingleFunctionRecursive(tokenize(functionInput[i]), usedVariables).apply(input);
             }
             return output;
         };
@@ -83,7 +61,7 @@ public class FunctionBuilder {
     /*
      * Performs modified Dijkstra's Two Stack Algorithm to parse a single valued, multivariable function string
      */
-    public Function<double[], Double> parseSingleFunctionRecursive(String[] tokenizedFunction){
+    public static Function<double[], Double> parseSingleFunctionRecursive(String[] tokenizedFunction, ArrayList<VariableEnum> usedVariables){
         if(tokenizedFunction == null){
             System.out.println("Invalid function input - parseSingleFunction");
             return null;
@@ -130,13 +108,13 @@ public class FunctionBuilder {
             // current is an unary operation
             if(unaryOperations.contains(curToken)){
                 String[] nextFunction = toEndingParenthesis(tokenizedFunction, tokenIdx + 2);
-                values.push(UnaryOperationEnum.valueOf(curToken).function.apply(parseSingleFunctionRecursive(nextFunction)));
+                values.push(UnaryOperationEnum.valueOf(curToken).function.apply(parseSingleFunctionRecursive(nextFunction, usedVariables)));
                 tokenIdx += nextFunction.length + 3;
                 continue;
             }
             if(curToken.equals("(")){
                 String[] nextFunction = toEndingParenthesis(tokenizedFunction, tokenIdx + 1);
-                values.push(parseSingleFunctionRecursive(nextFunction));
+                values.push(parseSingleFunctionRecursive(nextFunction, usedVariables));
                 tokenIdx += nextFunction.length + 2;
                 continue;
             }
@@ -250,11 +228,5 @@ public class FunctionBuilder {
             return variableReturn;
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        String[] function = {"5+7", "cos(y)"};
-        Function<double[], double[]> parsedFunction = new FunctionBuilder().parseFunction(function);
-        System.out.println(parsedFunction.apply(new double[]{Math.PI, 3})[0]);
     }
 }

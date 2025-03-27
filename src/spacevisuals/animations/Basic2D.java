@@ -1,8 +1,7 @@
 package spacevisuals.animations;
 
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.spaces.SpaceUser;
+import spacevisuals.SpaceUser;
 
 public class Basic2D extends SpaceUser<Euclidean2D> implements SpaceAnimation{
 
@@ -12,7 +11,7 @@ public class Basic2D extends SpaceUser<Euclidean2D> implements SpaceAnimation{
 
     @Override
     public void drawAnimation() {
-        space.drawSpace();
+        getSpace().drawSpace();
     }
     
 }

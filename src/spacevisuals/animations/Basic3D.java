@@ -1,9 +1,8 @@
 package spacevisuals.animations;
 
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.helpers.TextBox;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.spaces.SpaceUser;
+import spacevisuals.SpaceUser;
 
 public class Basic3D extends SpaceUser<Euclidean3D> implements SpaceAnimation{
 
@@ -11,15 +10,15 @@ public class Basic3D extends SpaceUser<Euclidean3D> implements SpaceAnimation{
 
     public Basic3D(){
         super(Euclidean3D.Get());
-        this.details = new TextBox(space);
+        this.details = new TextBox(getSpace());
     }
 
     @Override
     public void drawAnimation() {
-        space.drawSpace();
+        getSpace().drawSpace();
         details.clearText();
-        details.addText("focal length", space.mover.focalLength+"");
-        details.addText("z", space.mover.z+"");
+        details.addText("focal length", getSpace().camera.focalLength+"");
+        details.addText("z", getSpace().camera.z+"");
         details.drawTextBox();
     }
 }

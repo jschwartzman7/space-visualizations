@@ -1,8 +1,10 @@
-package spacevisuals.spaces;
+package spacevisuals;
+
+import spacevisuals.spaces.AbstractSpace;
 
 public class SpaceUser<T extends AbstractSpace> {
 
-    protected T space;
+    private T space;
 
     public SpaceUser(){;
     }
@@ -13,7 +15,7 @@ public class SpaceUser<T extends AbstractSpace> {
     public T getSpace(){
         return this.space;
     }   
-    protected void setSpace(T space){
+    public void setSpace(T space){
         this.space = space;
     }
 }

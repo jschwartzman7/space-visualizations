@@ -34,7 +34,7 @@ public class ParametricCurve extends SpaceFunction<Euclidean2D> implements Point
     @Override
     public void updateAnimation(){
         for(int i = 0; i < points.length; i++){
-            points[i] = timeInterval.update(points[i]);
+            points[i] = timeInterval.incrementValue(points[i]);
         }
     }
     @Override

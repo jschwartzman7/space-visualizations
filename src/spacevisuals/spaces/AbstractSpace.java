@@ -1,16 +1,20 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.Constants;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.enums.VariableEnum;
+import spacevisuals.helpers.IntervalsRange;
+import spacevisuals.spaces.axesintervals.AxisIntervals;
+import spacevisuals.spaces.spacemovers.SpaceMover;
 /*
 * Base class for Euclidean space to be rendered
 * Extended by Euclidean2D, Euclidean3D, Euclidean4D
 */
 public abstract class AbstractSpace {
-
-    protected static final boolean DEFAULT_VIEW_SPACE_INFO = true;
-    protected final double ZERO_TOLERANCE = 0.000001;
+    private final double DEFAULT_DEFAULT_CLIP_SCALE = Constants.DEFAULT_CLIP_RADIUS;
+    private final double DEFAULT_MOVE_SENSITIVITY = Constants.MOVE_SENSITIVITY;
+    protected final double ZERO_TOLERANCE = Constants.ZERO_TOLERANCE;
     public final double DEFAULT_CLIP_SCALE;
     public final double MOVE_SENSITIVITY;
     public final boolean VIEW_SPACE_INFO;
@@ -19,17 +23,13 @@ public abstract class AbstractSpace {
     public double yClipMin;
     public double yClipMax;
     public SpaceColorScheme colorScheme;
+    public SpaceMover mover;
+    public AxisIntervals labeler;
     public int dimensions;
 
-    public AbstractSpace(){
-        this.DEFAULT_CLIP_SCALE = 10;
-        this.MOVE_SENSITIVITY = 0.02;
-        this.VIEW_SPACE_INFO = DEFAULT_VIEW_SPACE_INFO;
-        initializeSpaceVariables();
-    }
     public AbstractSpace(boolean viewSpaceInfo){
-        this.DEFAULT_CLIP_SCALE = 10;
-        this.MOVE_SENSITIVITY = 0.02;
+        this.DEFAULT_CLIP_SCALE = DEFAULT_DEFAULT_CLIP_SCALE;
+        this.MOVE_SENSITIVITY = DEFAULT_MOVE_SENSITIVITY;
         this.VIEW_SPACE_INFO = viewSpaceInfo;
         initializeSpaceVariables();
     }
@@ -46,12 +46,14 @@ public abstract class AbstractSpace {
         this.yClipMin = -DEFAULT_CLIP_SCALE;
         this.yClipMax = DEFAULT_CLIP_SCALE;
         initializeColorScheme();
+        initializeMover();
+        initializeLabeler();
     }
     public double getXRange(){
-        return xClipMax - xClipMin;
+        return this.xClipMax - this.xClipMin;
     }
     public double getYRange(){
-        return yClipMax - yClipMin;
+        return this.yClipMax - this.yClipMin;
     }
     public void translateXClipPos(){
         double amount = MOVE_SENSITIVITY*getXRange();
@@ -107,7 +109,7 @@ public abstract class AbstractSpace {
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
     protected double[][][] partitionAxis(double[][] axis, int axisIndex){
-        int numPartitions = 50;
+        int numPartitions = Constants.AXIS_PARTITIONS ;
         double[][][] partitionedAxis = new double[numPartitions][2][axis[0].length];
         double partitionLength = (axis[1][axisIndex]-axis[0][axisIndex])/numPartitions;
         for(int i = 0; i < numPartitions; i++){
@@ -131,6 +133,8 @@ public abstract class AbstractSpace {
         if(VIEW_SPACE_INFO){drawLabels();}
     };
     public abstract void initializeColorScheme();
+    public abstract void initializeMover();
+    public abstract void initializeLabeler();
     public abstract double[] toViewScreenPoint(double[] worldPoint);
     public abstract void updateView();
     public abstract void updateLabelIntervals();

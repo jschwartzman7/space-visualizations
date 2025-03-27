@@ -54,11 +54,17 @@ public class SphereMagnet extends SpaceFunction<Euclidean3D> implements PointSet
     @Override
     public void handlePoint(double[] input) {
         if(Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2)+Math.pow(input[2], 2)) <= Double.MIN_VALUE){
-            double[] point = space.toViewScreenPoint(input);
+            double[] point = getSpace().toViewScreenPoint(input);
+            if(point == null){
+                return;
+            }
             StdDraw.point(point[0], point[1]);
         }
         else{
-            double[] point = space.toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
+            double[] point = getSpace().toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
+            if(point == null){
+                return;
+            }
             StdDraw.point(point[0], point[1]);
         }
     }

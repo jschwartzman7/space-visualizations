@@ -14,8 +14,8 @@ import edu.princeton.cs.introcs.StdDraw;
  */
 public class SpaceAnimationRunner{
     
-    public final int CANVAS_HEIGHT = 700;
-    public final int CANVAS_WIDTH = 700;
+    public final int CANVAS_HEIGHT = Constants.CANVAS_HEIGHT;
+    public final int CANVAS_WIDTH = Constants.CANVAS_WIDTH;
     public final int FRAME_RATE;
     public HashMap<SpaceAnimation, Integer> multiDimensionalAnimations;
     public static HashMap<Integer, AbstractSpace> spaceKeys;
@@ -45,6 +45,7 @@ public class SpaceAnimationRunner{
             return animation;
         }
         catch(Exception e){
+            System.out.println("error: " + e.getMessage());
             return null;
         }
     }

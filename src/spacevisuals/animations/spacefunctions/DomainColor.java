@@ -1,7 +1,8 @@
 package spacevisuals.animations.spacefunctions;
 
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.colorstrategies.*;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
+import spacevisuals.colors.colorstrategies.DomainColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.SpaceFunction;
@@ -9,6 +10,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
 import spacevisuals.spaces.spacetraversers.ClippingTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 
 public class DomainColor extends SpaceFunction<Euclidean2D> implements PointSetAnimation{
 
@@ -18,12 +20,12 @@ public class DomainColor extends SpaceFunction<Euclidean2D> implements PointSetA
 
     public DomainColor(){
         super(Euclidean2D.Get(), FunctionsEnum.sin.function);
-        this.traverser = new ClippingTraverser(space, DEFAULT_PIXEL_RESOLUTION);
+        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
         this.colorHelper = new DomainColorStrategy();
     }
     public DomainColor(Function<double[], double[]> function){
         super(Euclidean2D.Get(), FunctionsEnum.sin.function);
-        this.traverser = new ClippingTraverser(space, DEFAULT_PIXEL_RESOLUTION);
+        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
         this.colorHelper = new DomainColorStrategy();
     }
     @Override

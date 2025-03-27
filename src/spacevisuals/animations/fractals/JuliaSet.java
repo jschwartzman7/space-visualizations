@@ -2,11 +2,16 @@ package spacevisuals.animations.fractals;
 
 import java.util.function.Consumer;
 import spacevisuals.functions.*;
-import spacevisuals.colorstrategies.*;
 import spacevisuals.spaces.*;
 import spacevisuals.spaces.spacetraversers.*;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+
 import java.awt.Color;
+import spacevisuals.SpaceUser;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.colors.*;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
+import spacevisuals.colors.colorstrategies.JuliaSetColorStrategy;
 
 public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimation{
 
@@ -25,13 +30,13 @@ public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimatio
 	
 	public JuliaSet(){
 		super(Euclidean2D.Get());
-		this.traverser = new ClippingTraverser(space, DEFAULT_PIXEL_RESOLUTION);
-        this.c = null;
+		this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+        this.c = juliaSetConstants[0];
     }
 	public JuliaSet(int pixelResolution){
 		super(Euclidean2D.Get());
-		this.traverser = new ClippingTraverser(space, pixelResolution);
-        this.c = juliaSetConstants[juliaSetConstants.length-1];
+		this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+        this.c = juliaSetConstants[0];
     }
 
 

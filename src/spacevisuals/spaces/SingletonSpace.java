@@ -4,12 +4,14 @@ import java.util.function.Supplier;
 
 public class SingletonSpace<T extends AbstractSpace> {
 
-    public T instance;
+    private T instance;
 
     public SingletonSpace(){}
 
     public T getOrCreateSpace(Supplier<T> constructor){
-        if(this.instance == null){this.instance = constructor.get();}
+        if(this.instance == null){
+            this.instance = constructor.get();
+        }
         return this.instance;
     }
 }

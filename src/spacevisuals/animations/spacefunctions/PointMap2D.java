@@ -8,8 +8,8 @@ import java.util.function.Consumer;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.colorstrategies.ColorStrategy;
-import spacevisuals.colorstrategies.PointMapColorStrategy;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
+import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.SpaceFunction;
@@ -55,9 +55,23 @@ public class PointMap2D extends SpaceFunction<Euclidean2D> implements PointSetAn
     @Override
     public void handlePoint(double[] input){
         double[] output = function.apply(input);
+        if(output == null){
+            StdDraw.point(input[0], input[1]);
+            return;
+        }
+        if(output.length == 0){
+            StdDraw.point(input[0], input[1]);
+            return;
+        }
+        if(output.length == 1){
+            StdDraw.point(input[0], output[0]);
+        }
+        if(output.length >= 2){
+            StdDraw.point(output[0], output[1]);
+        }
         StdDraw.point(input[0], input[1]);
-        StdDraw.point(output[0], output[1]);
     }
+    
     @Override
     public void configureAnimation(String[] parameters) {
         setCustomFunctionStringArray(parameters);

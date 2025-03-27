@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.colorstrategies.PointMapColorStrategy;
+import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.SpaceFunction;
@@ -55,7 +55,7 @@ public class Gradient extends SpaceFunction<Euclidean2D> implements PointSetAnim
     }
     @Override
     public void handlePoint(double[] point) {
-        StdDraw.filledCircle(point[0], point[1], Math.min(space.xClipMax-space.xClipMin, space.yClipMax-space.yClipMin)*pointScale);
+        StdDraw.filledCircle(point[0], point[1], Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*pointScale);
         double[] output = function.apply(point);
         output[0] *= distanceStep;
         output[1] *= distanceStep;

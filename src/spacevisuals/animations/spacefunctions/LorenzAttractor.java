@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.colorstrategies.PointMapColorStrategy;
+import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 import spacevisuals.spaces.Euclidean3D;
@@ -66,7 +66,7 @@ public class LorenzAttractor extends SpaceFunction<Euclidean3D> implements Point
     }
     @Override
     public void handlePoint(double[] point) {
-        double[] point2D = space.toViewScreenPoint(point);
+        double[] point2D = getSpace().toViewScreenPoint(point);
         StdDraw.point(point2D[0], point2D[1]);
     }
     @Override

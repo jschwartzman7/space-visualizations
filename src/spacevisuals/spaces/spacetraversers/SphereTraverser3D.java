@@ -6,11 +6,11 @@ import spacevisuals.spaces.Euclidean3D;
 
 public class SphereTraverser3D extends SpaceTraverser<Euclidean3D>{
 
-    public static final double DEFAULT_PIXEL_RESOLUTION = 100;
-
-    public SphereTraverser3D(Euclidean3D space){
-        super(space, DEFAULT_PIXEL_RESOLUTION);
-        this.stepper = new ConstantResolutionTraverser();
+    public SphereTraverser3D(Euclidean3D space, Stepper stepper){
+        super(space, stepper);
+    }
+    public SphereTraverser3D(Euclidean3D space, Stepper stepper, double defaultPixelResolution){
+        super(space, stepper, defaultPixelResolution);
     }
 
     public void traverseDomain(Consumer<double[]> handlePoint){
