@@ -1,9 +1,10 @@
-package spacevisuals.animations;
+package spacevisuals.animations.spaceuseranimations;
 
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.SpaceUser;
+import spacevisuals.animations.SpaceAnimation;
 import edu.princeton.cs.introcs.StdDraw;
 
 public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnimation{

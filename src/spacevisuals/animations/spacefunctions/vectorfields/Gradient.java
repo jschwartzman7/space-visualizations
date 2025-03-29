@@ -7,12 +7,13 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.FunctionAnimation;
+import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.SpaceFunction;
 
-public class Gradient extends SpaceFunction<Euclidean2D> implements PointSetAnimation{
+public class Gradient extends FunctionAnimation<Euclidean2D> implements PointSetAnimation{
     
     private LinkedList<double[]> points;
     private ArrayList<Color> pointColors;
@@ -43,18 +44,21 @@ public class Gradient extends SpaceFunction<Euclidean2D> implements PointSetAnim
     @Override
     public void drawAnimation(){
         vectorField.drawAnimation();
-        traverseDomain(this::handlePoint);
+        traverseDomain();
     };
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint){
+    public void traverseDomain(){
         StdDraw.setPenRadius(pointScale);
         for(int i = 0; i < points.size(); i++){
             StdDraw.setPenColor(pointColors.get(i));
-            handlePoint.accept(points.get(i));
+            handlePoint(points.get(i));
         }
     }
     @Override
     public void handlePoint(double[] point) {
+        if(Double.isNaN(point[0]) || Double.isNaN(point[1]) || Double.isInfinite(point[0]) || Double.isInfinite(point[1])){
+            return;
+        }
         StdDraw.filledCircle(point[0], point[1], Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*pointScale);
         double[] output = function.apply(point);
         output[0] *= distanceStep;
@@ -65,6 +69,6 @@ public class Gradient extends SpaceFunction<Euclidean2D> implements PointSetAnim
     @Override
     public void configureAnimation(String[] parameters) {
         vectorField.configureAnimation(parameters);
-        setCustomFunctionStringArray(parameters);
+        super.configureAnimation(parameters);
     }
 }

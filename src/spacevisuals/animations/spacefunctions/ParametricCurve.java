@@ -7,13 +7,13 @@ import java.util.function.Function;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.SpaceFunction;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 
-public class ParametricCurve extends SpaceFunction<Euclidean2D> implements PointSetAnimation{
+public class ParametricCurve extends FunctionAnimation<Euclidean2D> implements PointSetAnimation{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.parametric.function;
     private double pointRadius = 0.01;
@@ -39,23 +39,19 @@ public class ParametricCurve extends SpaceFunction<Euclidean2D> implements Point
     }
     @Override
     public void drawAnimation(){
-        PointSetAnimation.super.drawAnimation();
+        traverseDomain();
     }
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
+    public void traverseDomain() {
         StdDraw.setPenRadius(pointRadius);
         for(int i = 0; i < points.length; i++){
             StdDraw.setPenColor(Color.black);
-            handlePoint.accept(new double[]{points[i]});
+            handlePoint(new double[]{points[i]});
         }
     }
     @Override
     public void handlePoint(double[] input) {
         double[] point = function.apply(input);
         StdDraw.point(point[0], point[1]);
-    }
-    @Override
-    public void configureAnimation(String[] parameters) {
-        setCustomFunctionStringArray(parameters);
     }
 }

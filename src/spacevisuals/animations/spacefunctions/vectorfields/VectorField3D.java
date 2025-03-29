@@ -1,30 +1,29 @@
 package spacevisuals.animations.spacefunctions.vectorfields;
 
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceFunction;
 import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.Constants;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.functions.*;
 import spacevisuals.helpers.IntervalsRange;
 
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class VectorField3D extends SpaceFunction<Euclidean3D> implements PointSetAnimation {
+public class VectorField3D extends SpaceTraverserAnimation<Euclidean3D>{
 
 	    private SpaceTraverser<Euclidean3D> traverser;
         private IntervalsRange vectorSizer;
     
         public VectorField3D(){
-            super(Euclidean3D.Get());
-            this.traverser = new PrismTraverser3D(getSpace(), new ConstantResolutionTraverser());
+            super(Euclidean3D.Get(), new PrismTraverser3D(Euclidean3D.Get(), new ConstantResolutionTraverser(), Constants.PIXEL_RESOLUTION_LOW));
             this.vectorSizer = new IntervalsRange(1, .5, 10, 30);
         }
         public VectorField3D(Function<double[], double[]> function){
-            super(Euclidean3D.Get(), function);
-            this.traverser = new PrismTraverser3D(getSpace(), new ConstantResolutionTraverser());
+            super(Euclidean3D.Get(), function, new PrismTraverser3D(Euclidean3D.Get(), new ConstantResolutionTraverser(), Constants.PIXEL_RESOLUTION_LOW));
             this.vectorSizer = new IntervalsRange(1, .5, 10, 30);
     
         }
@@ -33,10 +32,7 @@ public class VectorField3D extends SpaceFunction<Euclidean3D> implements PointSe
         public void updateAnimation(){
             vectorSizer.updateLabelInterval(Math.min(getSpace().xAxisMax-getSpace().xAxisMin, getSpace().zAxisMax-getSpace().zAxisMin), 0);
         }
-        @Override
-        public void traverseDomain(Consumer<double[]> handlePoint){
-            traverser.traverseDomain(handlePoint);
-        }
+        
         @Override
         public void handlePoint(double[] input3D){
             /*
@@ -56,11 +52,6 @@ public class VectorField3D extends SpaceFunction<Euclidean3D> implements PointSe
             }
             StdDraw.line(p1[0], p1[1], p2[0], p2[1]);
             //StdDraw.line(input[0], input[1], input[0]+Math.cos(angle)*(0.01*range), input[1]+Math.sin(angle)*(0.01*range));
-        }
-        
-        @Override
-        public void configureAnimation(String[] parameters) {
-            setCustomFunctionStringArray(parameters);
         }
 
 }

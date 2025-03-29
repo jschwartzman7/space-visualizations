@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.helpers.timeintervals.TimeInterval;
 import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceFunction;
 
-public class LorenzAttractor extends SpaceFunction<Euclidean3D> implements PointSetAnimation{
+public class LorenzAttractor extends FunctionAnimation<Euclidean3D> implements PointSetAnimation{
 
     private double pointRadius = 0.01;
     private ArrayList<double[]> points;
@@ -54,14 +54,14 @@ public class LorenzAttractor extends SpaceFunction<Euclidean3D> implements Point
 
     @Override
     public void drawAnimation() {
-        PointSetAnimation.super.drawAnimation();
+        traverseDomain();
     }
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
+    public void traverseDomain() {
         StdDraw.setPenRadius(pointRadius);
         for(int i = 0; i < points.size(); i++){
             StdDraw.setPenColor(pointColors.get(i));
-            handlePoint.accept(points.get(i));
+            handlePoint(points.get(i));
         }
     }
     @Override

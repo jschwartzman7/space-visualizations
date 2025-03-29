@@ -8,12 +8,12 @@ import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 import java.util.function.Consumer;
 import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceFunction;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class SphereMagnet extends SpaceFunction<Euclidean3D> implements PointSetAnimation{
+public class SphereMagnet extends FunctionAnimation<Euclidean3D> implements PointSetAnimation{
 
     private double maxPointRadius = 25;
     private int numPoints = 10000;
@@ -43,12 +43,12 @@ public class SphereMagnet extends SpaceFunction<Euclidean3D> implements PointSet
     }
     @Override
     public void drawAnimation(){
-        PointSetAnimation.super.drawAnimation();
+        traverseDomain();
     }
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint) {
+    public void traverseDomain() {
         for(int i = 0; i < points.length; i++){
-            handlePoint.accept(points[i]);
+            handlePoint(points[i]);
         }
     }
     @Override

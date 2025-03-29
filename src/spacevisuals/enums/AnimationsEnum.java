@@ -13,6 +13,11 @@ import spacevisuals.animations.spacefunctions.functiongraph.Graph2DLine;
 import spacevisuals.animations.spacefunctions.functiongraph.Graph3D;
 import spacevisuals.animations.spacefunctions.functiongraph.Graph3DTriangle;
 import spacevisuals.animations.spacefunctions.vectorfields.*;
+import spacevisuals.animations.spaceuseranimations.ArcDeformation;
+import spacevisuals.animations.spaceuseranimations.Basic2D;
+import spacevisuals.animations.spaceuseranimations.Basic3D;
+import spacevisuals.animations.spaceuseranimations.Basic4D;
+import spacevisuals.animations.spaceuseranimations.Sphere4D;
 
 import java.util.function.Supplier;
 

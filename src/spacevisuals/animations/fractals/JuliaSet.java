@@ -9,11 +9,12 @@ import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 import java.awt.Color;
 import spacevisuals.SpaceUser;
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.*;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.JuliaSetColorStrategy;
 
-public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimation{
+public class JuliaSet extends SpaceTraverserAnimation<Euclidean2D>{
 
 
 	private static final int DEFAULT_PIXEL_RESOLUTION = 300;
@@ -29,13 +30,11 @@ public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimatio
 	private ColorStrategy colorHelper = new JuliaSetColorStrategy();
 	
 	public JuliaSet(){
-		super(Euclidean2D.Get());
-		this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+		super(Euclidean2D.Get(), new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser()));
         this.c = juliaSetConstants[0];
     }
 	public JuliaSet(int pixelResolution){
-		super(Euclidean2D.Get());
-		this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+		super(Euclidean2D.Get(), new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser()));
         this.c = juliaSetConstants[0];
     }
 
@@ -50,15 +49,7 @@ public class JuliaSet extends SpaceUser<Euclidean2D> implements PointSetAnimatio
 	public double getJuliaSetStatus(double[] input) {
 		return juliaSetStatusHelper(input, c, 0);
 	}
-
-	@Override
-	public void drawAnimation() {
-		traverseDomain(this::handlePoint);
-	}
-	@Override
-	public void traverseDomain(Consumer<double[]> handlePoint) {
-		traverser.traverseDomain(handlePoint);
-	}
+	
 	@Override
 	public void handlePoint(double[] input) {
 		double iterationsToEscape = getJuliaSetStatus(input);

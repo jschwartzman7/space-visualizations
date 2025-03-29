@@ -2,13 +2,13 @@ package spacevisuals.animations.spacefunctions.functiongraph;
 
 
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.animations.polygons.solids.Triangle;
 import spacevisuals.colors.*;
 import spacevisuals.colors.colorstrategies.DomainColorStrategy;
 import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.spacemovers.SpaceMover3D;
-import spacevisuals.SpaceFunction;
 import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 import edu.princeton.cs.introcs.StdDraw;
@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Graph3DTriangle extends SpaceFunction<Euclidean3D> implements PointSetAnimation{
+public class Graph3DTriangle extends SpaceTraverserAnimation<Euclidean3D>{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.hyperbolicparabaloid.function;
     private SpaceTraverser<Euclidean3D> traverser;
@@ -31,16 +31,11 @@ public class Graph3DTriangle extends SpaceFunction<Euclidean3D> implements Point
     private Camera3D lightSource;
 
     public Graph3DTriangle(){
-        super(Euclidean3D.Get(), DEFAULT_FUNCTION);
-        this.traverser = new RectangleTraverser3DTriangle(getSpace(), new ConstantResolutionTraverser());
+        super(Euclidean3D.Get(), DEFAULT_FUNCTION, new RectangleTraverser3DTriangle(Euclidean3D.Get(), new ConstantResolutionTraverser()));
         this.colorHelper = new shader(new DomainColorStrategy());
         this.lightSource = new Camera3D(0,0,0,30,30,30,10);
     }
 
-    @Override
-    public void traverseDomain(Consumer<double[]> handlePoint){
-        traverser.traverseDomain(this::handlePoint);
-    }
     @Override
     public void handlePoint(double[] triangle){
         double[] p1Output = function.apply(new double[]{triangle[0], triangle[3]});
@@ -63,9 +58,5 @@ public class Graph3DTriangle extends SpaceFunction<Euclidean3D> implements Point
             StdDraw.setPenColor(colorHelper.getColor(p1));
             Triangle.draw(getSpace());
         }
-    }
-    @Override
-    public void configureAnimation(String[] parameters) {
-        setCustomFunctionStringArray(parameters);
     }
 }

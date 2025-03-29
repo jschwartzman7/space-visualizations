@@ -1,50 +1,51 @@
 package spacevisuals.animations.spacefunctions.vectorfields;
 
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.SpaceFunction;
 import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
-import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.functions.Rn_R;
+import spacevisuals.Constants;
+import spacevisuals.animations.SpaceTraverserAnimation;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
+import spacevisuals.colors.colorstrategies.SingleColorStrategy;
+import spacevisuals.helpers.IntervalsRange;
 
+import java.awt.Color;
 import java.util.function.*;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class VectorField2D extends SpaceFunction<Euclidean2D> implements PointSetAnimation {
+public class VectorField2D extends SpaceTraverserAnimation<Euclidean2D> {
 
-    private double pointRadius = 0.003;
-    private double vectorLengthProportion = 0.05;
-    private ClippingTraverser traverser;
+    private IntervalsRange vectorSizer;
+    private ColorStrategy colorHelper;
+    private double arrowLengthProportion = 0.1;
+    private double arrowAngleDifference = Math.PI / 8;
     
     public VectorField2D(){
-        super(Euclidean2D.Get());
-        this.defaultFunction = FunctionsEnum.sin.function;
-        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+        super(Euclidean2D.Get(), new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser(), Constants.PIXEL_RESOLUTION_LOW));
+        this.vectorSizer = new IntervalsRange(1, 1, 15, 32);
+        this.colorHelper = new SingleColorStrategy(Color.white);
     }
     public VectorField2D(Function<double[], double[]> function){
-        super(Euclidean2D.Get(), function);
-        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+        super(Euclidean2D.Get(), function, new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser(), Constants.PIXEL_RESOLUTION_LOW));
+        this.vectorSizer = new IntervalsRange(1, 1, 15, 32);
+        this.colorHelper = new SingleColorStrategy(Color.white);
     }
     
     @Override
-    public void traverseDomain(Consumer<double[]> handlePoint){
-        traverser.traverseDomain(handlePoint);
+    public void updateAnimation(){
+        vectorSizer.updateLabelInterval((Math.min(getSpace().getXRange(), getSpace().getYRange())), 0);
     }
+    
     @Override
     public void handlePoint(double[] input){
-        double[] outputVector = function.apply(input);
+        double[] outputVector = this.function.apply(input);
         double angle = Math.atan2(outputVector[1], outputVector[0]);
-        StdDraw.filledCircle(input[0], input[1], Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*pointRadius);
-        StdDraw.setPenColor();
         StdDraw.setPenRadius();
+        StdDraw.setPenColor(colorHelper.getColor(input));
+        StdDraw.line(input[0], input[1], input[0]+Math.cos(angle)*vectorSizer.labelIntervals[0], input[1]+Math.sin(angle)*vectorSizer.labelIntervals[0]);
+        StdDraw.line(input[0]+Math.cos(angle)*vectorSizer.labelIntervals[0], input[1]+Math.sin(angle)*vectorSizer.labelIntervals[0], input[0]+(Math.cos(angle)-Math.cos(angle-arrowAngleDifference)*arrowLengthProportion)*vectorSizer.labelIntervals[0], input[1]+(Math.sin(angle)-Math.sin(angle-arrowAngleDifference)*arrowLengthProportion)*vectorSizer.labelIntervals[0]);
+        StdDraw.line(input[0]+Math.cos(angle)*vectorSizer.labelIntervals[0], input[1]+Math.sin(angle)*vectorSizer.labelIntervals[0], input[0]+(Math.cos(angle)-Math.cos(angle+arrowAngleDifference)*arrowLengthProportion)*vectorSizer.labelIntervals[0], input[1]+(Math.sin(angle)-Math.sin(angle+arrowAngleDifference)*arrowLengthProportion)*vectorSizer.labelIntervals[0]);
         
-        double vectorLength = (Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*vectorLengthProportion)/(1+Math.exp(-Rn_R.magnitude(outputVector)));
-        StdDraw.line(input[0], input[1], input[0]+Math.cos(angle)*vectorLength, input[1]+Math.sin(angle)*vectorLength);
-    }
-    @Override
-    public void configureAnimation(String[] parameters) {
-        setCustomFunctionStringArray(parameters);
     }
 }
     

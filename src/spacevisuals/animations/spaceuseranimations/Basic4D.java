@@ -1,7 +1,8 @@
-package spacevisuals.animations;
+package spacevisuals.animations.spaceuseranimations;
 
 import spacevisuals.spaces.Euclidean4D;
 import spacevisuals.SpaceUser;
+import spacevisuals.animations.SpaceAnimation;
 
 public class Basic4D extends SpaceUser<Euclidean4D> implements SpaceAnimation{
 

@@ -1,40 +1,29 @@
 package spacevisuals.animations.spacefunctions;
 
-import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.DomainColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.SpaceFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.awt.Color;
 import spacevisuals.spaces.spacetraversers.ClippingTraverser;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 
-public class DomainColor extends SpaceFunction<Euclidean2D> implements PointSetAnimation{
+public class DomainColor extends SpaceTraverserAnimation<Euclidean2D>{
 
     public static final double DEFAULT_PIXEL_RESOLUTION = 250;
     private ClippingTraverser traverser;
     private ColorStrategy colorHelper;
 
     public DomainColor(){
-        super(Euclidean2D.Get(), FunctionsEnum.sin.function);
-        this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
+        super(Euclidean2D.Get(), FunctionsEnum.sin.function, new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser()));
         this.colorHelper = new DomainColorStrategy();
     }
     public DomainColor(Function<double[], double[]> function){
-        super(Euclidean2D.Get(), FunctionsEnum.sin.function);
+        super(Euclidean2D.Get(), function, new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser()));
         this.traverser = new ClippingTraverser(getSpace(), new ConstantResolutionTraverser());
         this.colorHelper = new DomainColorStrategy();
-    }
-    @Override
-	public void drawAnimation() {
-		PointSetAnimation.super.drawAnimation();
-	}
-    @Override
-    public void traverseDomain(Consumer<double[]> handlePoint){
-        traverser.traverseDomain(this::handlePoint);
     }
     @Override
     public void handlePoint(double[] z){
@@ -47,9 +36,5 @@ public class DomainColor extends SpaceFunction<Euclidean2D> implements PointSetA
         traverser.drawPointRectangle(z2, color);
         //double radius = (space.X_MAX-space.X_MIN)/(2*this.pixelResolution);
         //StdDraw.filledSquare(z[0], z[1], radius);
-    }
-    @Override
-    public void configureAnimation(String[] parameters) {
-        setCustomFunctionStringArray(parameters);
     }
 }

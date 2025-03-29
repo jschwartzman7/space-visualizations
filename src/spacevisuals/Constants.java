@@ -1,5 +1,9 @@
 package spacevisuals;
 
+import java.util.function.Function;
+
+import spacevisuals.enums.FunctionsEnum;
+
 public class Constants {
 
     public static final int CANVAS_HEIGHT = 700;
@@ -19,6 +23,7 @@ public class Constants {
     public static final double PIXEL_RESOLUTION_LOW = 25;
     public static final double DISTANCE_STEP = 0.1;
     public static final char ANIMATION_SEPARATOR = ',';
+    public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.identity.function;
 
     public static final double CAMERA3D_PITCH = 0;
     public static final double CAMERA3D_ROLL = 0;

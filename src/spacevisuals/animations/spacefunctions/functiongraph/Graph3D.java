@@ -2,11 +2,11 @@ package spacevisuals.animations.spacefunctions.functiongraph;
 
 
 import spacevisuals.animations.PointSetAnimation;
+import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.*;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceFunction;
 import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 import edu.princeton.cs.introcs.StdDraw;
@@ -17,7 +17,7 @@ import java.awt.Color;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Graph3D extends SpaceFunction<Euclidean3D> implements PointSetAnimation{
+public class Graph3D extends SpaceTraverserAnimation<Euclidean3D>{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.hyperbolicparabaloid.function;
     private SpaceTraverser<Euclidean3D> traverser;
@@ -25,35 +25,11 @@ public class Graph3D extends SpaceFunction<Euclidean3D> implements PointSetAnima
     private TextBox textBox;
 
     public Graph3D(){
-        super(Euclidean3D.Get(), DEFAULT_FUNCTION);
-        this.traverser = new RectangleTraverser3D(getSpace(), new ConstantResolutionTraverser());
+        super(Euclidean3D.Get(), DEFAULT_FUNCTION, new RectangleTraverser3D(Euclidean3D.Get(), new ConstantResolutionTraverser()));
         this.colorHelper = new SingleColorStrategy(getSpace().colorScheme.labelColor);
         this.textBox = new TextBox(getSpace());
     }
 
-    public void buildAnimation(Function<double[], double[]> function) {
-        this.function = function;
-    }
-
-    @Override
-    public void drawAnimation(){
-        PointSetAnimation.super.drawAnimation();
-    }
-    
-
-    @Override
-    public void traverseDomain(Consumer<double[]> handlePoint){
-        traverser.traverseDomain(this::handlePoint);
-        /*textBox.clearText();
-        textBox.addText("pitch", space.mover.pitch/Math.PI + "PI");
-        textBox.addText("roll", space.mover.roll/Math.PI + "PI");
-        textBox.addText("yaw", space.mover.yaw/Math.PI + "PI");
-        textBox.addText("x", space.mover.x + "");
-        textBox.addText("y", space.mover.y + "");
-        textBox.addText("z", space.mover.z + "");
-        textBox.addText("focal length", space.mover.focalLength + "");
-        textBox.drawTextBox();*/
-    }
     @Override
     public void handlePoint(double[] input){
         double[] output = function.apply(input);
@@ -68,9 +44,5 @@ public class Graph3D extends SpaceFunction<Euclidean3D> implements PointSetAnima
             StdDraw.setPenColor(colorHelper.getColor(input));
             StdDraw.point(point[0], point[1]);
         }
-    }
-    @Override
-    public void configureAnimation(String[] parameters) {
-        setCustomFunctionStringArray(parameters);
     }
 }
