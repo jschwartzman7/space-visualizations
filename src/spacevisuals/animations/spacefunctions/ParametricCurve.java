@@ -1,19 +1,16 @@
 package spacevisuals.animations.spacefunctions;
 
 import java.awt.Color;
-import java.util.LinkedList;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.helpers.timeintervals.TimeInterval;
-import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
+import spacevisuals.utils.timeintervals.TimeInterval;
+import spacevisuals.utils.timeintervals.TimeIntervalLoop;
 
-public class ParametricCurve extends FunctionAnimation<Euclidean2D> implements PointSetAnimation{
+public class ParametricCurve extends FunctionAnimation implements PointSetAnimation{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.parametric.function;
     private double pointRadius = 0.01;
@@ -22,7 +19,7 @@ public class ParametricCurve extends FunctionAnimation<Euclidean2D> implements P
     private TimeInterval timeInterval;
 
     public ParametricCurve(){
-        super(Euclidean2D.Get());
+        super(DEFAULT_FUNCTION);
         this.timeInterval = new TimeIntervalLoop(0, Math.PI*2, 0.02);
         this.points = new double[numPoints];
         for(int i = 0; i < points.length; i++){

@@ -1,10 +1,5 @@
-package spacevisuals.helpers;
+package spacevisuals.utils;
 
-import java.awt.event.KeyEvent;
-
-import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceUser;
 import spacevisuals.functions.Matrix;
 import spacevisuals.functions.Matrix3D;
 import spacevisuals.functions.Matrix4D;

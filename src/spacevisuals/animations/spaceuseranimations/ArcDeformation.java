@@ -1,13 +1,11 @@
 package spacevisuals.animations.spaceuseranimations;
 
-import spacevisuals.helpers.timeintervals.TimeInterval;
-import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
-import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.SpaceUser;
 import spacevisuals.animations.SpaceAnimation;
+import spacevisuals.utils.timeintervals.TimeInterval;
+import spacevisuals.utils.timeintervals.TimeIntervalBounce;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ArcDeformation extends SpaceUser<Euclidean2D> implements SpaceAnimation{
+public class ArcDeformation implements SpaceAnimation{
 
     // draw "continuously" deforming semi-circles starting from upper hemisphere ending at lower hemisphere
     // StdDraw.arc(x, y, radius, angle1, angle2);

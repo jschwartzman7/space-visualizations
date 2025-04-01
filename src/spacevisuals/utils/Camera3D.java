@@ -1,11 +1,5 @@
-package spacevisuals.helpers;
+package spacevisuals.utils;
 
-import java.awt.event.KeyEvent;
-
-import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.Constants;
-import spacevisuals.SpaceUser;
 import spacevisuals.functions.Matrix3D;
 
 public class Camera3D{

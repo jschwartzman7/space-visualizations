@@ -1,11 +1,11 @@
 package spacevisuals.spaces;
 
-import spacevisuals.Constants;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.enums.VariableEnum;
-import spacevisuals.helpers.Camera3D;
 import spacevisuals.spaces.axesintervals.AxisIntervals3D;
 import spacevisuals.spaces.spacemovers.SpaceMover3D;
+import spacevisuals.utils.Camera3D;
+import spacevisuals.utils.Constants;
 import edu.princeton.cs.introcs.StdDraw;
 /*
  * adjust label interval as distortion changes, not just displayed value
@@ -22,7 +22,7 @@ public class Euclidean3D extends AbstractSpace{
     public double zAxisMin;
     public double zAxisMax;
     public Camera3D camera;
-    private static SingletonSpace<Euclidean3D> spaceSingleton = new SingletonSpace<Euclidean3D>();
+    private static Euclidean3D instance;
     
     private Euclidean3D(boolean viewSpaceInfo){
         super(viewSpaceInfo);
@@ -34,14 +34,11 @@ public class Euclidean3D extends AbstractSpace{
         this.dimensions = 3;
         initializeVariables(DEFAULT_AXES_SCALE);
     }
-    public static Euclidean3D Get(boolean viewSpaceInfo){
-        return spaceSingleton.getOrCreateSpace(() -> new Euclidean3D(viewSpaceInfo));
-    }
-    public static Euclidean3D Get(int defaultScale, double moveSensitivity, boolean viewSpaceInfo){
-        return spaceSingleton.getOrCreateSpace(() -> new Euclidean3D(defaultScale, moveSensitivity, viewSpaceInfo));
-    }
     public static Euclidean3D Get(){
-        return spaceSingleton.getOrCreateSpace(() -> new Euclidean3D(DEFAULT_VIEW_SPACE_INFO));
+        if(instance == null){
+            instance = new Euclidean3D(DEFAULT_VIEW_SPACE_INFO);
+        }
+        return instance;
     }
 
     public void initializeVariables(double scale){
@@ -62,7 +59,7 @@ public class Euclidean3D extends AbstractSpace{
         this.mover = new SpaceMover3D(this);
     }
     public void initializeLabeler(){
-        this.labeler = new AxisIntervals3D(this, DEFAULT_CLIP_SCALE, 3, 8);
+        this.labeler = new AxisIntervals3D(3, DEFAULT_CLIP_SCALE, 3, 8);
     }
 
     @Override
@@ -118,7 +115,7 @@ public class Euclidean3D extends AbstractSpace{
         StdDraw.setPenColor(colorScheme.labelColor);
         double numericMin = xAxisMin;
         double numericMax = xAxisMax;
-        for(double numericX = numericMin-numericMin%labeler.labeler.labelIntervals[0]; numericX <= numericMax; numericX += labeler.labeler.labelIntervals[0]){
+        for(double numericX = numericMin-numericMin%labeler.getLabelIntervals()[0]; numericX <= numericMax; numericX += labeler.getLabelIntervals()[0]){
             if(Math.abs(numericX) < ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{numericX, 0, 0});
             if(labelLocation == null){continue;}
@@ -126,7 +123,7 @@ public class Euclidean3D extends AbstractSpace{
         }
         numericMin = yAxisMin;
         numericMax = yAxisMax;
-        for(double numericY = numericMin-numericMin%labeler.labeler.labelIntervals[1]; numericY <= numericMax; numericY += labeler.labeler.labelIntervals[1]){
+        for(double numericY = numericMin-numericMin%labeler.getLabelIntervals()[1]; numericY <= numericMax; numericY += labeler.getLabelIntervals()[1]){
             if(Math.abs(numericY) < ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{0, numericY, 0});
             if(labelLocation == null){continue;}
@@ -134,7 +131,7 @@ public class Euclidean3D extends AbstractSpace{
         }
         numericMin = zAxisMin;
         numericMax = zAxisMax;
-        for(double numericZ = numericMin-numericMin%labeler.labeler.labelIntervals[2]; numericZ <= numericMax; numericZ += labeler.labeler.labelIntervals[2]){
+        for(double numericZ = numericMin-numericMin%labeler.getLabelIntervals()[2]; numericZ <= numericMax; numericZ += labeler.getLabelIntervals()[2]){
             if(Math.abs(numericZ) < ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{0, 0, numericZ});
             if(labelLocation == null){continue;}

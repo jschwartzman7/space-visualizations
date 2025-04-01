@@ -1,7 +1,8 @@
 package spacevisuals;
+
 import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.enums.AnimationsEnum;
-import spacevisuals.spaces.*;
+import spacevisuals.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -11,9 +12,6 @@ import java.util.ArrayList;
 public class Main {
     
     static final char animationSeparator = Constants.ANIMATION_SEPARATOR;
-    static Euclidean2D euclidean2d = Euclidean2D.Get();
-    static Euclidean3D euclidean3d = Euclidean3D.Get();
-    static Euclidean4D euclidean4d = Euclidean4D.Get();
     static SpaceAnimationRunner runner = new SpaceAnimationRunner(Constants.FRAME_RATE);
     static AnimationsEnum[] animationSelections = AnimationsEnum.values();
 

@@ -10,6 +10,7 @@ public enum FunctionsEnum {
 
     identity(u -> u),
     zero(u -> new double[u.length]),
+    magnitude(u -> new double[]{Rn_R.magnitude(u)}),
     
     hyperbolicparabaloid(u -> new double[]{Rn_R.hyperbolicParabaloid(u, 0.3, 0.3)}),
     dotproduct(u -> new double[]{Rn_R.dotProduct(u, new double[]{1, 1})}),

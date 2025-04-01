@@ -3,8 +3,6 @@ package spacevisuals.animations.spacefunctions;
 import edu.princeton.cs.introcs.StdDraw;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.function.Consumer;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.animations.PointSetAnimation;
@@ -12,10 +10,9 @@ import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.spaces.Euclidean2D;
 
 
-public class PointMap2D extends FunctionAnimation<Euclidean2D> implements PointSetAnimation{
+public class PointMap2D extends FunctionAnimation implements PointSetAnimation{
 
     private ArrayList<double[]> points;
     private ArrayList<Color> pointColors;
@@ -23,7 +20,7 @@ public class PointMap2D extends FunctionAnimation<Euclidean2D> implements PointS
     private ColorStrategy colorHelper;
   
     public PointMap2D(){
-        super(Euclidean2D.Get(), FunctionsEnum.squared.function);
+        super(FunctionsEnum.squared.function);
         this.points = new ArrayList<double[]>();
         this.pointColors = new ArrayList<Color>();
         this.colorHelper = new PointMapColorStrategy();

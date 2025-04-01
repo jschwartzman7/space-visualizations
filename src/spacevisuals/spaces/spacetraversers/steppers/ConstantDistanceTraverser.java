@@ -1,24 +1,13 @@
 package spacevisuals.spaces.spacetraversers.steppers;
 
-import spacevisuals.Constants;
+import spacevisuals.utils.Constants;
 
-public class ConstantDistanceTraverser implements Stepper{
+public interface ConstantDistanceTraverser extends Stepper{
     
-    public final double DEFAULT_DISTANCE = Constants.DISTANCE_STEP;
-    public double distance;
-
-    public ConstantDistanceTraverser(){
-        this.distance = DEFAULT_DISTANCE;
-    }
-    public ConstantDistanceTraverser(double distance){
-        this.distance = distance;
-    }
-
-    public double getStep(){
-        return distance;
-    }
+    double DISTANCE = Constants.DISTANCE_STEP;
+    
     @Override
-    public double getStep(double axisRange, double pixelResolution){
-        return distance;
+    public default double getStep(double axisRange, double pixelResolution){
+        return DISTANCE;
     }
 }

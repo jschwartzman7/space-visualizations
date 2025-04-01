@@ -1,4 +1,4 @@
-package spacevisuals.helpers.timeintervals;
+package spacevisuals.utils.timeintervals;
 
 public class TimeIntervalBounce extends TimeInterval{
     

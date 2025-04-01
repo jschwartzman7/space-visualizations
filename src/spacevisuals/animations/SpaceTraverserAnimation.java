@@ -7,17 +7,17 @@ import spacevisuals.spaces.spacetraversers.SpaceTraverser;
 /*
  * Abstract class for an animation that uses a SpaceTraverser and applies a function to elements in a space
  */
-public abstract class SpaceTraverserAnimation<T extends AbstractSpace> extends FunctionAnimation<T> implements PointSetAnimation {
+public abstract class SpaceTraverserAnimation extends FunctionAnimation implements PointSetAnimation {
 
-    SpaceTraverser<T> traverser;
+    SpaceTraverser traverser;
 
-    public SpaceTraverserAnimation(T space, Function<double[], double[]> function, SpaceTraverser<T> traverser) {
-        super(space, function);
+    public SpaceTraverserAnimation(Function<double[], double[]> function, SpaceTraverser traverser) {
+        super(function);
         this.traverser = traverser;
     }
 
-    public SpaceTraverserAnimation(T space, SpaceTraverser<T> traverser) {
-        super(space);
+    public SpaceTraverserAnimation(SpaceTraverser traverser) {
+        super();
         this.traverser = traverser;
     }
 

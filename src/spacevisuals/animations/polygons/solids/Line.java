@@ -16,7 +16,10 @@ public class Line extends Simplex {
     public void draw(AbstractSpace space){
         double[] p1 = space.toViewScreenPoint(shape[0]);
         double[] p2 = space.toViewScreenPoint(shape[1]);
-        if(p1 == null & p2 == null){
+        if(p1 == null || p2 == null){
+            return;
+        }
+        if(Double.isNaN(p1[0]) || Double.isNaN(p1[1]) || Double.isNaN(p2[0]) || Double.isNaN(p2[1])){
             return;
         }
         if(Double.isNaN(p1[0]) || Double.isNaN(p1[1]) || Double.isNaN(p2[0]) || Double.isNaN(p2[1])){

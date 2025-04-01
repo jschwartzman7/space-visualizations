@@ -1,7 +1,6 @@
 package spacevisuals.functions;
 
 import java.lang.Math;
-import java.util.function.Function;
 
 public class C_C{
     /*

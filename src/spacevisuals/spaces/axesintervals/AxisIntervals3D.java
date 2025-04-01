@@ -1,22 +1,24 @@
 package spacevisuals.spaces.axesintervals;
 
-import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.spaces.SpaceUser3D;
+import spacevisuals.utils.IntervalsRange;
 
-public class AxisIntervals3D extends AxisIntervals<Euclidean3D>{
+public class AxisIntervals3D implements SpaceUser3D, AxisIntervals{
 
-    public AxisIntervals3D(Euclidean3D space){
-        super(space);
+    public IntervalsRange labeler;
+
+    public AxisIntervals3D(int dimensions, double defaultInterval, double rangeIntervalMin, double rangeIntervalMax){
+        this.labeler = new IntervalsRange(dimensions, defaultInterval, rangeIntervalMin, rangeIntervalMax);
     }
-
-    public AxisIntervals3D(Euclidean3D space, double defaultInterval, double rangeIntervalMin, double rangeIntervalMax){
-        super(space);
-    }
-
     public void updateLabelIntervals(){
         //double focalLengthDistortion = getSpace().camera.DEFAULT_FOCAL_LENGTH/getSpace().camera.focalLength;
-        double primaryAxesRange = Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin);
+        double primaryAxesRange = Math.min(space().xClipMax-space().xClipMin, space().yClipMax-space().yClipMin);
         labeler.updateLabelInterval(primaryAxesRange, 0);
         labeler.updateLabelInterval(primaryAxesRange, 1);
         labeler.updateLabelInterval(primaryAxesRange, 2);
+    }
+    @Override
+    public double[] getLabelIntervals() {
+        return labeler.labelIntervals;
     }
 }

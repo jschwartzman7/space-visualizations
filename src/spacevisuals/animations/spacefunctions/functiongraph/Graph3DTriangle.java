@@ -1,39 +1,24 @@
 package spacevisuals.animations.spacefunctions.functiongraph;
 
 
-import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.animations.polygons.solids.Triangle;
 import spacevisuals.colors.*;
 import spacevisuals.colors.colorstrategies.DomainColorStrategy;
-import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.spaces.spacemovers.SpaceMover3D;
 import spacevisuals.spaces.spacetraversers.*;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.FunctionsEnum;
-import spacevisuals.functions.Matrix3D;
-import spacevisuals.functions.Rn_R;
-import spacevisuals.functions.Rn_Rn;
-import spacevisuals.helpers.Camera3D;
-import spacevisuals.helpers.TextBox;
-
-import java.awt.Color;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class Graph3DTriangle extends SpaceTraverserAnimation<Euclidean3D>{
+public class Graph3DTriangle extends SpaceTraverserAnimation{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.hyperbolicparabaloid.function;
-    private SpaceTraverser<Euclidean3D> traverser;
-    private shader colorHelper;
-    private Camera3D lightSource;
+    private Shader colorHelper;
 
     public Graph3DTriangle(){
-        super(Euclidean3D.Get(), DEFAULT_FUNCTION, new RectangleTraverser3DTriangle(Euclidean3D.Get(), new ConstantResolutionTraverser()));
-        this.colorHelper = new shader(new DomainColorStrategy());
-        this.lightSource = new Camera3D(0,0,0,30,30,30,10);
+        super(DEFAULT_FUNCTION, new RectangleTraverser3DTriangle());
+        this.colorHelper = new Shader(new DomainColorStrategy());
     }
 
     @Override
@@ -53,10 +38,8 @@ public class Graph3DTriangle extends SpaceTraverserAnimation<Euclidean3D>{
             double[] p3 = new double[]{triangle[2], triangle[5], output3};
             double[][] triangleCords = new double[][]{p1, p2, p3};
             Triangle Triangle = new Triangle(triangleCords);
-            double dotProduct = Rn_R.dotProduct(lightSource.toCameraPosition(new double[]{1,1,1}), Matrix3D.crossProduct(Rn_Rn.pairwiseSubtract(p2, p1), Rn_Rn.pairwiseSubtract(p3, p1)));
-            colorHelper.correlation = Math.abs(dotProduct);
-            StdDraw.setPenColor(colorHelper.getColor(p1));
-            Triangle.draw(getSpace());
+            StdDraw.setPenColor(colorHelper.getColor(Triangle));
+            Triangle.draw(Euclidean3D.Get());
         }
     }
 }

@@ -4,9 +4,9 @@ import java.awt.event.KeyEvent;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.SpaceUser;
+import spacevisuals.spaces.SpaceUser3D;
 
-public class SpaceMover3D extends SpaceUser<Euclidean3D> implements SpaceMover{
+public class SpaceMover3D implements SpaceUser3D, SpaceMover{
 
     int resetKey;
     int posXY;
@@ -27,7 +27,6 @@ public class SpaceMover3D extends SpaceUser<Euclidean3D> implements SpaceMover{
     int decreaseRange;
 
     public SpaceMover3D(Euclidean3D space){
-        super(space);
         this.resetKey = KeyEvent.VK_R;
         this.posXY = KeyEvent.VK_D;
         this.negXY = KeyEvent.VK_A;
@@ -49,72 +48,72 @@ public class SpaceMover3D extends SpaceUser<Euclidean3D> implements SpaceMover{
     
     @Override
     public void resetView(){
-        getSpace().xAxisMin = -Euclidean3D.DEFAULT_AXES_SCALE;
-        getSpace().xAxisMax = Euclidean3D.DEFAULT_AXES_SCALE;;
-        getSpace().yAxisMin = -Euclidean3D.DEFAULT_AXES_SCALE;
-        getSpace().yAxisMax = Euclidean3D.DEFAULT_AXES_SCALE;
-        getSpace().zAxisMin = -Euclidean3D.DEFAULT_AXES_SCALE;
-        getSpace().zAxisMax = Euclidean3D.DEFAULT_AXES_SCALE;
-        getSpace().resetClipScale();
+        space().xAxisMin = -Euclidean3D.DEFAULT_AXES_SCALE;
+        space().xAxisMax = Euclidean3D.DEFAULT_AXES_SCALE;;
+        space().yAxisMin = -Euclidean3D.DEFAULT_AXES_SCALE;
+        space().yAxisMax = Euclidean3D.DEFAULT_AXES_SCALE;
+        space().zAxisMin = -Euclidean3D.DEFAULT_AXES_SCALE;
+        space().zAxisMax = Euclidean3D.DEFAULT_AXES_SCALE;
+        space().resetClipScale();
     }
 
     @Override
     public void updateView(){
         if(StdDraw.isKeyPressed(posXY)){
-            getSpace().camera.pitch += getSpace().MOVE_SENSITIVITY;
+            space().camera.pitch += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negXY)){
-            getSpace().camera.pitch -= getSpace().MOVE_SENSITIVITY;
+            space().camera.pitch -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posXZ)){
-            getSpace().camera.roll += getSpace().MOVE_SENSITIVITY;
+            space().camera.roll += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negXZ)){
-            getSpace().camera.roll -= getSpace().MOVE_SENSITIVITY;
+            space().camera.roll -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posYZ)){
-            getSpace().camera.yaw += getSpace().MOVE_SENSITIVITY;
+            space().camera.yaw += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negYZ)){
-            getSpace().camera.yaw -= getSpace().MOVE_SENSITIVITY;
+            space().camera.yaw -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(moveRight)){
-            getSpace().translateXClipPos();
+            space().translateXClipPos();
         }
         else if (StdDraw.isKeyPressed(moveLeft)){
-            getSpace().translateXClipNeg();
+            space().translateXClipNeg();
         }
         if(StdDraw.isKeyPressed(moveUp)){
-            getSpace().translateYClipPos();
+            space().translateYClipPos();
         }
         else if (StdDraw.isKeyPressed(moveDown)){
-            getSpace().translateYClipNeg();
+            space().translateYClipNeg();
         }
         if(StdDraw.isKeyPressed(zoomIn)){
-            getSpace().camera.focalLength *= (1+getSpace().MOVE_SENSITIVITY);
+            space().camera.focalLength *= (1+space().MOVE_SENSITIVITY);
         }
         else if (StdDraw.isKeyPressed(zoomOut)){
-            getSpace().camera.focalLength /= (1+getSpace().MOVE_SENSITIVITY);
+            space().camera.focalLength /= (1+space().MOVE_SENSITIVITY);
         }
         if(StdDraw.isKeyPressed(increaseDomain)){
-            getSpace().xAxisMin -= getSpace().getXRange()*getSpace().MOVE_SENSITIVITY;
-            getSpace().xAxisMax += getSpace().getXRange()*getSpace().MOVE_SENSITIVITY;
-            getSpace().yAxisMin -= getSpace().getYRange()*getSpace().MOVE_SENSITIVITY;
-            getSpace().yAxisMax += getSpace().getYRange()*getSpace().MOVE_SENSITIVITY;
+            space().xAxisMin -= space().getXRange()*space().MOVE_SENSITIVITY;
+            space().xAxisMax += space().getXRange()*space().MOVE_SENSITIVITY;
+            space().yAxisMin -= space().getYRange()*space().MOVE_SENSITIVITY;
+            space().yAxisMax += space().getYRange()*space().MOVE_SENSITIVITY;
         }
         else if (StdDraw.isKeyPressed(decreaseDomain)){
-            getSpace().xAxisMin += getSpace().getXRange()*getSpace().MOVE_SENSITIVITY;
-            getSpace().xAxisMax -= getSpace().getXRange()*getSpace().MOVE_SENSITIVITY;
-            getSpace().yAxisMin += getSpace().getYRange()*getSpace().MOVE_SENSITIVITY;
-            getSpace().yAxisMax -= getSpace().getYRange()*getSpace().MOVE_SENSITIVITY;
+            space().xAxisMin += space().getXRange()*space().MOVE_SENSITIVITY;
+            space().xAxisMax -= space().getXRange()*space().MOVE_SENSITIVITY;
+            space().yAxisMin += space().getYRange()*space().MOVE_SENSITIVITY;
+            space().yAxisMax -= space().getYRange()*space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(increaseRange)){
-            getSpace().zAxisMin -= getSpace().zAxisMax*getSpace().MOVE_SENSITIVITY;
-            getSpace().zAxisMax += getSpace().zAxisMax*getSpace().MOVE_SENSITIVITY;
+            space().zAxisMin -= space().zAxisMax*space().MOVE_SENSITIVITY;
+            space().zAxisMax += space().zAxisMax*space().MOVE_SENSITIVITY;
         }
         else if (StdDraw.isKeyPressed(decreaseRange)){
-            getSpace().zAxisMin += getSpace().zAxisMax*getSpace().MOVE_SENSITIVITY;
-            getSpace().zAxisMax -= getSpace().zAxisMax*getSpace().MOVE_SENSITIVITY;
+            space().zAxisMin += space().zAxisMax*space().MOVE_SENSITIVITY;
+            space().zAxisMax -= space().zAxisMax*space().MOVE_SENSITIVITY;
         }
         if (StdDraw.isKeyPressed(KeyEvent.VK_R)){
             resetView();

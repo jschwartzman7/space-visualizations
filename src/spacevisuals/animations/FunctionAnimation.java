@@ -4,27 +4,25 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.Function;
 
-import spacevisuals.Constants;
 import spacevisuals.FunctionBuilder;
-import spacevisuals.SpaceUser;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.enums.VariableEnum;
 import spacevisuals.spaces.AbstractSpace;
+import spacevisuals.spaces.SpaceUser;
+import spacevisuals.utils.Constants;
 /*
  * Abstract class for an animation that applys a function to elements in a space
  */
-public abstract class FunctionAnimation<T extends AbstractSpace> extends SpaceUser<T> implements SpaceAnimation{
+public abstract class FunctionAnimation implements SpaceAnimation{
 
-    protected final Function<double[], double[]> DEFAULT_FUNCTION = Constants.DEFAULT_FUNCTION;
+    protected final Function<double[], double[]> DEFAULT_FUNCTION = Constants.DEFAULT_FUNCTION1D;
     protected Function<double[], double[]> function;
     public ArrayList<VariableEnum> functionVariables = new ArrayList<VariableEnum>();
 
-    public FunctionAnimation(T space){
-        super(space);
+    public FunctionAnimation(){
         this.function = DEFAULT_FUNCTION;
     }
-    public FunctionAnimation(T space, Function<double[], double[]> function){
-        super(space);
+    public FunctionAnimation(Function<double[], double[]> function){
         this.function = function;
     }
 

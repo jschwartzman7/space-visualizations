@@ -1,15 +1,10 @@
 package spacevisuals.spaces;
 
-import java.awt.Color;
-
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.enums.VariableEnum;
-import spacevisuals.functions.Matrix;
-import spacevisuals.functions.Matrix3D;
-import spacevisuals.functions.Matrix4D;
-import spacevisuals.helpers.Camera4D;
 import spacevisuals.spaces.spacemovers.SpaceMover4D;
+import spacevisuals.utils.Camera4D;
 
 public class Euclidean4D extends AbstractSpace {
 
@@ -26,7 +21,7 @@ public class Euclidean4D extends AbstractSpace {
     //public double[][] projectionR4_R2;
     public Camera4D camera;
     public SpaceMover4D mover;
-    private static SingletonSpace<Euclidean4D> spaceSingleton = new SingletonSpace<Euclidean4D>();
+    private static Euclidean4D instance;
 
     private Euclidean4D(boolean viewSpaceInfo){
         super(DEFAULT_VIEW_SPACE_INFO);
@@ -49,7 +44,10 @@ public class Euclidean4D extends AbstractSpace {
     }
 
     public static Euclidean4D Get(){
-        return spaceSingleton.getOrCreateSpace(() -> new Euclidean4D(DEFAULT_VIEW_SPACE_INFO));
+        if(instance == null){
+            instance = new Euclidean4D(DEFAULT_VIEW_SPACE_INFO);
+        }
+        return instance;
     }
     @Override
     public void initializeColorScheme() {

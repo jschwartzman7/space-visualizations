@@ -7,14 +7,13 @@ import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
 
 import java.awt.Color;
-import spacevisuals.SpaceUser;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.*;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.JuliaSetColorStrategy;
 
-public class JuliaSet extends SpaceTraverserAnimation<Euclidean2D>{
+public class JuliaSet extends SpaceTraverserAnimation{
 
 
 	private static final int DEFAULT_PIXEL_RESOLUTION = 300;
@@ -30,11 +29,11 @@ public class JuliaSet extends SpaceTraverserAnimation<Euclidean2D>{
 	private ColorStrategy colorHelper = new JuliaSetColorStrategy();
 	
 	public JuliaSet(){
-		super(Euclidean2D.Get(), new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser()));
+		super(new ClippingTraverser());
         this.c = juliaSetConstants[0];
     }
 	public JuliaSet(int pixelResolution){
-		super(Euclidean2D.Get(), new ClippingTraverser(Euclidean2D.Get(), new ConstantResolutionTraverser()));
+		super(new ClippingTraverser());
         this.c = juliaSetConstants[0];
     }
 

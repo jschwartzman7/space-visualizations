@@ -4,9 +4,9 @@ import java.awt.event.KeyEvent;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean4D;
-import spacevisuals.SpaceUser;
+import spacevisuals.spaces.SpaceUser4D;
 
-public class SpaceMover4D extends SpaceUser<Euclidean4D> implements SpaceMover{
+public class SpaceMover4D implements SpaceUser4D, SpaceMover{
 
     public int resetKey;
     public int posX;
@@ -33,7 +33,6 @@ public class SpaceMover4D extends SpaceUser<Euclidean4D> implements SpaceMover{
     public int zoomOut;
 
     public SpaceMover4D(Euclidean4D space){
-        super(space);
         this.resetKey = KeyEvent.VK_P;
         this.posX = KeyEvent.VK_1;
         this.negX = KeyEvent.VK_2;
@@ -62,80 +61,80 @@ public class SpaceMover4D extends SpaceUser<Euclidean4D> implements SpaceMover{
     @Override
     public void resetView(){
         if (StdDraw.isKeyPressed(resetKey)){
-            getSpace().resetClipScale();
+            space().resetClipScale();
         }
     }
 
     @Override
     public void updateView() {
         if(StdDraw.isKeyPressed(zoomOut)){
-            getSpace().zoomXClipOut();
-            getSpace().zoomYClipOut();
+            space().zoomXClipOut();
+            space().zoomYClipOut();
         }
         else if(StdDraw.isKeyPressed(zoomIn)){
-            getSpace().zoomXClipIn();
-            getSpace().zoomYClipIn();
+            space().zoomXClipIn();
+            space().zoomYClipIn();
         }
         if(StdDraw.isKeyPressed(posXY)) {
-            getSpace().camera.XY += getSpace().MOVE_SENSITIVITY;
+            space().camera.XY += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negXY)) {
-            getSpace().camera.XY -= getSpace().MOVE_SENSITIVITY;
+            space().camera.XY -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posXZ)) {
-            getSpace().camera.XZ += getSpace().MOVE_SENSITIVITY;
+            space().camera.XZ += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negXZ)) {
-            getSpace().camera.XZ -= getSpace().MOVE_SENSITIVITY;
+            space().camera.XZ -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posXW)) {
-            getSpace().camera.XW += getSpace().MOVE_SENSITIVITY;
+            space().camera.XW += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negXW)) {
-            getSpace().camera.XW -= getSpace().MOVE_SENSITIVITY;
+            space().camera.XW -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posYZ)) {
-            getSpace().camera.YZ += getSpace().MOVE_SENSITIVITY;
+            space().camera.YZ += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negYZ)) {
-            getSpace().camera.YZ -= getSpace().MOVE_SENSITIVITY;
+            space().camera.YZ -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posYW)) {
-            getSpace().camera.YW += getSpace().MOVE_SENSITIVITY;
+            space().camera.YW += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negYW)) {
-            getSpace().camera.YW -= getSpace().MOVE_SENSITIVITY;
+            space().camera.YW -= space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posZW)) {
-            getSpace().camera.ZW += getSpace().MOVE_SENSITIVITY;
+            space().camera.ZW += space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negZW)) {
-            getSpace().camera.ZW -= getSpace().MOVE_SENSITIVITY;
+            space().camera.ZW -= space().MOVE_SENSITIVITY;
         }
 
         if(StdDraw.isKeyPressed(posX)){
-            getSpace().camera.x -= getSpace().MOVE_SENSITIVITY;
+            space().camera.x -= space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negX)){
-            getSpace().camera.x += getSpace().MOVE_SENSITIVITY;
+            space().camera.x += space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posY)){
-            getSpace().camera.y -= getSpace().MOVE_SENSITIVITY;
+            space().camera.y -= space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negY)){
-            getSpace().camera.y += getSpace().MOVE_SENSITIVITY;
+            space().camera.y += space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posZ)){
-            getSpace().camera.z -= getSpace().MOVE_SENSITIVITY;
+            space().camera.z -= space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negZ)){
-            getSpace().camera.z += getSpace().MOVE_SENSITIVITY;
+            space().camera.z += space().MOVE_SENSITIVITY;
         }
         if(StdDraw.isKeyPressed(posW)){
-            getSpace().camera.w -= getSpace().MOVE_SENSITIVITY;
+            space().camera.w -= space().MOVE_SENSITIVITY;
         }
         else if(StdDraw.isKeyPressed(negW)){
-            getSpace().camera.w += getSpace().MOVE_SENSITIVITY;
+            space().camera.w += space().MOVE_SENSITIVITY;
         }
         resetView();
     }

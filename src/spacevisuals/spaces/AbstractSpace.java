@@ -1,12 +1,11 @@
 package spacevisuals.spaces;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.Constants;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.enums.VariableEnum;
-import spacevisuals.helpers.IntervalsRange;
 import spacevisuals.spaces.axesintervals.AxisIntervals;
 import spacevisuals.spaces.spacemovers.SpaceMover;
+import spacevisuals.utils.Constants;
 /*
 * Base class for Euclidean space to be rendered
 * Extended by Euclidean2D, Euclidean3D, Euclidean4D

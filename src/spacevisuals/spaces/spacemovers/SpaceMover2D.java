@@ -5,9 +5,9 @@ import java.awt.event.KeyEvent;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.Euclidean2D;
-import spacevisuals.SpaceUser;
+import spacevisuals.spaces.SpaceUser2D;
 
-public class SpaceMover2D extends SpaceUser<Euclidean2D> implements SpaceMover{
+public class SpaceMover2D implements SpaceUser2D, SpaceMover{
 
     int resetKey;
     int moveRight;
@@ -22,7 +22,6 @@ public class SpaceMover2D extends SpaceUser<Euclidean2D> implements SpaceMover{
     int yZoomOut;
 
     public SpaceMover2D(Euclidean2D space){
-        super(space);
         this.resetKey = KeyEvent.VK_R;
         this.moveRight = KeyEvent.VK_D;
         this.moveLeft = KeyEvent.VK_A;
@@ -39,7 +38,7 @@ public class SpaceMover2D extends SpaceUser<Euclidean2D> implements SpaceMover{
     @Override
     public void resetView(){
         if (StdDraw.isKeyPressed(resetKey)){
-            getSpace().resetClipScale();
+            space().resetClipScale();
         }
     }
 
@@ -47,43 +46,43 @@ public class SpaceMover2D extends SpaceUser<Euclidean2D> implements SpaceMover{
     public void updateView(){
         // translate along x axis
         if(StdDraw.isKeyPressed(moveRight)){
-            getSpace().translateXClipPos();
+            space().translateXClipPos();
         }
         else if (StdDraw.isKeyPressed(moveLeft)){
-            getSpace().translateXClipNeg();
+            space().translateXClipNeg();
         }
 
         // translate along y axis
         if(StdDraw.isKeyPressed(moveUp)){
-            getSpace().translateYClipPos();
+            space().translateYClipPos();
         }
         else if (StdDraw.isKeyPressed(moveDown)){
-            getSpace().translateYClipNeg();
+            space().translateYClipNeg();
         }
 
         // zoom in / zoom out
         if(StdDraw.isKeyPressed(zoomIn)){
-            getSpace().zoomXClipIn();
-            getSpace().zoomYClipIn();
+            space().zoomXClipIn();
+            space().zoomYClipIn();
         }
         else if (StdDraw.isKeyPressed(zoomOut)){
-            getSpace().zoomXClipOut();
-            getSpace().zoomYClipOut();
+            space().zoomXClipOut();
+            space().zoomYClipOut();
         }
         // x axis distort
         if (StdDraw.isKeyPressed(xZoomIn)){
-            getSpace().zoomXClipIn();
+            space().zoomXClipIn();
         }
         else if(StdDraw.isKeyPressed(xZoomOut)){
-            getSpace().zoomXClipOut();
+            space().zoomXClipOut();
         }
 
         // y axis distort
         if (StdDraw.isKeyPressed(yZoomIn)){
-            getSpace().zoomYClipIn();
+            space().zoomYClipIn();
         }
         else if(StdDraw.isKeyPressed(yZoomOut)){
-            getSpace().zoomYClipOut();
+            space().zoomYClipOut();
         }
         resetView();
     }

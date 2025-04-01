@@ -2,22 +2,16 @@ package spacevisuals.spaces.spacetraversers;
 
 import java.util.function.Consumer;
 import spacevisuals.spaces.spacetraversers.steppers.*;
-import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.utils.Constants;
+import spacevisuals.spaces.SpaceUser3D;
 
-public class RectangleTraverser3D extends SpaceTraverser<Euclidean3D>{
-
-    public RectangleTraverser3D(Euclidean3D space, Stepper stepper){
-        super(space, stepper);
-    }
-    public RectangleTraverser3D(Euclidean3D space, Stepper stepper, double defaultResolution){
-        super(space, stepper, defaultResolution);
-    }
+public class RectangleTraverser3D implements SpaceUser3D, SpaceTraverser, ConstantResolutionTraverser {
 
     public void traverseDomain(Consumer<double[]> handlePoint){
-        double xStep = stepper.getStep(getSpace().xAxisMax-getSpace().xAxisMin, primaryResolution);
-        double yStep = stepper.getStep(getSpace().yAxisMax-getSpace().yAxisMin, secondaryResolution);
-        for(double x = getSpace().xAxisMin; x <= getSpace().xAxisMax; x += xStep){
-            for(double y = getSpace().yAxisMin; y <= getSpace().yAxisMax; y += yStep){
+        double xStep = getStep(space().xAxisMax-space().xAxisMin, Constants.PIXEL_RESOLUTION_MEDIUM);
+        double yStep = getStep(space().yAxisMax-space().yAxisMin, Constants.PIXEL_RESOLUTION_MEDIUM);
+        for(double x = space().xAxisMin; x <= space().xAxisMax; x += xStep){
+            for(double y = space().yAxisMin; y <= space().yAxisMax; y += yStep){
                 handlePoint.accept(new double[]{x, y});
             }
         }

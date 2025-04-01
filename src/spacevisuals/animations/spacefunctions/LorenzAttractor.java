@@ -3,16 +3,13 @@ package spacevisuals.animations.spacefunctions;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
-import spacevisuals.helpers.timeintervals.TimeInterval;
-import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
 import spacevisuals.spaces.Euclidean3D;
 
-public class LorenzAttractor extends FunctionAnimation<Euclidean3D> implements PointSetAnimation{
+public class LorenzAttractor extends FunctionAnimation implements PointSetAnimation{
 
     private double pointRadius = 0.01;
     private ArrayList<double[]> points;
@@ -24,7 +21,7 @@ public class LorenzAttractor extends FunctionAnimation<Euclidean3D> implements P
     private double beta;
 
     public LorenzAttractor(){
-        super(Euclidean3D.Get());
+        super();
         this.points = new ArrayList<double[]>();
         this.pointColors = new ArrayList<Color>();
         this.colorHelper = new PointMapColorStrategy();
@@ -66,7 +63,7 @@ public class LorenzAttractor extends FunctionAnimation<Euclidean3D> implements P
     }
     @Override
     public void handlePoint(double[] point) {
-        double[] point2D = getSpace().toViewScreenPoint(point);
+        double[] point2D = Euclidean3D.Get().toViewScreenPoint(point);
         StdDraw.point(point2D[0], point2D[1]);
     }
     @Override

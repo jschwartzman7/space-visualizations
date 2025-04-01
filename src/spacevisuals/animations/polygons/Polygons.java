@@ -1,25 +1,32 @@
 package spacevisuals.animations.polygons;
 
-import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.animations.polygons.solids.Line;
 import spacevisuals.animations.polygons.solids.Simplex;
 import spacevisuals.animations.polygons.solids.Triangle;
+import spacevisuals.colors.Shader;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
+import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.AbstractSpace;
-import spacevisuals.SpaceUser;
+import spacevisuals.spaces.SpaceUser;
+
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Polygons<T extends AbstractSpace> extends SpaceUser<T> implements SpaceAnimation{
+import edu.princeton.cs.introcs.StdDraw;
+
+public abstract class Polygons implements SpaceUser<AbstractSpace>, SpaceAnimation{
 
     private List<Triangle> triangles;
     private List<Line> lines;
+    public Shader colorHelper;
 
-    public Polygons(T space){
-        super(space);
+    public Polygons(){
         this.triangles = new LinkedList<Triangle>();
         this.lines = new LinkedList<Line>();
+        this.colorHelper = new Shader(new SingleColorStrategy(Color.BLUE));
     }
     
     private static double[][] cube(double[] center, double halfRadius){
@@ -85,17 +92,24 @@ public abstract class Polygons<T extends AbstractSpace> extends SpaceUser<T> imp
         }
     }
 
-    @Override
     public void drawAnimation() {
-        for(Simplex triangle: triangles){
-            StdDraw.setPenColor(getSpace().colorScheme.labelColor);
-            StdDraw.setPenRadius();
-            triangle.draw(getSpace());
+        for(Triangle triangle: triangles){
+            StdDraw.setPenColor(colorHelper.getColor(triangle));
+            drawTriangle(triangle);
         }
         for(Simplex line : lines){
-            StdDraw.setPenColor(getSpace().colorScheme.backgroundColor);
-            StdDraw.setPenRadius();
-            line.draw(getSpace());
+            drawLine(line);
         }
     }
+
+    public void drawLine(Simplex simplex){
+        StdDraw.setPenColor(space().colorScheme.backgroundColor);
+        StdDraw.setPenRadius();
+        simplex.draw(space());
+    };
+
+    public void drawTriangle(Simplex simplex){
+        StdDraw.setPenRadius();
+        simplex.draw(space());
+    };
 }

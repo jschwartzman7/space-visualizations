@@ -1,6 +1,4 @@
-package spacevisuals.helpers;
-
-import spacevisuals.Constants;
+package spacevisuals.utils;
 
 public class IntervalsRange{
 

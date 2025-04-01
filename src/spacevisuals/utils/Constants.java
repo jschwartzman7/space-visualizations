@@ -1,11 +1,12 @@
-package spacevisuals;
+package spacevisuals.utils;
 
+import java.awt.Color;
 import java.util.function.Function;
 
 import spacevisuals.enums.FunctionsEnum;
 
 public class Constants {
-
+    /* Default program variables */
     public static final int CANVAS_HEIGHT = 700;
     public static final int CANVAS_WIDTH = 700;
     public static final int FRAME_RATE = 25;
@@ -23,7 +24,12 @@ public class Constants {
     public static final double PIXEL_RESOLUTION_LOW = 25;
     public static final double DISTANCE_STEP = 0.1;
     public static final char ANIMATION_SEPARATOR = ',';
+    public static final Color graphColor = Color.BLACK;
+
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.identity.function;
+    public static final Function<double[], double[]> DEFAULT_FUNCTION1D = FunctionsEnum.magnitude.function;
+    public static final Function<double[], double[]> DEFAULT_FUNCTION2D = input -> new double[]{input[0], input[0]};
+    public static final Function<double[], double[]> DEFAULT_FUNCTION3D = input -> new double[]{input[0], input[0], input[0]};
 
     public static final double CAMERA3D_PITCH = 0;
     public static final double CAMERA3D_ROLL = 0;

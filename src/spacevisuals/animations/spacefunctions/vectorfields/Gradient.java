@@ -4,16 +4,14 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.function.Consumer;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.FunctionAnimation;
-import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
 
-public class Gradient extends FunctionAnimation<Euclidean2D> implements PointSetAnimation{
+public class Gradient extends FunctionAnimation implements PointSetAnimation{
     
     private LinkedList<double[]> points;
     private ArrayList<Color> pointColors;
@@ -23,7 +21,7 @@ public class Gradient extends FunctionAnimation<Euclidean2D> implements PointSet
     private PointMapColorStrategy colorHelper;
 
     public Gradient(){
-        super(Euclidean2D.Get(), FunctionsEnum.sin.function);
+        super(FunctionsEnum.sin.function);
         this.points = new LinkedList<double[]>();
         this.pointColors = new ArrayList<Color>();
         this.vectorField = new VectorField2D();
@@ -59,7 +57,7 @@ public class Gradient extends FunctionAnimation<Euclidean2D> implements PointSet
         if(Double.isNaN(point[0]) || Double.isNaN(point[1]) || Double.isInfinite(point[0]) || Double.isInfinite(point[1])){
             return;
         }
-        StdDraw.filledCircle(point[0], point[1], Math.min(getSpace().xClipMax-getSpace().xClipMin, getSpace().yClipMax-getSpace().yClipMin)*pointScale);
+        StdDraw.filledCircle(point[0], point[1], Math.min(Euclidean2D.Get().xClipMax-Euclidean2D.Get().xClipMin, Euclidean2D.Get().yClipMax-Euclidean2D.Get().yClipMin)*pointScale);
         double[] output = function.apply(point);
         output[0] *= distanceStep;
         output[1] *= distanceStep;

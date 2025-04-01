@@ -1,19 +1,13 @@
 package spacevisuals.animations.spacefunctions;
 
-import spacevisuals.helpers.*;
-import spacevisuals.helpers.timeintervals.TimeInterval;
-import spacevisuals.helpers.timeintervals.TimeIntervalBounce;
-import spacevisuals.helpers.timeintervals.TimeIntervalLoop;
-
-import java.util.function.Consumer;
-import spacevisuals.*;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.FunctionAnimation;
-import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.utils.timeintervals.TimeInterval;
+import spacevisuals.utils.timeintervals.TimeIntervalBounce;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class SphereMagnet extends FunctionAnimation<Euclidean3D> implements PointSetAnimation{
+public class SphereMagnet extends FunctionAnimation implements PointSetAnimation{
 
     private double maxPointRadius = 25;
     private int numPoints = 10000;
@@ -21,7 +15,7 @@ public class SphereMagnet extends FunctionAnimation<Euclidean3D> implements Poin
     private TimeInterval timeInterval;
 
     public SphereMagnet(){
-        super(Euclidean3D.Get());
+        super();
         this.timeInterval = new TimeIntervalBounce(.8, 1, 0.005);
         this.points = new double[numPoints][3];
         for(int i = 0; i < points.length; i++){
@@ -54,14 +48,14 @@ public class SphereMagnet extends FunctionAnimation<Euclidean3D> implements Poin
     @Override
     public void handlePoint(double[] input) {
         if(Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2)+Math.pow(input[2], 2)) <= Double.MIN_VALUE){
-            double[] point = getSpace().toViewScreenPoint(input);
+            double[] point = Euclidean3D.Get().toViewScreenPoint(input);
             if(point == null){
                 return;
             }
             StdDraw.point(point[0], point[1]);
         }
         else{
-            double[] point = getSpace().toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
+            double[] point = Euclidean3D.Get().toViewScreenPoint(transformPoint(new double[]{input[0], input[1], input[2], timeInterval.t}));
             if(point == null){
                 return;
             }

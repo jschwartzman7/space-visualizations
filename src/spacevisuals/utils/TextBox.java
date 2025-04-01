@@ -1,12 +1,9 @@
-package spacevisuals.helpers;
+package spacevisuals.utils;
 
 import java.util.LinkedList;
-
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.spaces.AbstractSpace;
-import spacevisuals.SpaceUser;
 
-public class TextBox extends SpaceUser<AbstractSpace>{
+public class TextBox{
 
     LinkedList<String[]> text;
     private int width = 0;
@@ -15,8 +12,7 @@ public class TextBox extends SpaceUser<AbstractSpace>{
     private double textHeightProportion = 0.03;
     private double lineLeftProportion = 2;
 
-    public TextBox(AbstractSpace space){
-        super(space);
+    public TextBox(){
         this.text = new LinkedList<String[]>();
     }
 
@@ -27,14 +23,14 @@ public class TextBox extends SpaceUser<AbstractSpace>{
         text.clear();
     }
 
-    public void drawTextBox(){
+    public void drawTextBox(spacevisuals.spaces.AbstractSpace space){
         width = 0;
-        double xClipRange = getSpace().getXRange();
-        double yClipRange = getSpace().getYRange();
-        double xLeft = getSpace().xClipMin+marginLeftProportion*xClipRange;
+        double xClipRange = space.getXRange();
+        double yClipRange = space.getYRange();
+        double xLeft = space.xClipMin+marginLeftProportion*xClipRange;
         double textHeight = yClipRange*textHeightProportion;
-        double height = getSpace().yClipMin+yClipRange*marginBottomProportion;
-        StdDraw.setPenColor(getSpace().colorScheme.labelColor);
+        double height = space.yClipMin+yClipRange*marginBottomProportion;
+        StdDraw.setPenColor(space.colorScheme.labelColor);
         for(String[] key : text){
             StdDraw.textLeft(xLeft, height, key[0] + " = " + key[1]);
             height += textHeight;
@@ -43,7 +39,7 @@ public class TextBox extends SpaceUser<AbstractSpace>{
                 width = size;
             }
         }
-        StdDraw.line(getSpace().xClipMin+marginLeftProportion*xClipRange/lineLeftProportion, getSpace().yClipMin+yClipRange*marginBottomProportion-textHeight/2, getSpace().xClipMin+marginLeftProportion*xClipRange/lineLeftProportion, height-textHeight/2);
+        StdDraw.line(space.xClipMin+marginLeftProportion*xClipRange/lineLeftProportion, space.yClipMin+yClipRange*marginBottomProportion-textHeight/2, space.xClipMin+marginLeftProportion*xClipRange/lineLeftProportion, height-textHeight/2);
     }
     
 }

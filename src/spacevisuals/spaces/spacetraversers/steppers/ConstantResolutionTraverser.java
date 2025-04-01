@@ -1,11 +1,9 @@
 package spacevisuals.spaces.spacetraversers.steppers;
 
-public class ConstantResolutionTraverser implements Stepper{
+public interface ConstantResolutionTraverser extends Stepper{
     
-    public ConstantResolutionTraverser(){}
-
     @Override
-    public double getStep(double axisRange, double pixelResolution){
+    public default double getStep(double axisRange, double pixelResolution){
         return axisRange/pixelResolution;
     }
 }
