@@ -5,7 +5,7 @@ import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.spacetraversers.XAxisTraverserLine;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 
 public class Graph2DLine extends SpaceTraverserAnimation {
 

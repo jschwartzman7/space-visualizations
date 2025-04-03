@@ -5,29 +5,24 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 import spacevisuals.FunctionBuilder;
+import spacevisuals.SpaceAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.enums.VariableEnum;
-import spacevisuals.spaces.AbstractSpace;
-import spacevisuals.spaces.SpaceUser;
-import spacevisuals.utils.Constants;
 /*
  * Abstract class for an animation that applys a function to elements in a space
  */
 public abstract class FunctionAnimation implements SpaceAnimation{
 
-    protected final Function<double[], double[]> DEFAULT_FUNCTION = Constants.DEFAULT_FUNCTION1D;
     protected Function<double[], double[]> function;
-    public ArrayList<VariableEnum> functionVariables = new ArrayList<VariableEnum>();
 
     public FunctionAnimation(){
-        this.function = DEFAULT_FUNCTION;
     }
     public FunctionAnimation(Function<double[], double[]> function){
         this.function = function;
     }
 
-    public void fillFunctionVariables(String[] functionInput){
-        functionVariables.clear();
+    public ArrayList<VariableEnum> fillFunctionVariables(String[] functionInput){
+        ArrayList<VariableEnum> functionVariables = new ArrayList<VariableEnum>();
         for(String singleFunction : functionInput){
             String[] singleFunctionStringArray = FunctionBuilder.tokenize(singleFunction);
             if(singleFunctionStringArray == null){
@@ -43,6 +38,7 @@ public abstract class FunctionAnimation implements SpaceAnimation{
             }
         }
         functionVariables.sort(Comparator.comparing(x->x.precedence));
+        return functionVariables;
     }
 
     // First attempts to parse custom function, then tries to use function enum, finally defaults to identity.
@@ -54,11 +50,11 @@ public abstract class FunctionAnimation implements SpaceAnimation{
         if(parameters == null){return;}
         if(parameters.length == 0){return;}
         FunctionsEnum presetFunction = FunctionsEnum.from(parameters[0]);
-        if(presetFunction != FunctionsEnum.identity){
+        if(presetFunction != FunctionsEnum.from(null)){
             this.function = presetFunction.function;
             return;
         }
-        fillFunctionVariables(parameters);
+        ArrayList<VariableEnum> functionVariables = fillFunctionVariables(parameters);
         Function<double[], double[]> customFunction = FunctionBuilder.parseFunction(parameters, functionVariables);
         if(customFunction != null){
             this.function = customFunction;

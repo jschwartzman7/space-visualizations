@@ -3,7 +3,7 @@ package spacevisuals.animations.spacefunctions.vectorfields;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 import spacevisuals.utils.Constants;
 import spacevisuals.utils.IntervalsRange;
 import spacevisuals.animations.SpaceTraverserAnimation;

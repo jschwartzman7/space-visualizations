@@ -6,7 +6,7 @@ import spacevisuals.utils.Constants;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.SpaceUser3D;
 
-public class DiskTraverser3DTriangle implements SpaceUser3D, SpaceTraverser, ConstantResolutionTraverser {
+public class DiskTraverser3DTriangle implements SpaceUser3D, SpaceTraverser, ConstantResolutionStepper {
 
     public void traverseDomain(Consumer<double[]> handlePoint){
         double radiusMax = Math.hypot(space().getXRange(), space().getYRange())/2;

@@ -5,12 +5,11 @@ import java.util.function.Function;
 
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.utils.timeintervals.TimeInterval;
 import spacevisuals.utils.timeintervals.TimeIntervalLoop;
 
-public class ParametricCurve extends FunctionAnimation implements PointSetAnimation{
+public class ParametricCurve extends PointSetAnimation{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.parametric.function;
     private double pointRadius = 0.01;

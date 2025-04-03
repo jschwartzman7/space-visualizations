@@ -1,8 +1,8 @@
 package spacevisuals.animations.spaceuseranimations;
 
 import edu.princeton.cs.introcs.StdDraw;
+import spacevisuals.SpaceAnimation;
 import spacevisuals.spaces.Euclidean4D;
-import spacevisuals.animations.SpaceAnimation;
 
 public class Sphere4D implements SpaceAnimation{
 

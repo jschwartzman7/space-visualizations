@@ -1,6 +1,6 @@
 package spacevisuals.animations.polygons;
 
-import spacevisuals.animations.SpaceAnimation;
+import spacevisuals.SpaceAnimation;
 import spacevisuals.animations.polygons.solids.Line;
 import spacevisuals.animations.polygons.solids.Simplex;
 import spacevisuals.animations.polygons.solids.Triangle;

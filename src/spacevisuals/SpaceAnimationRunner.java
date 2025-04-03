@@ -5,7 +5,6 @@ import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.Euclidean4D;
 import spacevisuals.utils.Constants;
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.enums.AnimationsEnum;
 
 import java.util.HashMap;

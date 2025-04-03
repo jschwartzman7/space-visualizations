@@ -2,14 +2,13 @@ package spacevisuals.animations;
 
 import java.util.function.Function;
 
-import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.spacetraversers.SpaceTraverser;
 /*
  * Abstract class for an animation that uses a SpaceTraverser and applies a function to elements in a space
  */
-public abstract class SpaceTraverserAnimation extends FunctionAnimation implements PointSetAnimation {
+public abstract class SpaceTraverserAnimation extends PointSetAnimation {
 
-    SpaceTraverser traverser;
+    protected SpaceTraverser traverser;
 
     public SpaceTraverserAnimation(Function<double[], double[]> function, SpaceTraverser traverser) {
         super(function);

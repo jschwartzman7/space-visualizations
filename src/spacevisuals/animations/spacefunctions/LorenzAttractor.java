@@ -5,11 +5,10 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.spaces.Euclidean3D;
 
-public class LorenzAttractor extends FunctionAnimation implements PointSetAnimation{
+public class LorenzAttractor extends PointSetAnimation{
 
     private double pointRadius = 0.01;
     private ArrayList<double[]> points;

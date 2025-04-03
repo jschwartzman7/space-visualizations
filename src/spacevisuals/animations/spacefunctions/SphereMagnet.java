@@ -1,13 +1,12 @@
 package spacevisuals.animations.spacefunctions;
 
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.utils.timeintervals.TimeInterval;
 import spacevisuals.utils.timeintervals.TimeIntervalBounce;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class SphereMagnet extends FunctionAnimation implements PointSetAnimation{
+public class SphereMagnet extends PointSetAnimation{
 
     private double maxPointRadius = 25;
     private int numPoints = 10000;

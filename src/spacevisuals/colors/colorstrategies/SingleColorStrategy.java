@@ -6,7 +6,7 @@ import spacevisuals.utils.Constants;
 
 public class SingleColorStrategy implements ColorStrategy {
 
-    private final Color DEFAULT_COLOR = Constants.graphColor;
+    private final Color DEFAULT_COLOR = Constants.GRAPH_COLOR;
     private Color color;
 
     public SingleColorStrategy(){

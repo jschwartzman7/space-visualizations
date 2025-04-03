@@ -6,7 +6,7 @@ import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.spacetraversers.*;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 import spacevisuals.utils.TextBox;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.FunctionsEnum;

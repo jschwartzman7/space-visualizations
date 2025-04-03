@@ -21,9 +21,9 @@ import spacevisuals.animations.spaceuseranimations.Sphere4D;
 
 import java.util.function.Supplier;
 
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.animations.fractals.JuliaSet;
 import spacevisuals.animations.fractals.MandelbrotSet;
+import spacevisuals.SpaceAnimation;
 import spacevisuals.animations.*;
 
 public enum AnimationsEnum {

@@ -6,7 +6,7 @@ import spacevisuals.utils.Constants;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.SpaceUser3D;
 
-public class RectangleTraverser3DTriangle implements SpaceUser3D, SpaceTraverser, ConstantResolutionTraverser{
+public class RectangleTraverser3DTriangle implements SpaceUser3D, SpaceTraverser, ConstantResolutionStepper{
 
     public static final double DEFAULT_PIXEL_RESOLUTION = Constants.PIXEL_RESOLUTION_LOW;
 

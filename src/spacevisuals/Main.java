@@ -1,6 +1,5 @@
 package spacevisuals;
 
-import spacevisuals.animations.SpaceAnimation;
 import spacevisuals.enums.AnimationsEnum;
 import spacevisuals.utils.Constants;
 

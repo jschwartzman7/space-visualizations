@@ -5,7 +5,7 @@ import spacevisuals.spaces.spacetraversers.steppers.*;
 import spacevisuals.utils.Constants;
 import spacevisuals.spaces.*;
 
-public class XAxisTraverser implements SpaceUser2D, SpaceTraverser, ConstantResolutionTraverser {
+public class XAxisTraverser implements SpaceUser2D, SpaceTraverser, ConstantResolutionStepper {
 
     @Override
     public void traverseDomain(Consumer<double[]> handlePoint){

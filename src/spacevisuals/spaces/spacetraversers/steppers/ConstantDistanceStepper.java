@@ -2,7 +2,7 @@ package spacevisuals.spaces.spacetraversers.steppers;
 
 import spacevisuals.utils.Constants;
 
-public interface ConstantDistanceTraverser extends Stepper{
+public interface ConstantDistanceStepper extends Stepper{
     
     double DISTANCE = Constants.DISTANCE_STEP;
     

@@ -7,7 +7,7 @@ import spacevisuals.utils.Constants;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.spaces.*;
 
-public class ClippingTraverser implements SpaceUser2D, SpaceTraverser, ConstantResolutionTraverser {
+public class ClippingTraverser implements SpaceUser2D, SpaceTraverser, ConstantResolutionStepper {
 
     public void traverseDomain(Consumer<double[]> handlePoint){
         double xStep = getStep(space().xClipMax-space().xClipMin, Constants.PIXEL_RESOLUTION_MEDIUM);

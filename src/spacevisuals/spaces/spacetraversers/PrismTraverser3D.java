@@ -5,7 +5,7 @@ import spacevisuals.spaces.spacetraversers.steppers.*;
 import spacevisuals.utils.Constants;
 import spacevisuals.spaces.*;
 
-public class PrismTraverser3D implements SpaceUser3D, SpaceTraverser, ConstantResolutionTraverser {
+public class PrismTraverser3D implements SpaceUser3D, SpaceTraverser, ConstantResolutionStepper {
 
     public void traverseDomain(Consumer<double[]> handlePoint){
         double xStep = getStep(space().xAxisMax-space().xAxisMin, Constants.PIXEL_RESOLUTION_LOW);

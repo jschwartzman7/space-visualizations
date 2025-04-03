@@ -3,10 +3,9 @@ package spacevisuals.spaces.spacetraversers;
 import java.util.function.Consumer;
 import spacevisuals.spaces.spacetraversers.steppers.*;
 import spacevisuals.utils.Constants;
-import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.SpaceUser3D;
 
-public class DiskTraverser3D implements SpaceUser3D, SpaceTraverser, ConstantResolutionTraverser {
+public class DiskTraverser3D implements SpaceUser3D, SpaceTraverser, ConstantResolutionStepper {
 
 
     public void traverseDomain(Consumer<double[]> handlePoint){

@@ -5,7 +5,7 @@ import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.spacetraversers.XAxisTraverser;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 
 public class Graph2D extends SpaceTraverserAnimation{
 

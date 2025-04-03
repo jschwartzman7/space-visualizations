@@ -1,7 +1,7 @@
 package spacevisuals.animations.spaceuseranimations;
 
+import spacevisuals.SpaceAnimation;
 import spacevisuals.spaces.Euclidean3D;
-import spacevisuals.animations.SpaceAnimation;
 
 public class Basic3D implements SpaceAnimation{
 

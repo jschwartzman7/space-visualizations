@@ -2,7 +2,7 @@ package spacevisuals.animations.spacefunctions.vectorfields;
 
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.spacetraversers.*;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 import spacevisuals.utils.Constants;
 import spacevisuals.utils.IntervalsRange;
 import spacevisuals.animations.SpaceTraverserAnimation;

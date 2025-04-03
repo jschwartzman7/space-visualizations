@@ -2,6 +2,7 @@ package spacevisuals.enums;
 
 import java.util.function.Function;
 import spacevisuals.functions.*;
+import spacevisuals.utils.Constants;
 
 /*
  * Built in functions the user can specify after an animations instead of writing their own function
@@ -11,6 +12,7 @@ public enum FunctionsEnum {
     identity(u -> u),
     zero(u -> new double[u.length]),
     magnitude(u -> new double[]{Rn_R.magnitude(u)}),
+    defaultFunction(Constants.DEFAULT_FUNCTION),
     
     hyperbolicparabaloid(u -> new double[]{Rn_R.hyperbolicParabaloid(u, 0.3, 0.3)}),
     dotproduct(u -> new double[]{Rn_R.dotProduct(u, new double[]{1, 1})}),
@@ -41,7 +43,7 @@ public enum FunctionsEnum {
     }
 
     public static FunctionsEnum from(String text) {
-        FunctionsEnum function = FunctionsEnum.identity;
+        FunctionsEnum function = defaultFunction;
         try {
             function = valueOf(text);
         }

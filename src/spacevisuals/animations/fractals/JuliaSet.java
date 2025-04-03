@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 import spacevisuals.functions.*;
 import spacevisuals.spaces.*;
 import spacevisuals.spaces.spacetraversers.*;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionTraverser;
+import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 
 import java.awt.Color;
 import spacevisuals.animations.PointSetAnimation;

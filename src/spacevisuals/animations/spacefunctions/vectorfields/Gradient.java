@@ -11,7 +11,7 @@ import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.spaces.Euclidean2D;
 
-public class Gradient extends FunctionAnimation implements PointSetAnimation{
+public class Gradient extends PointSetAnimation{
     
     private LinkedList<double[]> points;
     private ArrayList<Color> pointColors;

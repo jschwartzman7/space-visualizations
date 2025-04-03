@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.animations.FunctionAnimation;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.enums.FunctionsEnum;
 
 
-public class PointMap2D extends FunctionAnimation implements PointSetAnimation{
+public class PointMap2D extends PointSetAnimation{
 
     private ArrayList<double[]> points;
     private ArrayList<Color> pointColors;
