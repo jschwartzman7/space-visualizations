@@ -1,10 +1,10 @@
 package spacevisuals.animations.spaceuseranimations;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.SpaceAnimation;
+import spacevisuals.ConfigurableAnimation;
 import spacevisuals.spaces.Euclidean4D;
 
-public class Sphere4D implements SpaceAnimation{
+public class Sphere4D implements ConfigurableAnimation{
 
     public int numPoints = 1000;
     public double[] center = new double[]{0, 0, 0, 0};

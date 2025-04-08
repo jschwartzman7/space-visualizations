@@ -1,16 +1,16 @@
 package spacevisuals.animations.spaceuseranimations;
 
-import spacevisuals.SpaceAnimation;
-import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.ConfigurableAnimation;
+import spacevisuals.spaces.SpaceUser3D;
 
-public class Basic3D implements SpaceAnimation{
+public class Basic3D implements ConfigurableAnimation, SpaceUser3D{
 
     public Basic3D(){
     }
 
     @Override
     public void drawAnimation() {
-        Euclidean3D.Get().drawSpace();
+        space().drawSpace();
     }
     
 }

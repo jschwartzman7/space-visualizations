@@ -30,7 +30,7 @@ public class Main {
         }
         int i = 0;
         while(i < args.length){
-            SpaceAnimation isAnimation = runner.addAnimation(args[i]);
+            ConfigurableAnimation isAnimation = runner.addAnimation(args[i]);
             if(isAnimation != null){
                 String[] animationBuildParams = getUntilSeparator(args, i+1);
                 if(animationBuildParams.length > 0){

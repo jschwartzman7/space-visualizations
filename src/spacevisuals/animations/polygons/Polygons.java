@@ -1,6 +1,6 @@
 package spacevisuals.animations.polygons;
 
-import spacevisuals.SpaceAnimation;
+import spacevisuals.ConfigurableAnimation;
 import spacevisuals.animations.polygons.solids.Line;
 import spacevisuals.animations.polygons.solids.Simplex;
 import spacevisuals.animations.polygons.solids.Triangle;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import edu.princeton.cs.introcs.StdDraw;
 
-public abstract class Polygons implements SpaceUser<AbstractSpace>, SpaceAnimation{
+public abstract class Polygons implements SpaceUser<AbstractSpace>, ConfigurableAnimation{
 
     private List<Triangle> triangles;
     private List<Line> lines;

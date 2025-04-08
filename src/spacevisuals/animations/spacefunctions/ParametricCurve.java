@@ -48,6 +48,9 @@ public class ParametricCurve extends PointSetAnimation{
     @Override
     public void handlePoint(double[] input) {
         double[] point = function.apply(input);
+        if(point.length < 2){
+            return;
+        }
         StdDraw.point(point[0], point[1]);
     }
 }

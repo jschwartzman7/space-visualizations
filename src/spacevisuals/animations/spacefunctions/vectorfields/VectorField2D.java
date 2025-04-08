@@ -35,6 +35,9 @@ public class VectorField2D extends VectorField{
     @Override
     public void handlePoint(double[] input){
         double[] outputVector = this.function.apply(input);
+        if(outputVector.length < 2){
+            return;
+        }
         double angle = Math.atan2(outputVector[1], outputVector[0]);
         StdDraw.setPenRadius();
         StdDraw.setPenColor(colorHelper.getColor(input));

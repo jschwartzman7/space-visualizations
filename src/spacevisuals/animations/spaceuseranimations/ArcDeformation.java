@@ -1,11 +1,11 @@
 package spacevisuals.animations.spaceuseranimations;
 
-import spacevisuals.SpaceAnimation;
+import spacevisuals.ConfigurableAnimation;
 import spacevisuals.utils.timeintervals.TimeInterval;
 import spacevisuals.utils.timeintervals.TimeIntervalBounce;
 import edu.princeton.cs.introcs.StdDraw;
 
-public class ArcDeformation implements SpaceAnimation{
+public class ArcDeformation implements ConfigurableAnimation{
 
     // draw "continuously" deforming semi-circles starting from upper hemisphere ending at lower hemisphere
     // StdDraw.arc(x, y, radius, angle1, angle2);

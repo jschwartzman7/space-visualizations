@@ -18,13 +18,13 @@ public class SpaceAnimationRunner{
     public final int CANVAS_HEIGHT = Constants.CANVAS_HEIGHT;
     public final int CANVAS_WIDTH = Constants.CANVAS_WIDTH;
     public final int FRAME_RATE;
-    public HashMap<SpaceAnimation, Integer> multiDimensionalAnimations;
+    public HashMap<ConfigurableAnimation, Integer> multiDimensionalAnimations;
     public static HashMap<Integer, AbstractSpace> spaceKeys;
     public int currentSpaceDimension = 2;
 
     public SpaceAnimationRunner(int frameRate){
         this.FRAME_RATE = frameRate;
-        this.multiDimensionalAnimations = new HashMap<SpaceAnimation, Integer>();
+        this.multiDimensionalAnimations = new HashMap<ConfigurableAnimation, Integer>();
         spaceKeys = new HashMap<Integer, AbstractSpace>(){{
             put(2, Euclidean2D.Get());
             put(3, Euclidean3D.Get());
@@ -38,10 +38,10 @@ public class SpaceAnimationRunner{
         StdDraw.enableDoubleBuffering();
     }
 
-    public SpaceAnimation addAnimation(String animationKey){
+    public ConfigurableAnimation addAnimation(String animationKey){
         try{
             AnimationsEnum animationEnum = AnimationsEnum.valueOf(animationKey);
-            SpaceAnimation animation = animationEnum.animationConstructor.get();
+            ConfigurableAnimation animation = animationEnum.animationConstructor.get();
             multiDimensionalAnimations.put(animation, animationEnum.dimensions);
             return animation;
         }
@@ -52,7 +52,7 @@ public class SpaceAnimationRunner{
     }
 
     public void updateAnimation(){
-        for(SpaceAnimation animation : multiDimensionalAnimations.keySet()){
+        for(ConfigurableAnimation animation : multiDimensionalAnimations.keySet()){
             if(multiDimensionalAnimations.get(animation) == currentSpaceDimension){
                 animation.updateAnimation();
             }
@@ -60,7 +60,7 @@ public class SpaceAnimationRunner{
     };
 
     public void drawAnimation(){
-        for(SpaceAnimation animation : multiDimensionalAnimations.keySet()){
+        for(ConfigurableAnimation animation : multiDimensionalAnimations.keySet()){
             if(multiDimensionalAnimations.get(animation) == currentSpaceDimension){
                 animation.drawAnimation();
             }

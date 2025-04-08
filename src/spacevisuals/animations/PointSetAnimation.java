@@ -12,6 +12,10 @@ public abstract class PointSetAnimation extends FunctionAnimation{
     public PointSetAnimation(Function<double[], double[]> function) {
         super(function);
     }
+    @Override
+    public void drawAnimation() {
+        traverseDomain();
+    }
     public abstract void traverseDomain();
     public abstract void handlePoint(double[] input);
 }

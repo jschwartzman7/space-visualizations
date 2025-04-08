@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 import spacevisuals.animations.fractals.JuliaSet;
 import spacevisuals.animations.fractals.MandelbrotSet;
-import spacevisuals.SpaceAnimation;
+import spacevisuals.ConfigurableAnimation;
 import spacevisuals.animations.*;
 
 public enum AnimationsEnum {
@@ -54,9 +54,9 @@ public enum AnimationsEnum {
     sphere4d(4, Sphere4D::new);
     
     public final int dimensions;  
-    public final Supplier<SpaceAnimation> animationConstructor ;
+    public final Supplier<ConfigurableAnimation> animationConstructor ;
 
-    AnimationsEnum(int dimensions, Supplier<SpaceAnimation> constructor) {
+    AnimationsEnum(int dimensions, Supplier<ConfigurableAnimation> constructor) {
         this.dimensions = dimensions;
         this.animationConstructor = constructor;
     }

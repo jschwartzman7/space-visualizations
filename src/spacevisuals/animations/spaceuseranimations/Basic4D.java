@@ -1,16 +1,16 @@
 package spacevisuals.animations.spaceuseranimations;
 
-import spacevisuals.SpaceAnimation;
-import spacevisuals.spaces.Euclidean4D;
+import spacevisuals.ConfigurableAnimation;
+import spacevisuals.spaces.SpaceUser4D;
 
-public class Basic4D implements SpaceAnimation{
+public class Basic4D implements ConfigurableAnimation, SpaceUser4D{
 
     public Basic4D(){
     }
 
     @Override
     public void drawAnimation() {
-        Euclidean4D.Get().drawSpace();
+        space().drawSpace();
     }
     
 }

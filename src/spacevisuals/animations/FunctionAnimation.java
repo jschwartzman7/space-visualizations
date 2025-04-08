@@ -5,25 +5,37 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 import spacevisuals.FunctionBuilder;
-import spacevisuals.SpaceAnimation;
+import spacevisuals.ConfigurableAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.enums.VariableEnum;
+import spacevisuals.utils.Constants;
 /*
  * Abstract class for an animation that applys a function to elements in a space
  */
-public abstract class FunctionAnimation implements SpaceAnimation{
+public abstract class FunctionAnimation implements ConfigurableAnimation{
 
     protected Function<double[], double[]> function;
 
     public FunctionAnimation(){
+        this.function = Constants.DEFAULT_FUNCTION;
     }
     public FunctionAnimation(Function<double[], double[]> function){
+        if(function == null){
+            this.function = Constants.DEFAULT_FUNCTION;
+            return;
+        }
         this.function = function;
     }
 
     public ArrayList<VariableEnum> fillFunctionVariables(String[] functionInput){
         ArrayList<VariableEnum> functionVariables = new ArrayList<VariableEnum>();
         for(String singleFunction : functionInput){
+            if(singleFunction == null){
+                continue;
+            }
+            if(singleFunction.length() == 0){
+                continue;
+            }
             String[] singleFunctionStringArray = FunctionBuilder.tokenize(singleFunction);
             if(singleFunctionStringArray == null){
                 continue;

@@ -1,22 +1,18 @@
 package spacevisuals.animations.fractals;
 
-import java.util.function.Consumer;
+import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.functions.*;
 import spacevisuals.spaces.*;
 import spacevisuals.spaces.spacetraversers.*;
-import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
+import spacevisuals.utils.Constants;
 
 import java.awt.Color;
-import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.animations.SpaceTraverserAnimation;
-import spacevisuals.colors.*;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.JuliaSetColorStrategy;
 
-public class JuliaSet extends SpaceTraverserAnimation{
+public class JuliaSet extends SpaceTraverserAnimation implements SpaceUser2D{
 
-
-	private static final int DEFAULT_PIXEL_RESOLUTION = 300;
 	public static double[][] juliaSetConstants = new double[][]{
 												new double[]{.355, .355},
 												new double[]{-2, 0},
@@ -25,15 +21,16 @@ public class JuliaSet extends SpaceTraverserAnimation{
     public double[] c;
 	private int maxIterations = 100;
 	private double magnitudeThreshold = 2;
-	private ClippingTraverser traverser;
 	private ColorStrategy colorHelper = new JuliaSetColorStrategy();
 	
 	public JuliaSet(){
 		super(new ClippingTraverser());
+		this.traverser = new ClippingTraverser();
         this.c = juliaSetConstants[0];
     }
 	public JuliaSet(int pixelResolution){
 		super(new ClippingTraverser());
+		this.traverser = new ClippingTraverser();
         this.c = juliaSetConstants[0];
     }
 
@@ -53,12 +50,15 @@ public class JuliaSet extends SpaceTraverserAnimation{
 	public void handlePoint(double[] input) {
 		double iterationsToEscape = getJuliaSetStatus(input);
 		double[] z = new double[]{input[0], input[1]};
+		double halfWidth = (space().xClipMax-space().xClipMin)/(Constants.PIXEL_RESOLUTION_MEDIUM*2);
+        double halfHeight = (space().yClipMax-space().yClipMin)/(Constants.PIXEL_RESOLUTION_MEDIUM*2);
 		if(iterationsToEscape > maxIterations) {
-			traverser.drawPointRectangle(z, Color.BLACK);
+			StdDraw.setPenColor(Color.BLACK);
 		}
 		else{
-			traverser.drawPointRectangle(z, colorHelper.getColor(new double[]{iterationsToEscape}));
+			StdDraw.setPenColor(colorHelper.getColor(new double[]{iterationsToEscape}));
 		}
+		StdDraw.filledRectangle(z[0], z[1], halfWidth, halfHeight);
 	}
 
 	@Override

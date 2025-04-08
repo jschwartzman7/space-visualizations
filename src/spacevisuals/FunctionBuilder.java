@@ -51,6 +51,14 @@ public class FunctionBuilder {
         Function<double[], double[]> parsedFunction = (double[] input) -> {
             double[] output = new double[functionInput.length];
             for(int i = 0; i < functionInput.length; ++i){
+                if(functionInput[i] == null){
+                    output[i] = 0;
+                    continue;
+                }
+                if(functionInput[i].length() == 0){
+                    output[i] =  0;
+                    continue;
+                }
                 output[i] = parseSingleFunctionRecursive(tokenize(functionInput[i]), usedVariables).apply(input);
             }
             return output;
