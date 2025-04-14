@@ -1,30 +1,31 @@
 package spacevisuals.enums;
 
+import spacevisuals.animations.basicanimations.ArcDeformation;
+import spacevisuals.animations.basicanimations.Basic2D;
+import spacevisuals.animations.basicanimations.Basic3D;
+import spacevisuals.animations.basicanimations.Basic4D;
+import spacevisuals.animations.basicanimations.Sphere4D;
 import spacevisuals.animations.polygons.Cube4D;
 import spacevisuals.animations.polygons.Polygons3D;
 import spacevisuals.animations.polygons.Simplex4D;
-import spacevisuals.animations.spacefunctions.DomainColor;
-import spacevisuals.animations.spacefunctions.LorenzAttractor;
-import spacevisuals.animations.spacefunctions.ParametricCurve;
-import spacevisuals.animations.spacefunctions.PointMap2D;
-import spacevisuals.animations.spacefunctions.SphereMagnet;
-import spacevisuals.animations.spacefunctions.functiongraph.Graph2D;
-import spacevisuals.animations.spacefunctions.functiongraph.Graph2DLine;
-import spacevisuals.animations.spacefunctions.functiongraph.Graph3D;
-import spacevisuals.animations.spacefunctions.functiongraph.Graph3DTriangle;
-import spacevisuals.animations.spacefunctions.vectorfields.*;
-import spacevisuals.animations.spaceuseranimations.ArcDeformation;
-import spacevisuals.animations.spaceuseranimations.Basic2D;
-import spacevisuals.animations.spaceuseranimations.Basic3D;
-import spacevisuals.animations.spaceuseranimations.Basic4D;
-import spacevisuals.animations.spaceuseranimations.Sphere4D;
+import spacevisuals.animations.spacefunctions.Gradient;
+import spacevisuals.animations.spacefunctions.pointsetanimations.LorenzAttractor;
+import spacevisuals.animations.spacefunctions.pointsetanimations.ParametricCurve;
+import spacevisuals.animations.spacefunctions.pointsetanimations.PointMap2D;
+import spacevisuals.animations.spacefunctions.pointsetanimations.SphereMagnet;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.domaincoloring.DomainColor;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.domaincoloring.JuliaSet;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.domaincoloring.MandelbrotSet;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.functiongraphs.Graph2D;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.functiongraphs.Graph2DLine;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.functiongraphs.Graph3D;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.functiongraphs.Graph3DTriangle;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.vectorfields.VectorField2D;
+import spacevisuals.animations.spacefunctions.spacetraverseranimations.vectorfields.VectorField3D;
 
 import java.util.function.Supplier;
 
-import spacevisuals.animations.fractals.JuliaSet;
-import spacevisuals.animations.fractals.MandelbrotSet;
 import spacevisuals.ConfigurableAnimation;
-import spacevisuals.animations.*;
 
 public enum AnimationsEnum {
     // 2d

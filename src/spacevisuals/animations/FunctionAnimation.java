@@ -27,7 +27,12 @@ public abstract class FunctionAnimation implements ConfigurableAnimation{
         this.function = function;
     }
 
-    public ArrayList<VariableEnum> fillFunctionVariables(String[] functionInput){
+    /**
+     * 
+     * @param functionInput ["5*x" "-y" "2+cos(x)" "x*y*z"]
+     * @return VariableEnum ordered list of variables used throughout the function
+     */
+    public ArrayList<VariableEnum> getFunctionVariables(String[] functionInput){
         ArrayList<VariableEnum> functionVariables = new ArrayList<VariableEnum>();
         for(String singleFunction : functionInput){
             if(singleFunction == null){
@@ -40,9 +45,12 @@ public abstract class FunctionAnimation implements ConfigurableAnimation{
             if(singleFunctionStringArray == null){
                 continue;
             }
+            if(singleFunctionStringArray.length == 0){
+                continue;
+            }
             for(String token: singleFunctionStringArray){
-                if(FunctionBuilder.variables.contains(token)){
-                    VariableEnum variable = VariableEnum.valueOf(token);
+                VariableEnum variable = VariableEnum.from(token);
+                if(variable != null){
                     if(!functionVariables.contains(variable)){
                         functionVariables.add(variable);
                     }
@@ -53,7 +61,6 @@ public abstract class FunctionAnimation implements ConfigurableAnimation{
         return functionVariables;
     }
 
-    // First attempts to parse custom function, then tries to use function enum, finally defaults to identity.
     /*
      * '5*x+y' '2*cos(x)' 'x*y*z' is expected syntax
      */
@@ -66,7 +73,7 @@ public abstract class FunctionAnimation implements ConfigurableAnimation{
             this.function = presetFunction.function;
             return;
         }
-        ArrayList<VariableEnum> functionVariables = fillFunctionVariables(parameters);
+        ArrayList<VariableEnum> functionVariables = getFunctionVariables(parameters);
         Function<double[], double[]> customFunction = FunctionBuilder.parseFunction(parameters, functionVariables);
         if(customFunction != null){
             this.function = customFunction;

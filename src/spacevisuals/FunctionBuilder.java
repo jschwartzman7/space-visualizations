@@ -167,6 +167,11 @@ public class FunctionBuilder {
     public static void popAndApply(Stack<BinaryOperationEnum> operations, Stack<Function<double[], Double>> values){
         BinaryOperationEnum operation = operations.pop();
         Function<double[], Double> recentValue = values.pop();
+        // handle negative number
+        if(operation == BinaryOperationEnum.subtract && values.isEmpty()){
+            values.push((double[] input) -> -recentValue.apply(input));
+            return;
+        }
         Function<double[], Double> previousValue = values.pop();
         values.push((double[] input) -> operation.function.apply(previousValue.apply(input), recentValue.apply(input)));
     }
@@ -208,7 +213,7 @@ public class FunctionBuilder {
         if(binaryOperations.contains(functionStringArray[index])){
             return functionStringArray[index];
         }
-        // parenthesis
+        // ( )
         // one char length
         if(functionStringArray[index].equals("(") || functionStringArray[index].equals(")")){
             return functionStringArray[index];

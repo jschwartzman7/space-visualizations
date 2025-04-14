@@ -17,4 +17,11 @@ public enum VariableEnum {
         }
         return null;
     }
+    public static VariableEnum from(String str){
+        try {
+            return VariableEnum.valueOf(str);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }
