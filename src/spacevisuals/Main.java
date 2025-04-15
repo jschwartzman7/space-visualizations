@@ -1,6 +1,7 @@
 package spacevisuals;
 
 import spacevisuals.enums.AnimationsEnum;
+import spacevisuals.utils.ConfigurableAnimation;
 import spacevisuals.utils.Constants;
 
 import java.util.ArrayList;

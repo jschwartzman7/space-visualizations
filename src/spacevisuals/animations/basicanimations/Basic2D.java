@@ -1,7 +1,7 @@
 package spacevisuals.animations.basicanimations;
 
-import spacevisuals.ConfigurableAnimation;
 import spacevisuals.spaces.SpaceUser2D;
+import spacevisuals.utils.ConfigurableAnimation;
 
 public class Basic2D implements ConfigurableAnimation, SpaceUser2D{
 

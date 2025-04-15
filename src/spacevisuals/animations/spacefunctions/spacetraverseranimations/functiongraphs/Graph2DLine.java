@@ -4,12 +4,12 @@ import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.spacetraversers.XAxisTraverserLine;
-import spacevisuals.spaces.spacetraversers.SpaceTraverser;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
+import spacevisuals.utils.Traverser;
 
 public class Graph2DLine extends SpaceTraverserAnimation {
 
-    private SpaceTraverser traverser;
+    private Traverser traverser;
 
     public Graph2DLine() {
         super(new XAxisTraverserLine());

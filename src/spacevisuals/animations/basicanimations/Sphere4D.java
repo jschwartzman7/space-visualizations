@@ -1,8 +1,8 @@
 package spacevisuals.animations.basicanimations;
 
 import edu.princeton.cs.introcs.StdDraw;
-import spacevisuals.ConfigurableAnimation;
 import spacevisuals.spaces.Euclidean4D;
+import spacevisuals.utils.ConfigurableAnimation;
 
 public class Sphere4D implements ConfigurableAnimation{
 

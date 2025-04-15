@@ -35,16 +35,6 @@ public class SphereMagnet extends PointSetAnimation{
         timeInterval.updateT();
     }
     @Override
-    public void drawAnimation(){
-        traverseDomain();
-    }
-    @Override
-    public void traverseDomain() {
-        for(int i = 0; i < points.length; i++){
-            handlePoint(points[i]);
-        }
-    }
-    @Override
     public void handlePoint(double[] input) {
         if(Math.sqrt(Math.pow(input[0], 2)+Math.pow(input[1], 2)+Math.pow(input[2], 2)) <= Double.MIN_VALUE){
             double[] point = Euclidean3D.Get().toViewScreenPoint(input);

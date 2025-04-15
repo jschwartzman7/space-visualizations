@@ -49,18 +49,6 @@ public class LorenzAttractor extends PointSetAnimation{
     }
 
     @Override
-    public void drawAnimation() {
-        traverseDomain();
-    }
-    @Override
-    public void traverseDomain() {
-        StdDraw.setPenRadius(pointRadius);
-        for(int i = 0; i < points.size(); i++){
-            StdDraw.setPenColor(pointColors.get(i));
-            handlePoint(points.get(i));
-        }
-    }
-    @Override
     public void handlePoint(double[] point) {
         double[] point2D = Euclidean3D.Get().toViewScreenPoint(point);
         StdDraw.point(point2D[0], point2D[1]);

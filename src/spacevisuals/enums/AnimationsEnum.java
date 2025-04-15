@@ -22,10 +22,9 @@ import spacevisuals.animations.spacefunctions.spacetraverseranimations.functiong
 import spacevisuals.animations.spacefunctions.spacetraverseranimations.functiongraphs.Graph3DTriangle;
 import spacevisuals.animations.spacefunctions.spacetraverseranimations.vectorfields.VectorField2D;
 import spacevisuals.animations.spacefunctions.spacetraverseranimations.vectorfields.VectorField3D;
+import spacevisuals.utils.ConfigurableAnimation;
 
 import java.util.function.Supplier;
-
-import spacevisuals.ConfigurableAnimation;
 
 public enum AnimationsEnum {
     // 2d

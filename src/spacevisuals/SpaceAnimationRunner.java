@@ -4,6 +4,7 @@ import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.Euclidean2D;
 import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.Euclidean4D;
+import spacevisuals.utils.ConfigurableAnimation;
 import spacevisuals.utils.Constants;
 import spacevisuals.enums.AnimationsEnum;
 

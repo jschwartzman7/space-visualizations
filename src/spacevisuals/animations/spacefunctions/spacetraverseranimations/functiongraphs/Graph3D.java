@@ -8,6 +8,7 @@ import spacevisuals.spaces.Euclidean3D;
 import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 import spacevisuals.utils.TextBox;
+import spacevisuals.utils.Traverser;
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.FunctionsEnum;
 
@@ -16,7 +17,7 @@ import java.util.function.Function;
 public class Graph3D extends SpaceTraverserAnimation{
 
     public static final Function<double[], double[]> DEFAULT_FUNCTION = FunctionsEnum.hyperbolicparabaloid.function;
-    private SpaceTraverser traverser;
+    private Traverser traverser;
     private ColorStrategy colorHelper;
     private TextBox textBox;
 

@@ -5,6 +5,7 @@ import spacevisuals.spaces.spacetraversers.*;
 import spacevisuals.spaces.spacetraversers.steppers.ConstantResolutionStepper;
 import spacevisuals.utils.Constants;
 import spacevisuals.utils.IntervalsRange;
+import spacevisuals.utils.Traverser;
 import spacevisuals.animations.SpaceTraverserAnimation;
 import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
@@ -17,19 +18,14 @@ import edu.princeton.cs.introcs.StdDraw;
 public abstract class VectorField extends SpaceTraverserAnimation {
 
     protected IntervalsRange vectorSizer;
-    protected ColorStrategy colorHelper;
     protected double arrowLengthProportion = 0.1;
     protected double arrowAngleDifference = Math.PI / 8;
     
-    public VectorField(){
-        super(new ClippingTraverser());
-        initializeVariables();
-    }
-    public VectorField(SpaceTraverser traverser){
+    public VectorField(Traverser traverser){
         super(traverser);
         initializeVariables();
     }
-    public VectorField(Function<double[], double[]> function, SpaceTraverser traverser){
+    public VectorField(Function<double[], double[]> function, Traverser traverser){
         super(function, traverser);
         initializeVariables();
     }

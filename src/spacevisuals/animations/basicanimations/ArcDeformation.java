@@ -1,6 +1,6 @@
 package spacevisuals.animations.basicanimations;
 
-import spacevisuals.ConfigurableAnimation;
+import spacevisuals.utils.ConfigurableAnimation;
 import spacevisuals.utils.timeintervals.TimeInterval;
 import spacevisuals.utils.timeintervals.TimeIntervalBounce;
 import edu.princeton.cs.introcs.StdDraw;

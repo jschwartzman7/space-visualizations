@@ -1,6 +1,5 @@
 package spacevisuals.animations.polygons;
 
-import spacevisuals.ConfigurableAnimation;
 import spacevisuals.animations.polygons.solids.Line;
 import spacevisuals.animations.polygons.solids.Simplex;
 import spacevisuals.animations.polygons.solids.Triangle;
@@ -9,6 +8,7 @@ import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.SpaceUser;
+import spacevisuals.utils.ConfigurableAnimation;
 
 import java.awt.Color;
 import java.util.HashSet;

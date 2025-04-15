@@ -108,7 +108,7 @@ public abstract class AbstractSpace {
         return number == (int)number ? (int)number+"" : Math.round((number*100))/100.0+"";
     }
     protected double[][][] partitionAxis(double[][] axis, int axisIndex){
-        int numPartitions = Constants.AXIS_PARTITIONS ;
+        int numPartitions = Constants.AXIS_PARTITIONS_HIGH;
         double[][][] partitionedAxis = new double[numPartitions][2][axis[0].length];
         double partitionLength = (axis[1][axisIndex]-axis[0][axisIndex])/numPartitions;
         for(int i = 0; i < numPartitions; i++){

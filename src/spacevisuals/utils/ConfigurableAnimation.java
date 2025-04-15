@@ -1,4 +1,4 @@
-package spacevisuals;
+package spacevisuals.utils;
 /*
  * Interface for a configurable animation to be drawn
  */

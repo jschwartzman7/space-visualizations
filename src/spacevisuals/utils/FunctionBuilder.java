@@ -1,4 +1,4 @@
-package spacevisuals;
+package spacevisuals.utils;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -130,13 +130,19 @@ public class FunctionBuilder {
                 while(!operations.isEmpty()){
                     popAndApply(operations, values);
                 }
-                return values.pop();
+                if(!values.isEmpty()){
+                    return values.pop();
+                }
+                
             }
         }
         while(!operations.isEmpty()){
             popAndApply(operations, values);
         }
-        return values.pop();
+        if(!values.isEmpty()){
+            return values.pop();
+        }
+        return null;
     }
 
     public static String[] toEndingParenthesis(String[] functionString, int indexAfterOpening){
@@ -165,11 +171,20 @@ public class FunctionBuilder {
     }
     
     public static void popAndApply(Stack<BinaryOperationEnum> operations, Stack<Function<double[], Double>> values){
+        if(operations.isEmpty()){
+            return;
+        }
         BinaryOperationEnum operation = operations.pop();
+        if(values.isEmpty()){
+            return;
+        }
         Function<double[], Double> recentValue = values.pop();
         // handle negative number
         if(operation == BinaryOperationEnum.subtract && values.isEmpty()){
             values.push((double[] input) -> -recentValue.apply(input));
+            return;
+        }
+        if(values.isEmpty()){
             return;
         }
         Function<double[], Double> previousValue = values.pop();

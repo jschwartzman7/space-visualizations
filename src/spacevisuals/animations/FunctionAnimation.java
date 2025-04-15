@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.function.Function;
 
-import spacevisuals.FunctionBuilder;
-import spacevisuals.ConfigurableAnimation;
 import spacevisuals.enums.FunctionsEnum;
 import spacevisuals.enums.VariableEnum;
 import spacevisuals.utils.Constants;
+import spacevisuals.utils.FunctionBuilder;
 /*
  * Abstract class for an animation that applys a function to elements in a space
  */
-public abstract class FunctionAnimation implements ConfigurableAnimation{
+public abstract class FunctionAnimation extends ColoredAnimation{
 
     protected Function<double[], double[]> function;
 
@@ -28,7 +27,6 @@ public abstract class FunctionAnimation implements ConfigurableAnimation{
     }
 
     /**
-     * 
      * @param functionInput ["5*x" "-y" "2+cos(x)" "x*y*z"]
      * @return VariableEnum ordered list of variables used throughout the function
      */

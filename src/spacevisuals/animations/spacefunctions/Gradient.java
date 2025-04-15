@@ -42,16 +42,8 @@ public class Gradient extends PointSetAnimation{
     @Override
     public void drawAnimation(){
         vectorField.drawAnimation();
-        traverseDomain();
+        traverseDomain(this::handlePoint);
     };
-    @Override
-    public void traverseDomain(){
-        StdDraw.setPenRadius(pointScale);
-        for(int i = 0; i < points.size(); i++){
-            StdDraw.setPenColor(pointColors.get(i));
-            handlePoint(points.get(i));
-        }
-    }
     @Override
     public void handlePoint(double[] point) {
         if(Double.isNaN(point[0]) || Double.isNaN(point[1]) || Double.isInfinite(point[0]) || Double.isInfinite(point[1])){

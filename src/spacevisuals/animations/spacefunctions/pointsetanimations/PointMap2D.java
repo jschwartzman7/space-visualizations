@@ -37,18 +37,6 @@ public class PointMap2D extends PointSetAnimation{
         }
     }
     @Override
-    public void drawAnimation(){
-        traverseDomain();
-    }
-    @Override
-    public void traverseDomain(){
-        StdDraw.setPenRadius(pointRadius);
-        for(int i = 0; i < points.size(); i++){
-            StdDraw.setPenColor(pointColors.get(i));
-            handlePoint(points.get(i));
-        }
-    }
-    @Override
     public void handlePoint(double[] input){
         double[] output = function.apply(input);
         if(output == null){
