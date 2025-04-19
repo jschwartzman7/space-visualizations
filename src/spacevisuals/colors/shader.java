@@ -12,11 +12,11 @@ import spacevisuals.functions.Rn_Rn;
 public class Shader implements ColorStrategy{
 
     private ColorStrategy colorStrategy;
-    private Camera3D lightSource;
+    public Camera3D lightSource;
 
     public Shader(ColorStrategy colorStrategy){ 
         this.colorStrategy = colorStrategy;
-        this.lightSource = new Camera3D(Math.PI,0,0,0,0,-30,10);
+        this.lightSource = new Camera3D(Math.PI,1.6,0,30,30,-30,10);
     }
     
     @Override

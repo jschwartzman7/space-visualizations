@@ -11,12 +11,12 @@ public class XAxisTraverser extends SpaceTraverser implements SpaceUser2D, Const
         super(resolution);
     }
     public XAxisTraverser(){
-        super(Constants.PIXEL_RESOLUTION_HIGH);
+        super(Constants.PIXEL_RESOLUTION_MEDIUM);
     }
 
     @Override
     public void traverseDomain(Consumer<double[]> handlePoint){
-        double step = getStep(space().xClipMax-space().xClipMin, this.resolution);
+        double step = getStep(space().getXRange(), this.resolution);
         for(double x = space().xClipMin; x <= space().xClipMax; x += step){
                 handlePoint.accept(new double[]{x});
         }

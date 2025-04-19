@@ -7,7 +7,6 @@ import spacevisuals.spaces.spacemovers.SpaceMover2D;
 
 public class Euclidean2D extends AbstractSpace{
 
-    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
     private final double X_LABEL_OFFSET = 0.02;
     private static Euclidean2D instance;
 
@@ -26,18 +25,19 @@ public class Euclidean2D extends AbstractSpace{
 
     public static Euclidean2D Get(){
         if(instance == null){
-            instance = new Euclidean2D(DEFAULT_VIEW_SPACE_INFO);
+            instance = new Euclidean2D(true);
         }
         return instance;
     }
 
+    @Override
     public void initializeMover(){
         this.mover = new SpaceMover2D(this);
     }
+    @Override
     public void initializeLabeler(){
         this.labeler = new AxisIntervals2D(2, DEFAULT_CLIP_SCALE, 3, 8);
     }
-
     @Override
     public void initializeColorScheme(){
         this.colorScheme = SpaceColorScheme.from("dark");
@@ -104,6 +104,5 @@ public class Euclidean2D extends AbstractSpace{
             StdDraw.text(0, y, toLabel(numericY));
         }
     }
-   
 }
 

@@ -25,6 +25,7 @@ public class Line extends Simplex {
         if(Double.isNaN(p1[0]) || Double.isNaN(p1[1]) || Double.isNaN(p2[0]) || Double.isNaN(p2[1])){
             return;
         }
+        StdDraw.setPenRadius();
         StdDraw.line(p1[0], p1[1], p2[0], p2[1]);
     }
 }

@@ -28,7 +28,7 @@ public class Constants {
     public static final int PIXEL_RESOLUTION_LOWEST = 10;
 
     public static final double DISTANCE_STEP = 0.05;
-    public static final double POINT_WIDTH = 0.1;
+    public static final double POINT_WIDTH = 0.02;
     public static final char ANIMATION_SEPARATOR = ',';
     public static final Color GRAPH_COLOR = Color.BLACK;
     public static final Color TEXT_COLOR = Color.WHITE;

@@ -13,7 +13,6 @@ public class RectangleTraverser3DTriangle extends SpaceTraverser implements Spac
     public RectangleTraverser3DTriangle(){
         super(Constants.PIXEL_RESOLUTION_LOW);
     }
-
     // pass triangle coordinates to handlePoint
     @Override
     public void traverseDomain(Consumer<double[]> handlePoint){

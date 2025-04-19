@@ -8,7 +8,6 @@ import spacevisuals.utils.Camera4D;
 
 public class Euclidean4D extends AbstractSpace {
 
-    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
     public double xAxisMin;
     public double xAxisMax;
     public double yAxisMin;
@@ -20,11 +19,10 @@ public class Euclidean4D extends AbstractSpace {
     //public double[][] rotation4d;
     //public double[][] projectionR4_R2;
     public Camera4D camera;
-    public SpaceMover4D mover;
     private static Euclidean4D instance;
 
     private Euclidean4D(boolean viewSpaceInfo){
-        super(DEFAULT_VIEW_SPACE_INFO);
+        super(true);
         this.xAxisMin = -DEFAULT_CLIP_SCALE;
         this.xAxisMax = DEFAULT_CLIP_SCALE;
         this.yAxisMin = -DEFAULT_CLIP_SCALE;
@@ -45,7 +43,7 @@ public class Euclidean4D extends AbstractSpace {
 
     public static Euclidean4D Get(){
         if(instance == null){
-            instance = new Euclidean4D(DEFAULT_VIEW_SPACE_INFO);
+            instance = new Euclidean4D(true);
         }
         return instance;
     }
@@ -57,7 +55,6 @@ public class Euclidean4D extends AbstractSpace {
     public void initializeMover() {
         this.mover = new SpaceMover4D(this);
     }
-
     @Override
     public void initializeLabeler() {
     }    
@@ -124,10 +121,7 @@ public class Euclidean4D extends AbstractSpace {
         //StdDraw.line(axisP12D[0], axisP12D[1], axisP22D[0], axisP22D[1]);
         StdDraw.text(axisP22D[0], axisP22D[1], label);
     }
-
     @Override
     public void drawLabels(){
     }
-
-    
 }

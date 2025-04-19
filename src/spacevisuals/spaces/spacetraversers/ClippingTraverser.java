@@ -13,6 +13,7 @@ public class ClippingTraverser extends SpaceTraverser implements SpaceUser2D, Co
     public ClippingTraverser() {
         super(Constants.PIXEL_RESOLUTION_LOW);
     }
+    @Override
     public void traverseDomain(Consumer<double[]> handlePoint){
         double xStep = getStep(space().xClipMax-space().xClipMin, this.resolution);
         double yStep = getStep(space().yClipMax-space().yClipMin, this.resolution);

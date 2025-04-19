@@ -9,11 +9,19 @@ import spacevisuals.utils.Constants;
  */
 public enum FunctionsEnum {
 
+    // endomorphisms
     identity(u -> u),
     zero(u -> new double[u.length]),
+    essentialsingularity(C_C::essentialSingularity),
+    etothexsquared(C_C::eToTheXSquared),
+    sin(u -> Rn_Rn.sin(u)),
+    cos(u -> Rn_Rn.cos(u)),
+    squared(u -> Rn_Rn.square(u)),
+    cubed(u -> Rn_Rn.cube(u)),
+    squareroot(u -> Rn_Rn.power(u, 0.5)),
+
+    // real valued
     magnitude(u -> new double[]{Rn_R.magnitude(u)}),
-    defaultFunction(Constants.DEFAULT_FUNCTION),
-    
     hyperbolicparabaloid(u -> new double[]{Rn_R.hyperbolicParabaloid(u, 0.3, 0.3)}),
     dotproduct(u -> new double[]{Rn_R.dotProduct(u, new double[]{1, 1})}),
     sumsquares(u -> new double[]{Rn_R.sumOfSquares(u)}),
@@ -24,13 +32,7 @@ public enum FunctionsEnum {
     productvector(u -> new double[]{Rn_R.productOfVector(u)}),
     productsines(u -> new double[]{Rn_R.productOfSines(u)}),
     productcosines(u -> new double[]{Rn_R.productOfCosines(u)}),
-    essentialsingularity(C_C::essentialSingularity),
-    etothexsquared(C_C::eToTheXSquared),
-    sin(u -> Rn_Rn.sin(u)),
-    cos(u -> Rn_Rn.cos(u)),
-    squared(u -> Rn_Rn.square(u)),
-    cubed(u -> Rn_Rn.cube(u)),
-    squareroot(u -> Rn_Rn.power(u, 0.5)),
+    
     cossin(u -> new double[]{Math.sin(u[0])+Math.cos(u[1]), Math.cos(u[1])+Math.sin(u[0])}),
     parametriccircle(u -> new double[]{Math.sin(u[0]), Math.cos(u[0])}),
     parametric(u -> new double[]{Math.sin(6*u[0]), Math.cos(5*u[0])}),
@@ -40,15 +42,5 @@ public enum FunctionsEnum {
 
     FunctionsEnum(Function<double[], double[]> function) {
         this.function = function;
-    }
-
-    public static FunctionsEnum from(String text) {
-        FunctionsEnum function = defaultFunction;
-        try {
-            function = valueOf(text);
-        }
-        catch (Exception ignore) {
-        }
-        return function;
     }
 }

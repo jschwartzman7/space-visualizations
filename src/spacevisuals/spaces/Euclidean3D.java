@@ -13,7 +13,6 @@ import edu.princeton.cs.introcs.StdDraw;
 public class Euclidean3D extends AbstractSpace{
 
 
-    private static final boolean DEFAULT_VIEW_SPACE_INFO = true;
     public static final double DEFAULT_AXES_SCALE = Constants.DEFAULT_AXIS_RADIUS;
     public double xAxisMin;
     public double xAxisMax;
@@ -36,7 +35,7 @@ public class Euclidean3D extends AbstractSpace{
     }
     public static Euclidean3D Get(){
         if(instance == null){
-            instance = new Euclidean3D(DEFAULT_VIEW_SPACE_INFO);
+            instance = new Euclidean3D(true);
         }
         return instance;
     }
@@ -54,14 +53,14 @@ public class Euclidean3D extends AbstractSpace{
         initializeLabeler();
         this.dimensions = 3;
     }
-
+    @Override
     public void initializeMover(){
         this.mover = new SpaceMover3D(this);
     }
+    @Override
     public void initializeLabeler(){
         this.labeler = new AxisIntervals3D(3, DEFAULT_CLIP_SCALE, 3, 8);
     }
-
     @Override
     public void initializeColorScheme(){
         this.colorScheme = SpaceColorScheme.from("dark");

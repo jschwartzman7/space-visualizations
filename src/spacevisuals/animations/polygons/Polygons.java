@@ -4,7 +4,6 @@ import spacevisuals.animations.polygons.solids.Line;
 import spacevisuals.animations.polygons.solids.Simplex;
 import spacevisuals.animations.polygons.solids.Triangle;
 import spacevisuals.colors.Shader;
-import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.colors.colorstrategies.SingleColorStrategy;
 import spacevisuals.spaces.AbstractSpace;
 import spacevisuals.spaces.SpaceUser;
@@ -42,7 +41,7 @@ public abstract class Polygons implements SpaceUser<AbstractSpace>, Configurable
         return cube;
     }
 
-    private HashSet<double[]> adjacentVertices(double[][] cube, double[] vertex){
+    private static HashSet<double[]> adjacentVertices(double[][] cube, double[] vertex){
         HashSet<double[]> adjacentVertices = new HashSet<double[]>();
         for(double[] checkVertex : cube){
             int distance = 0;
@@ -56,7 +55,6 @@ public abstract class Polygons implements SpaceUser<AbstractSpace>, Configurable
         return adjacentVertices;
     }
 
-
     public void addCube(double[] center, double halfRadius){
         double[][] cube = cube(center, halfRadius);
         for(int i = 0; i < cube.length; i++){
@@ -66,7 +64,6 @@ public abstract class Polygons implements SpaceUser<AbstractSpace>, Configurable
                 triangles.add(new Triangle(new double[][]{point1, (double[])adjacentVertices.toArray()[j], (double[])adjacentVertices.toArray()[(j+1)%adjacentVertices.size()]}));
                 lines.add(new Line(new double[][]{point1, (double[])adjacentVertices.toArray()[j]}));
             }
-            
         }
     }
 
@@ -95,21 +92,11 @@ public abstract class Polygons implements SpaceUser<AbstractSpace>, Configurable
     public void drawAnimation() {
         for(Triangle triangle: triangles){
             StdDraw.setPenColor(colorHelper.getColor(triangle));
-            drawTriangle(triangle);
+            triangle.draw(space());
         }
         for(Simplex line : lines){
-            drawLine(line);
+            StdDraw.setPenColor(space().colorScheme.labelColor);
+            line.draw(space());
         }
     }
-
-    public void drawLine(Simplex simplex){
-        StdDraw.setPenColor(space().colorScheme.backgroundColor);
-        StdDraw.setPenRadius();
-        simplex.draw(space());
-    };
-
-    public void drawTriangle(Simplex simplex){
-        StdDraw.setPenRadius();
-        simplex.draw(space());
-    };
 }

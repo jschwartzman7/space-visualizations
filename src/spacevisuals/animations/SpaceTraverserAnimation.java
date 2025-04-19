@@ -2,13 +2,11 @@ package spacevisuals.animations;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
-
-import spacevisuals.utils.TraverseAnimation;
 import spacevisuals.utils.Traverser;
 /*
  * Abstract class for an animation that uses a SpaceTraverser and applies a function to elements in a space
  */
-public abstract class SpaceTraverserAnimation extends FunctionAnimation implements TraverseAnimation{
+public abstract class SpaceTraverserAnimation extends FunctionAnimation{
 
     protected Traverser traverser;
 

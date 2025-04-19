@@ -4,7 +4,8 @@ import spacevisuals.functions.Matrix3D;
 
 public class Camera3D{
 
-    private final double DEFAULT_PITCH;
+    private final double vectorLength = 3;
+    public final double DEFAULT_PITCH;
     public final double DEFAULT_ROLL;
     public final double DEFAULT_YAW;
     public final double DEFAULT_X;
@@ -69,6 +70,8 @@ public class Camera3D{
         }
         double scaleFactor = focalLength/cameraViewPoint[2];
         return new double[]{cameraViewPoint[0]*scaleFactor, cameraViewPoint[1]*scaleFactor};
-    
+    }
+    public void drawCameraVector(){
+        double[] base = new double[]{0, 0, };
     }
 }

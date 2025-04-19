@@ -19,5 +19,9 @@ public class PointMapColorStrategy implements ColorStrategy {
         double brightness = 1;
         return Color.getHSBColor((float)hue, (float)saturation, (float)brightness);
     }
+
+    public void resetHue() {
+        this.currentHue = 0;
+    }
     
 }
