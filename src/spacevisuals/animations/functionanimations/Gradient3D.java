@@ -1,41 +1,41 @@
 package spacevisuals.animations.functionanimations;
 
 import java.awt.event.KeyEvent;
+
 import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
-import spacevisuals.animations.functionanimations.spacetraverseranimations.vectorfields.VectorField2D;
-import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
-import spacevisuals.spaces.SpaceUser2D;
+import spacevisuals.animations.functionanimations.spacetraverseranimations.functiongraphs.Graph3D;
+import spacevisuals.animations.functionanimations.spacetraverseranimations.functiongraphs.Graph3DTriangle;
+import spacevisuals.spaces.SpaceUser3D;
 import spacevisuals.utils.Constants;
+import spacevisuals.utils.PointFinderPlane3D;
 
-public class Gradient extends PointSetAnimation implements SpaceUser2D{
-    
-    private VectorField2D vectorField;
-    private PointMapColorStrategy colorHelper;
+public class Gradient3D extends PointSetAnimation implements SpaceUser3D{
 
-    public Gradient(){
-        super();
-        this.vectorField = new VectorField2D();
-        this.colorHelper = new PointMapColorStrategy();
-        this.defaultFunction = (double[] input) -> new double[]{Math.sin(input[0]), Math.cos(input[1])};
-    }
+    public Graph3D graph3d;
+    public PointFinderPlane3D pointFinder;
+
     @Override
     public void updateAnimation(){
-        vectorField.updateAnimation();
+        graph3d.updateAnimation();
         if(StdDraw.isMousePressed()){
             double [] newPoint = new double[]{StdDraw.mouseX(), StdDraw.mouseY()};
-            points.add(newPoint);
+            this.points.add(findPoint(newPoint));
         }
         if(StdDraw.isKeyPressed(KeyEvent.VK_R)){
-            points.clear();
+            this.points.clear();
         }
     }
+
+    private double[] findPoint(double[] newPoint) {
+        return pointFinder.findPoint(newPoint);
+    }
+
     @Override
     public void drawAnimation(){
-        vectorField.drawAnimation();
-        colorHelper.resetHue();
-        traverseDomain(this::handlePoint);
-    };
+        graph3d.drawAnimation();
+    }
+
     @Override
     public void handleInputOutput(double[] input, double[] output) {
         StdDraw.setPenColor(colorHelper.getColor(input));
@@ -47,7 +47,7 @@ public class Gradient extends PointSetAnimation implements SpaceUser2D{
     }
     @Override
     public void configureAnimation(String[] parameters) {
-        vectorField.configureAnimation(parameters);
+        graph3d.configureAnimation(parameters);
         super.configureAnimation(parameters);
     }
 }

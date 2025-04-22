@@ -17,8 +17,8 @@ public class ClippingTraverser extends SpaceTraverser implements SpaceUser2D, Co
     public void traverseDomain(Consumer<double[]> handlePoint){
         double xStep = getStep(space().xClipMax-space().xClipMin, this.resolution);
         double yStep = getStep(space().yClipMax-space().yClipMin, this.resolution);
-        for(double x = space().xClipMin; x <= space().xClipMax; x += xStep){
-            for(double y = space().yClipMin; y <= space().yClipMax; y += yStep){
+        for(double x = space().xClipMin; x <= space().xClipMax+xStep; x += xStep){
+            for(double y = space().yClipMin; y <= space().yClipMax+yStep; y += yStep){
                 handlePoint.accept(new double[]{x, y});
             }
         }

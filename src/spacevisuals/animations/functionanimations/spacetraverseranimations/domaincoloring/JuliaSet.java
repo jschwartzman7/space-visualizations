@@ -1,7 +1,11 @@
 package spacevisuals.animations.functionanimations.spacetraverseranimations.domaincoloring;
+import spacevisuals.colors.colorstrategies.ColorStrategy;
 import spacevisuals.functions.*;
-import spacevisuals.spaces.spacetraversers.*;
+import spacevisuals.utils.Constants;
+
 import java.util.function.Function;
+
+import edu.princeton.cs.introcs.StdDraw;
 
 public class JuliaSet extends DomainColor{
 
@@ -14,16 +18,15 @@ public class JuliaSet extends DomainColor{
 	private static final double[] defaultC = juliaSetConstants[0];
 	private static int maxIterations = 100;
 	private static double magnitudeThreshold = 2;
+	public static int resolution = Constants.PIXEL_RESOLUTION_HIGH;
     public double[] c;
 
 	public JuliaSet(){
-		super(input -> getJuliaSetStatus(input, defaultC));
-		this.traverser = new ClippingTraverser();
+		super(input -> getJuliaSetStatus(input, defaultC), resolution);
         this.c = juliaSetConstants[0];
     }
 	public JuliaSet(Function<double[], double[]> function){
-		super(function);
-		this.traverser = new ClippingTraverser();
+		super(function, resolution);
         this.c = juliaSetConstants[0];
     }
 
@@ -35,7 +38,9 @@ public class JuliaSet extends DomainColor{
 	}
 	
 	public static double[] getJuliaSetStatus(double[] input, double[] c) {
-		return new double[]{juliaSetStatusHelper(input, c, 0)};
+		double[] iterationsToEscape = new double[]{juliaSetStatusHelper(input, c, 0)};
+		StdDraw.setPenColor(ColorStrategy.juliaSetGetColor(iterationsToEscape, maxIterations));
+		return iterationsToEscape;
 	}
 
 	@Override

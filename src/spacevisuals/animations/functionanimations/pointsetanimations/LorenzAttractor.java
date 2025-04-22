@@ -7,13 +7,11 @@ import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.animations.PointSetAnimation;
 import spacevisuals.colors.colorstrategies.PointMapColorStrategy;
 import spacevisuals.spaces.Euclidean3D;
+import spacevisuals.utils.Constants;
 
 public class LorenzAttractor extends PointSetAnimation{
 
-    private double pointRadius = 0.01;
-    private ArrayList<double[]> points;
     private ArrayList<Color> pointColors;
-    private PointMapColorStrategy colorHelper;
     private double tStep;
     private double sigma;
     private double rho;
@@ -21,7 +19,6 @@ public class LorenzAttractor extends PointSetAnimation{
 
     public LorenzAttractor(){
         super();
-        this.points = new ArrayList<double[]>();
         this.pointColors = new ArrayList<Color>();
         this.colorHelper = new PointMapColorStrategy();
         this.tStep = 0.02;
@@ -51,7 +48,10 @@ public class LorenzAttractor extends PointSetAnimation{
     @Override
     public void handlePoint(double[] point) {
         double[] point2D = Euclidean3D.Get().toViewScreenPoint(point);
-        StdDraw.point(point2D[0], point2D[1]);
+        if(point2D == null || Double.isNaN(point2D[0]) || Double.isNaN(point2D[1])){
+            return;
+        }
+        StdDraw.filledCircle(point2D[0], point2D[1], Constants.POINT_WIDTH);
     }
     @Override
     public void updateAnimation(){

@@ -12,7 +12,6 @@ import edu.princeton.cs.introcs.StdDraw;
  */
 public class Euclidean3D extends AbstractSpace{
 
-
     public static final double DEFAULT_AXES_SCALE = Constants.DEFAULT_AXIS_RADIUS;
     public double xAxisMin;
     public double xAxisMax;
@@ -115,7 +114,7 @@ public class Euclidean3D extends AbstractSpace{
         double numericMin = xAxisMin;
         double numericMax = xAxisMax;
         for(double numericX = numericMin-numericMin%labeler.getLabelIntervals()[0]; numericX <= numericMax; numericX += labeler.getLabelIntervals()[0]){
-            if(Math.abs(numericX) < ZERO_TOLERANCE){continue;}
+            if(Math.abs(numericX) < Constants.ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{numericX, 0, 0});
             if(labelLocation == null){continue;}
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericX));
@@ -123,7 +122,7 @@ public class Euclidean3D extends AbstractSpace{
         numericMin = yAxisMin;
         numericMax = yAxisMax;
         for(double numericY = numericMin-numericMin%labeler.getLabelIntervals()[1]; numericY <= numericMax; numericY += labeler.getLabelIntervals()[1]){
-            if(Math.abs(numericY) < ZERO_TOLERANCE){continue;}
+            if(Math.abs(numericY) < Constants.ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{0, numericY, 0});
             if(labelLocation == null){continue;}
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericY));
@@ -131,7 +130,7 @@ public class Euclidean3D extends AbstractSpace{
         numericMin = zAxisMin;
         numericMax = zAxisMax;
         for(double numericZ = numericMin-numericMin%labeler.getLabelIntervals()[2]; numericZ <= numericMax; numericZ += labeler.getLabelIntervals()[2]){
-            if(Math.abs(numericZ) < ZERO_TOLERANCE){continue;}
+            if(Math.abs(numericZ) < Constants.ZERO_TOLERANCE){continue;}
             double[] labelLocation = toViewScreenPoint(new double[]{0, 0, numericZ});
             if(labelLocation == null){continue;}
             StdDraw.text(labelLocation[0], labelLocation[1], toLabel(numericZ));

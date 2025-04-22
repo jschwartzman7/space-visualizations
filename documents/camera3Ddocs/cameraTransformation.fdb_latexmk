@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1739782481.98838 "/Users/jonahschwartzman/Downloads/computerScience/Personal/githubProfile/space-visualizations/documents/cameraTransformation.tex" "cameraTransformation.pdf" "cameraTransformation" 1739782482.90378 0
-  "/Users/jonahschwartzman/Downloads/computerScience/Personal/githubProfile/space-visualizations/documents/cameraTransformation.tex" 1739782480.81219 1656 c717ab389ad275874b6476ee31770084 ""
+["pdflatex"] 1745271482.24762 "/Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/camera3Ddocs/cameraTransformation.tex" "cameraTransformation.pdf" "cameraTransformation" 1745271483.21047 0
+  "/Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/camera3Ddocs/cameraTransformation.tex" 1745271481.96682 1655 4cfdb729be12618100c4c1828f48a973 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -62,10 +62,10 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1738567585.65193 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1738567468 8221445 f8a34f0ac7c8e36a9fc94522a1451324 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "3d000.png" 1739781797.19248 34201 f7a5d94a85f1f795eb2abc9a4c8b406e ""
-  "3dxyz.png" 1739781978.77959 58343 3a3c7070f450e520c89d1f59010f53ba ""
-  "cameraTransformation.aux" 1739782482.81203 330 01d255acf9e27e86ca01c76c5e15f160 "pdflatex"
-  "cameraTransformation.tex" 1739782480.81219 1656 c717ab389ad275874b6476ee31770084 ""
+  "3d000.png" 1743652195.91016 34201 f7a5d94a85f1f795eb2abc9a4c8b406e ""
+  "3dxyz.png" 1743652195.91092 58343 3a3c7070f450e520c89d1f59010f53ba ""
+  "cameraTransformation.aux" 1745271483.10264 330 01d255acf9e27e86ca01c76c5e15f160 "pdflatex"
+  "cameraTransformation.tex" 1745271481.96682 1655 4cfdb729be12618100c4c1828f48a973 ""
   (generated)
   "cameraTransformation.aux"
   "cameraTransformation.log"

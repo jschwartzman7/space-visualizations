@@ -11,17 +11,15 @@ import spacevisuals.utils.TraverseAnimation;
  */
 public abstract class FunctionAnimation extends ColoredAnimation implements TraverseAnimation{
 
-    protected Function<double[], double[]> defaultFunction;
+    protected Function<double[], double[]> defaultFunction = Constants.DEFAULT_FUNCTION;
     private Function<double[], double[]> function;
 
     public FunctionAnimation(){
         super();
-        this.defaultFunction = Constants.DEFAULT_FUNCTION;
         this.function = Constants.DEFAULT_FUNCTION;
     }
     public FunctionAnimation(Function<double[], double[]> function){
         super();
-        this.defaultFunction = Constants.DEFAULT_FUNCTION;
         if(function == null){
             this.function = Constants.DEFAULT_FUNCTION;
             return;
@@ -49,7 +47,7 @@ public abstract class FunctionAnimation extends ColoredAnimation implements Trav
                 return;
             }
         }
-        handleInputOutput(input, function.apply(input));
+        handleInputOutput(input, output);
     }
 
     public abstract void handleInputOutput(double[] input, double[] output);
@@ -65,6 +63,7 @@ public abstract class FunctionAnimation extends ColoredAnimation implements Trav
         try{
             FunctionsEnum presetFunction = FunctionsEnum.valueOf(parameters[0]);
             this.function = presetFunction.function;
+            return;
         }
         catch(Exception e){
         }

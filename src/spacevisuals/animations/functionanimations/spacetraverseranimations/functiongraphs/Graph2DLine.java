@@ -11,7 +11,16 @@ public class Graph2DLine extends SpaceTraverserAnimation {
 
     @Override
     public void handlePoint(double[] input) {
-        super.handlePoint(input);
+        double[] output = new double[]{applyFunction(new double[]{input[0]})[0], applyFunction(new double[]{input[1]})[0]};
+        if(output == null || output.length == 0){
+            return;
+        }
+        for(double value : output){
+            if(Double.isNaN(value) || Double.isInfinite(value)){
+                return;
+            }
+        }
+        handleInputOutput(input, output);
     }
 
     @Override

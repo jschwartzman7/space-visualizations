@@ -14,7 +14,7 @@ public class FunctionBuilderTests {
             put("  ", null);
             put("j", null);
             put(" xx -  3", null);
-            put("x -  3", null);
+            put("x -  3", input -> new double[]{input[0] - 3});
             put("-k x*3", null);
             put("x/ 3.0=0", null);
             put("x ^*3", null);
@@ -30,6 +30,7 @@ public class FunctionBuilderTests {
             put("x ^ 3", input -> new double[]{Math.pow(input[0], 3)});
             put("sin(x)", input -> new double[]{Math.sin(input[0])});
             put("cos(x)", input -> new double[]{Math.cos(input[0])});
+            put("-cos(x)", input -> new double[]{3-Math.cos(input[0])});
         
         }};
     public static double[][] inputs = new double[][]{
@@ -68,7 +69,7 @@ public class FunctionBuilderTests {
                             double[] labelResult = singleFunctions.get(function).apply(input);
                             double[] result = parsedFunction.apply(input);
                             for(int idx = 0; idx < result.length; ++idx){
-                                //System.out.println("f(" + input[idx] + ") should equal " + result[idx]);
+                                System.out.println("f(" + input[idx] + ") should equal " + result[idx]);
                                 assert result[idx] == labelResult[idx];
                             }
                         }
@@ -118,9 +119,9 @@ public class FunctionBuilderTests {
         if(!testTokenize()){
             System.out.println("Failed to tokenize function");
         }
-        /*if(!testParseFunction()){
+        if(!testParseFunction()){
             System.out.println("Failed to parse function");
-        }*/
+        }
         System.out.println("Finished testing FunctionBuilder");
     }
 }

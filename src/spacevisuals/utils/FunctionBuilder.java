@@ -87,14 +87,17 @@ public class FunctionBuilder {
                 return unaryOperation;
             }
         }
-        // -1.023456789 or decimal point
-        String variable = "";
-        while(index < functionStringArray.length){
-            variable += functionStringArray[index++];
+        // 1.023456789 or decimal point
+        StringBuilder variable = new StringBuilder();
+        while(functionStringArray[index].matches("[0-9]") || functionStringArray[index].equals(".")){
+            variable.append(functionStringArray[index++]);
+            if(index >= functionStringArray.length){
+                break;
+            }
         }
         try {
-            if(isNumeric(variable)){
-                return variable;
+            if(isNumeric(variable.toString())){
+                return variable.toString();
             }
         }
         catch (NumberFormatException e) {
@@ -188,6 +191,9 @@ public class FunctionBuilder {
         }
         Function<double[], Double> recentValue = values.pop();
         if(values.isEmpty()){
+            if(operation == BinaryOperationEnum.subtract){// handle negative number
+                values.push((double[] input) -> -recentValue.apply(input));
+            }
             return;
         }
         Function<double[], Double> previousValue = values.pop();

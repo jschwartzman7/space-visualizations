@@ -87,9 +87,7 @@ public class Matrix {
 	}
 	public static void main(String[] args) {
 		double[][] a = new double[][] {{1, 2, 3.1415926535}, {4, 5, 6}};
-		printMatrix(a);
-		System.out.println();
-		printMatrix(transposeMatrix(a));
+		printMatrix(scalarMultiply(a, 5));
 	}
 
 }

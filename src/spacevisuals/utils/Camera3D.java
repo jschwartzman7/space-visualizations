@@ -71,7 +71,4 @@ public class Camera3D{
         double scaleFactor = focalLength/cameraViewPoint[2];
         return new double[]{cameraViewPoint[0]*scaleFactor, cameraViewPoint[1]*scaleFactor};
     }
-    public void drawCameraVector(){
-        double[] base = new double[]{0, 0, };
-    }
 }

@@ -11,9 +11,8 @@ import spacevisuals.utils.Constants;
 * Extended by Euclidean2D, Euclidean3D, Euclidean4D
 */
 public abstract class AbstractSpace {
-    private final double DEFAULT_DEFAULT_CLIP_SCALE = Constants.DEFAULT_CLIP_RADIUS;
-    private final double DEFAULT_MOVE_SENSITIVITY = Constants.MOVE_SENSITIVITY;
-    protected final double ZERO_TOLERANCE = Constants.ZERO_TOLERANCE;
+    private static final double DEFAULT_DEFAULT_CLIP_SCALE = Constants.DEFAULT_CLIP_RADIUS;
+    private static final double DEFAULT_MOVE_SENSITIVITY = Constants.MOVE_SENSITIVITY;
     public final double DEFAULT_CLIP_SCALE;
     public final double MOVE_SENSITIVITY;
     public final boolean VIEW_SPACE_INFO;

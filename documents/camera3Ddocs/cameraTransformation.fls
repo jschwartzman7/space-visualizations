@@ -1,8 +1,8 @@
-PWD /Users/jonahschwartzman/Downloads/computerScience/Personal/githubProfile/space-visualizations/documents
+PWD /Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/camera3Ddocs
 INPUT /usr/local/texlive/2024/texmf.cnf
 INPUT /usr/local/texlive/2024/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/jonahschwartzman/Downloads/computerScience/Personal/githubProfile/space-visualizations/documents/cameraTransformation.tex
+INPUT /Users/jonahschwartzman/Downloads/computerScience/githubProfile/space-visualizations/documents/camera3Ddocs/cameraTransformation.tex
 OUTPUT cameraTransformation.log
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/base/article.cls

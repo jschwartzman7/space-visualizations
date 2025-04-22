@@ -11,7 +11,7 @@ public class XAxisTraverser extends SpaceTraverser implements SpaceUser2D, Const
         super(resolution);
     }
     public XAxisTraverser(){
-        super(Constants.PIXEL_RESOLUTION_MEDIUM);
+        super(Constants.PIXEL_RESOLUTION_HIGH);
     }
 
     @Override

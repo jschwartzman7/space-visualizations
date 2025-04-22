@@ -1,6 +1,7 @@
 package spacevisuals.animations.functionanimations.spacetraverseranimations.vectorfields;
 
 import spacevisuals.spaces.SpaceUser3D;
+import spacevisuals.spaces.spacetraversers.PrismTraverser3D;
 import spacevisuals.spaces.spacetraversers.SphereTraverser3D;
 import spacevisuals.utils.IntervalsRange;
 import spacevisuals.colors.colorstrategies.SingleColorStrategy;
@@ -12,7 +13,7 @@ import edu.princeton.cs.introcs.StdDraw;
 public class VectorField3D extends VectorField implements SpaceUser3D {
 
     public VectorField3D(){
-        super(new SphereTraverser3D());
+        super(new PrismTraverser3D());
         initializeVariables();
     }
     public VectorField3D(Function<double[], double[]> function){

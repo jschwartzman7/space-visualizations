@@ -4,6 +4,7 @@ import edu.princeton.cs.introcs.StdDraw;
 import spacevisuals.enums.SpaceColorScheme;
 import spacevisuals.spaces.axesintervals.AxisIntervals2D;
 import spacevisuals.spaces.spacemovers.SpaceMover2D;
+import spacevisuals.utils.Constants;
 
 public class Euclidean2D extends AbstractSpace{
 
@@ -90,7 +91,7 @@ public class Euclidean2D extends AbstractSpace{
         double numericMin = xClipMin;
         double numericMax = xClipMax;
         for(double numericX = numericMin-numericMin%labeler.getLabelIntervals()[0]; numericX <= numericMax; numericX += labeler.getLabelIntervals()[0]){
-            if(Math.abs(numericX) < ZERO_TOLERANCE){continue;}
+            if(Math.abs(numericX) < Constants.ZERO_TOLERANCE){continue;}
             double x = numericX;
             StdDraw.line(x, yClipMin, x, yClipMax);
             StdDraw.text(x, -(yClipMax-yClipMin)*X_LABEL_OFFSET, toLabel(numericX));
@@ -98,7 +99,7 @@ public class Euclidean2D extends AbstractSpace{
         numericMin = yClipMin;
         numericMax = yClipMax;
         for(double numericY = numericMin-numericMin%labeler.getLabelIntervals()[1]; numericY <= numericMax; numericY += labeler.getLabelIntervals()[1]){
-            if(Math.abs(numericY) < ZERO_TOLERANCE){continue;}
+            if(Math.abs(numericY) < Constants.ZERO_TOLERANCE){continue;}
             double y = numericY;
             StdDraw.line(xClipMin, y, xClipMax, y);
             StdDraw.text(0, y, toLabel(numericY));
